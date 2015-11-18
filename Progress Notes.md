@@ -17,9 +17,24 @@ Numpy
 # What do we need to install still
 pyCuda (we need CUDA installed) 
 
-# Next steps
-1) get image onto local machine
-2) investigate image properties
-3) on GPU run something ...
-4) Look into file explorer link to SSH location
+# Methodology
+1) Read Image
+2) Filter Image
+3) Compare with Mean
+4) Classify Pixels (1/0)
+5) Update Mean (for background only)
+6) Potential Filter - denoise
+7) Superpixel
+8) Identify Regions above threshold
+9) Drawing overlay 
+10) Realtime check
+
+# Next Steps
+1) Learn how to Read PPM (Taylor)
+2) Greyscale (Taylor)
+3) Driver (Reinier)
+4) Averaging Kernal (Taylor)
+5) Superpixel/segment (Andrew)
+
+Meet Friday after seminar to review.
 
