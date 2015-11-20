@@ -13,9 +13,10 @@ Pip
 Python
 Scipy
 Numpy
+pyCuda (Reinier installed)
 
 # What do we need to install still
-pyCuda (we need CUDA installed) 
+
 
 # Methodology
 1) Read Image
