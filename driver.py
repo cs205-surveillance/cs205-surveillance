@@ -28,8 +28,8 @@ OUT_gpu = cuda.mem_alloc(OUT.nbytes)
 cuda.memcpy_htod(OUT_gpu, OUT)
 
 # Do algorithm
-threshold = 1.96
-run_gaussian_average(cuda.In(I), cuda.InOut(mu), cuda.InOut(sig2), cuda.In(threshold), cuda.Out(OUT))
+
+run_gaussian_average(cuda.In(I), cuda.InOut(mu), cuda.InOut(sig2), cuda.Out(OUT))
 
 # Copy back
 cuda.memcpy_dtoh(mu_gpu, mu)
