@@ -1,27 +1,47 @@
-# JUST TESTING
-
-import pycuda as cuda
+import pycuda.driver as cuda
 import pycuda.autoinit
 from pycuda.compiler import SourceModule
 import numpy as np
 
-a = np.random.randn(4, 4)
-a = a.astype(np.float32)
-a_gpu = cuda.mem_alloc(a.nbytes)
-cuda.memcpy_htod(a_gpu, a)
+source = SourceModule(open('run_gaussian_average.cu').read())
+run_gaussian_average = source.get_function('run_gaussian_average')
 
-mod = SourceModule("""
-  __global__ void doublify(float *a)
-  {
-    int idx = threadIdx.x + threadIdx.y*4;
-    a[idx] *= 2;
-  }
-  """)
+mu = None
+sig2 = None
+threshold = 1.96
 
-func = mod.get_function("doublify")
-func(a_gpu, block=(4, 4, 1))
+for i in range(10):
+    # Grab one image
+    # grabber001 => np.array
 
-a_doubled = np.empty_like(a)
-cuda.memcpy_dtoh(a_doubled, a_gpu)
-print a_doubled
-print a
+    # Copy to device
+    I = np.random.randn(1920, 1080)
+    I = I.astype(np.float32)
+    I_gpu = cuda.mem_alloc(I.nbytes)
+    cuda.memcpy_htod(I_gpu, I)
+
+    mu = np.zeros_like(I)
+    mu_gpu = cuda.mem_alloc(mu.nbytes)
+    cuda.memcpy_htod(mu_gpu, mu)
+
+    sig2 = np.ones_like(I)
+    sig2_gpu = cuda.mem_alloc(sig2.nbytes)
+    cuda.memcpy_htod(sig2_gpu, sig2)
+
+    OUT = np.zeros_like(I)
+    OUT_gpu = cuda.mem_alloc(OUT.nbytes)
+    cuda.memcpy_htod(OUT_gpu, OUT)
+
+    # Do algorithm
+    run_gaussian_average(cuda.In(I), cuda.InOut(mu), cuda.InOut(sig2), cuda.In(threshold), cuda.Out(OUT))
+
+    # Copy back
+    cuda.memcpy_dtoh(mu_gpu, mu)
+    cuda.memcpy_dtoh(sig2_gpu, sig2)
+    cuda.memcpy_dtoh(OUT_gpu, OUT)
+
+    # Post process
+
+    # Show image, perhaps with pylab
+    print OUT
+

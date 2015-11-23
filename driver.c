@@ -1,4 +1,5 @@
 #define N 512
+
 int main(void) {
 	int *a, *b, *c;   // host copies of a, b, c
 	int *d_a, *d_b, *d_c; // Device copies of a, b, c
