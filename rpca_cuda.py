@@ -26,7 +26,7 @@ def robust_pca(D):
     mu = (M.shape[0] * M.shape[1]) / (4.0 * L1Norm(M))
     lamb = max(M.shape) ** -0.5
 
-    while not converged(M,L,S):
+    while not converged(M, L, S):
         L = svd_shrink(M - S - (mu**-1) * Y, mu)
         S = shrink(M - L + (mu**-1) * Y, lamb * mu)
         Y = Y + mu * (M - L - S)
@@ -45,6 +45,7 @@ def frobeniusNorm(X):
     Z = gpuarray.empty_like(X)
     squared(X, Z)
     accum = gpuarray.sum(Z).get()
+    print accum
     return np.sqrt(accum)
 
 def L1Norm(X):
