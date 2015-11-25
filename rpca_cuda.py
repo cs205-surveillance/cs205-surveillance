@@ -48,7 +48,7 @@ def frobeniusNorm(X):
     return np.sqrt(accum)
 
 def L1Norm(X):
-    return gpuarray.max(X * (gpuarray.zeros((X.shape[1],)) + 1)).get()
+    return gpuarray.max(X * (gpuarray.zeros((X.shape[1],), dtype=int) + 1)).get()
 
 def converged(M, L, S):
     error = frobeniusNorm(M - L - S) / frobeniusNorm(M)
