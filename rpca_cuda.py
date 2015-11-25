@@ -7,10 +7,12 @@ import numpy as np
 
 
 shrinker = ElementwiseKernel("float *x, float *z, float tau",
-                             "z[i] = copysign(max(abs(x[i]) - tau, 0), x[i])") 
+                             "z[i] = copysign(max(abs(x[i]) - tau, 0), x[i]);"
+                             "shrinker")
 
 squared = ElementwiseKernel("float *x, float *z",
-                            "z[i] = abs(pow(x[i], 2))") 
+                            "z[i] = abs(pow(x[i], 2));",
+                            "squared")
 
 def robust_pca(D):
     """ 
@@ -43,7 +45,7 @@ def shrink(X, tau):
  
 def frobeniusNorm(X):
     Z = gpuarray.empty_like(X)
-    Z = X**2
+    squared(X, Z)
     accum = gpuarray.sum(Z).get()
     print accum
     return np.sqrt(accum)
