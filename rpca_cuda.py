@@ -1,4 +1,5 @@
 from pycuda.elementwise import ElementwiseKernel
+from pycuda.compiler import SourceModule
 import pycuda.gpuarray as gpuarray
 import pycuda.driver as cuda
 import pycuda.autoinit
@@ -13,6 +14,14 @@ shrinker = ElementwiseKernel("float *x, float *z, float tau",
 squared = ElementwiseKernel("float *x, float *z",
                             "z[i] = x[i] * x[i]",
                             "squared")
+
+kernel = SourceModule("""
+__global__ void square(float *x, float *z) {
+    const int i = blockDim.x * blockIdx.x + threadIdx.x;
+    z[i] = x[i] * x[i];
+}
+""")
+square = kernel.get_function("square")
 
 
 def robust_pca(D):
@@ -37,8 +46,8 @@ def robust_pca(D):
 
 
 def svd_shrink(X, tau):
-    U, s, V = skcuda.linalg.svd(X)
-    return skcuda.linalg.dot(U, skcuda.linalg.dot(skcuda.linalg.diag(shrink(s, tau)), V))
+    U, s, V = skcuda.linalg.svd(X, lib='cusolver')
+    return gpuarray.dot(U, gpuarray.dot(skcuda.linalg.diag(shrink(s, tau)), V))
 
 
 def shrink(X, tau):
@@ -49,8 +58,9 @@ def shrink(X, tau):
 
 def frobeniusNorm(X):
     Z = gpuarray.empty_like(X)
-    squared(X, Z)
+    square(X, Z)
     accum = gpuarray.sum(Z).get()
+    print X.get()
     print Z.get()
     return np.sqrt(accum)
 
