@@ -58,7 +58,7 @@ def shrink(X, tau):
 
 def frobeniusNorm(X):
     Z = gpuarray.empty_like(X)
-    square(X, Z)
+    square(X, Z, block_size=X.shape)
     accum = gpuarray.sum(Z).get()
     print X.get()
     print Z.get()
