@@ -47,7 +47,7 @@ def frobeniusNorm(X):
     Z = gpuarray.empty_like(X)
     squared(X, Z)
     accum = gpuarray.sum(Z).get()
-    print accum
+    print Z.get()
     return np.sqrt(accum)
 
 def L1Norm(X):
