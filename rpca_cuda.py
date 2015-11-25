@@ -45,7 +45,7 @@ def frobeniusNorm(X):
     Z = gpuarray.empty_like(X)
     squared(X, Z)
     accum = gpuarray.sum(Z).get()
-    return math.sqrt(accum)
+    return np.sqrt(accum)
 
 def L1Norm(X):
     return gpuarray.max(X * (gpuarray.zeros((X.shape[1],)) + 1)).get()
