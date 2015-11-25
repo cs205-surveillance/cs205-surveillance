@@ -14,6 +14,7 @@ squared = ElementwiseKernel("float *x, float *z",
                             "z[i] = abs(pow(x[i], 2));",
                             "squared")
 
+
 def robust_pca(D):
     """ 
     Parrallel RPCA using ALM, adapted from https://github.com/nwbirnie/rpca.
@@ -33,25 +34,30 @@ def robust_pca(D):
         S = shrink(M - L + (mu**-1) * Y, lamb * mu)
         Y = Y + mu * (M - L - S)
     return L.get(), S.get()
-    
+
+
 def svd_shrink(X, tau):
     U, s, V = skcuda.linalg.svd(X)
     return skcuda.linalg.dot(U, skcuda.linalg.dot(skcuda.linalg.diag(shrink(s, tau)), V))
-    
+
+
 def shrink(X, tau):
     Z = gpuarray.empty_like(X)
     shrinker(X, Z, tau)
     return Z
- 
+
+
 def frobeniusNorm(X):
     Z = gpuarray.empty_like(X)
     squared(X, Z)
     accum = gpuarray.sum(Z).get()
-    print Z.get()
+    print X.get()
     return np.sqrt(accum)
+
 
 def L1Norm(X):
     return gpuarray.max(X * (gpuarray.zeros((X.shape[1],), dtype=int) + 1)).get()
+
 
 def converged(M, L, S):
     error = frobeniusNorm(M - L - S) / frobeniusNorm(M)

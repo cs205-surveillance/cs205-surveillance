@@ -8,9 +8,7 @@ source = SourceModule(open('run_gaussian_average.cu').read())
 run_gaussian_average = source.get_function('run_gaussian_average')
 
 # Grab one image
-# grabber001 => np.array
-# I = np.random.randn(1920, 1080)
-I = misc.imread('../thouis/grabber000.ppm',flatten=True)
+I = misc.imread('../thouis/grabber000.ppm', flatten=True)
 
 # Copy to device
 I = I.astype(np.float32)
