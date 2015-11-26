@@ -49,7 +49,6 @@ def robust_pca(D):
 
 
 def svd_shrink(X, tau):
-    print 'Got here!'
     U, s, V = skcuda.linalg.svd(X, lib='cusolver')
     return skcuda.linalg.dot(U, skcuda.linalg.dot(skcuda.linalg.diag(shrink(s, tau)), V))
 
@@ -61,14 +60,10 @@ def shrink(X, tau):
 
 
 def frobeniusNorm(X):
-    #Z = gpuarray.empty_like(X)
-    #N = np.array([X.size])
-    #square(X, Z, cuda.In(N), block=(10, 10, 1))
-    Z = X * X
+    Z = gpuarray.empty_like(X)
+    N = np.array([X.size])
+    square(X, Z, cuda.In(N), block=(10, 10, 1))
     accum = gpuarray.sum(Z).get()
-    accum2 = gpuarray.sum(X).get()
-    print accum2
-    print accum
     return np.sqrt(accum)
 
 
