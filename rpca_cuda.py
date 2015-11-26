@@ -16,7 +16,7 @@ squared = ElementwiseKernel("float *x, float *z",
                             "squared")
 
 kernel = SourceModule("""
-__global__ void square(float *a, float *b, int N) {
+__global__ void square(int *a, int *b, int N) {
     int id = blockDim.x * blockIdx.x + threadIdx.x;
 
     if (id < N)
@@ -31,7 +31,7 @@ def robust_pca(D):
     Parrallel RPCA using ALM, adapted from https://github.com/nwbirnie/rpca.
     Takes and returns numpy arrays
     """
-    M = gpuarray.to_gpu(D)
+    M = gpuarray.to_gpu(D, dtype=int)
     L = gpuarray.zeros_like(M)
     S = gpuarray.zeros_like(M)    
     Y = gpuarray.zeros_like(M)
