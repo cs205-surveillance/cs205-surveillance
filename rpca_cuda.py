@@ -16,10 +16,10 @@ squared = ElementwiseKernel("float *x, float *z",
                             "squared")
 
 kernel = SourceModule("""
-__global__ void square(int *a, int *b, int N) {
+__global__ void square(int *a, int *b, int *N) {
     int id = blockDim.x * blockIdx.x + threadIdx.x;
 
-    if (id < N)
+    if (id < N[0])
             b[id] = (a[id] * a[id]);
 }
 """)
@@ -61,11 +61,8 @@ def shrink(X, tau):
 
 def frobeniusNorm(X):
     Z = gpuarray.empty_like(X)
-    # N = X.size
-    # N = N.astype(np.int32)
-    # N_gpu = cuda.mem_alloc(.nbytes)
-    # cuda.memcpy_htod(N_gpu, N)
-    square(X, Z, cuda.In(np.int32(X.size)), block=(10, 10, 1))
+    N = np.array([X.size])
+    square(X, Z, cuda.In(N), block=(10, 10, 1))
     accum = gpuarray.sum(Z).get()
     print X.get()
     print Z.get()
