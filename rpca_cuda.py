@@ -6,6 +6,7 @@ import pycuda.autoinit
 import skcuda.linalg
 import numpy as np
 
+print skcuda.__version__
 
 shrinker = ElementwiseKernel("float *x, float *z, float tau",
                              "z[i] = copysign(max(abs(x[i]) - tau, 0), x[i])"
@@ -35,7 +36,6 @@ def robust_pca(D):
     L = gpuarray.zeros_like(M)
     S = gpuarray.zeros_like(M)    
     Y = gpuarray.zeros_like(M)
-    print M.dtype
     print M.shape
 
     mu = (M.shape[0] * M.shape[1]) / (4.0 * L1Norm(M))
@@ -45,6 +45,7 @@ def robust_pca(D):
         L = svd_shrink(M - S - (mu**-1) * Y, mu)
         S = shrink(M - L + (mu**-1) * Y, lamb * mu)
         Y = Y + mu * (M - L - S)
+
     return L.get(), S.get()
 
 
