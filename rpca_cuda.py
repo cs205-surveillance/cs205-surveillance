@@ -65,7 +65,7 @@ def frobeniusNorm(X):
     # N = N.astype(np.int32)
     # N_gpu = cuda.mem_alloc(.nbytes)
     # cuda.memcpy_htod(N_gpu, N)
-    square(X, Z, cuda.In(X.size.astype(np.int32)), block=(10, 10, 1))
+    square(X, Z, cuda.In(np.int32(X.size)), block=(10, 10, 1))
     accum = gpuarray.sum(Z).get()
     print X.get()
     print Z.get()
