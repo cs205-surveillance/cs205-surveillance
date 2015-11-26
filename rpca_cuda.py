@@ -31,10 +31,11 @@ def robust_pca(D):
     Parrallel RPCA using ALM, adapted from https://github.com/nwbirnie/rpca.
     Takes and returns numpy arrays
     """
-    M = gpuarray.to_gpu(D, dtype=int)
+    M = gpuarray.to_gpu(D)
     L = gpuarray.zeros_like(M)
     S = gpuarray.zeros_like(M)    
     Y = gpuarray.zeros_like(M)
+    print M.dtype
     print M.shape
 
     mu = (M.shape[0] * M.shape[1]) / (4.0 * L1Norm(M))
