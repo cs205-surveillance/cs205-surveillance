@@ -16,7 +16,7 @@ squared = ElementwiseKernel("float *x, float *z",
                             "squared")
 
 kernel = SourceModule("""
-__global__ void square(int *a, int *b, int N) {
+__global__ void square(int *a, int *b, int32 N) {
     int id = blockDim.x * blockIdx.x + threadIdx.x;
 
     if (id < N)
