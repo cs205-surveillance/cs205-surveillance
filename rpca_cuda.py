@@ -20,7 +20,7 @@ __global__ void square(int *a, int *b, int N) {
     int id = blockDim.x * blockIdx.x + threadIdx.x;
 
     if (id < N)
-            b[id] = (a[id]*a[id]);
+            b[id] = (a[id] * a[id]);
 }
 """)
 square = kernel.get_function("square")
@@ -61,7 +61,7 @@ def shrink(X, tau):
 
 def frobeniusNorm(X):
     Z = gpuarray.empty_like(X)
-    square(X, Z, 100*100, block=(10,10,1))
+    square(X, Z, int(100*100), block=(10,10,1))
     accum = gpuarray.sum(Z).get()
     print X.get()
     print Z.get()
