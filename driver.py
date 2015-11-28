@@ -3,12 +3,15 @@ import pycuda.autoinit
 from pycuda.compiler import SourceModule
 import numpy as np
 from scipy import misc
+import matplotlib.pyplot as plt
 
 source = SourceModule(open('run_gaussian_average.cu').read())
 run_gaussian_average = source.get_function('run_gaussian_average')
 
 # Grab one image
 I = misc.imread('../thouis/grabber000.ppm', flatten=True)
+
+plt.imshow(I)
 
 # Copy to device
 I = I.astype(np.float32)
