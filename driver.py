@@ -54,5 +54,6 @@ run_super_pixel(OUT_gpu,TOL,OUT2, block=(15,15,1), grid=(1920/15,1080/15))
 result = OUT2.get().reshape((1920/15,1080/15))
 
 # Show image, perhaps with pylab
+print result
 plt.imshow(result)
 
