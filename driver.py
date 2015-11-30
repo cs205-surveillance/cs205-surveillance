@@ -51,7 +51,7 @@ for i in range(20):
 
 	# Post process
 	#inputs = gpuarray.to_gpu(OUT)
-	tol = np.array([11/12.0])
+	tol = np.array([.25])
 	TOL = gpuarray.to_gpu(tol)
 	out = np.zeros([(1920/15)*(1080/15)])
 	OUT2 = gpuarray.to_gpu(out)
