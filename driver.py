@@ -9,8 +9,8 @@ import matplotlib.pyplot as plt
 source = SourceModule(open('run_guassian_average.cu').read())
 run_gaussian_average = source.get_function('run_gaussian_average')
 
-source = SourceModule(open('superPixel.cu').read())
-run_super_pixel = source.get_function('superPixel')
+source1 = SourceModule(open('superpixel.cu').read())
+run_super_pixel = source1.get_function('superPixel')
 
 # Grab one image
 I = misc.imread('../thouis/grabber000.ppm', flatten=True)
