@@ -4,6 +4,7 @@ from pycuda.compiler import SourceModule
 import pycuda.gpuarray as gpuarray
 import numpy as np
 from scipy import misc
+import time
 import matplotlib.pyplot as plt
 
 source = SourceModule(open('run_guassian_average.cu').read())
@@ -14,8 +15,9 @@ run_super_pixel = source1.get_function('superPixel')
 
 # Grab one image
 I = misc.imread('../../thouis/grabber000.ppm', flatten=True)
-
 plt.imshow(I)
+
+time.sleep(30)
 
 # Copy to device
 I = I.astype(np.float32)
