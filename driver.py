@@ -53,10 +53,10 @@ for i in range(20):
 	#inputs = gpuarray.to_gpu(OUT)
 	tol = np.array([.25])
 	TOL = gpuarray.to_gpu(tol)
-	out = np.zeros([(1920/15)*(1080/15)],dtype=int)
+	out = np.zeros((1920/15)*(1080/15),dtype=int)
 	OUT2 = gpuarray.to_gpu(out)
 	run_super_pixel(OUT_gpu,TOL,OUT2, block=(15,15,1), grid=(1920/15,1080/15))
-	result = OUT2.get().reshape((1920/15,1080/15))
+	result = OUT2.get().reshape((1080/15,1920/15))
 
 	# Show image, perhaps with pylab
 	print result
