@@ -62,5 +62,4 @@ for i in range(20):
 	print result
 	plt.imshow(result)
 	plt.show()
-	time.sleep(20)
 
