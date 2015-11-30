@@ -16,7 +16,7 @@ __global__ void run_guassian_average(float *I, float *mu, float *sig2, float *OU
 	int idx = threadIdx.x + blockIdx.x * blockDim.x;
 
 	// Compare abs(I[idx]-mu[idx])/sig[idx] < thres
-	if(abs(I[idx]-mu[idx])/sig2[idx] < thres) {
+	if(abs(I[idx]-mu[idx])/sig2[idx] < threshold) {
 		// If True, mark OUT[idx] = 1
 		OUT[idx] = 1;
 	}
