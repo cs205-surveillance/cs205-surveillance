@@ -40,9 +40,9 @@ cuda.memcpy_htod(OUT_gpu, OUT)
 run_gaussian_average(I_gpu, mu_gpu, sig2_gpu, OUT_gpu,block=(15,15,1), grid=(1920/15,1080/15))
 
 # Copy back
-cuda.memcpy_dtoh(mu_gpu, mu)
-cuda.memcpy_dtoh(sig2_gpu, sig2)
-#cuda.memcpy_dtoh(OUT_gpu, OUT)
+cuda.memcpy_dtoh(mu,mu_gpu)
+cuda.memcpy_dtoh(sig2,sig2_gpu)
+#cuda.memcpy_dtoh(OUT,OUT_gpu)
 
 # Post process
 #inputs = gpuarray.to_gpu(OUT)
