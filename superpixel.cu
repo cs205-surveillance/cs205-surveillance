@@ -1,4 +1,4 @@
-__global__ void superPixel(int *input, int *sum, int *output)
+__global__ void superPixel(int *input, int *sum, float *output)
 {
 	
 	//This kernel receives input values of 1's and 0's from gaussian running average/rPCA 
@@ -30,6 +30,6 @@ __global__ void superPixel(int *input, int *sum, int *output)
         __syncthreads();
     }
     //ouput final value
-    if (threadIdx == 0) output[blockDim] = sum[0];
+    if (threadIdx == 0) output[blockIdx] = sum[0]/blockDim;
 }
 
