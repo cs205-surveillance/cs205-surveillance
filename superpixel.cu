@@ -1,4 +1,4 @@
-__global__ void superPixel(int *inputs, float TOL, int *output)
+__global__ void superPixel(int *inputs, float *TOL, int *output)
 {
 	
 	//blockDim.x,y gives the number of threads in a block, in the particular direction
@@ -31,7 +31,7 @@ __global__ void superPixel(int *inputs, float TOL, int *output)
     //ouput final value
     if (localId == 0) {
     	float percentOnes = sum[0]/(blockDim.x*blockDim.y);
-	    if (percentOnes > TOL) {
+	    if (percentOnes > TOL[0]) {
 	    	output[blockId] = 1;
 	    }
 	    else {
