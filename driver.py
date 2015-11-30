@@ -37,7 +37,7 @@ cuda.memcpy_htod(OUT_gpu, OUT)
 
 # Do algorithm
 
-run_gaussian_average(I_gpu, mu_gpu, sig2_gpu, OUT_gpu)
+run_gaussian_average(I_gpu, mu_gpu, sig2_gpu, OUT_gpu,block=(15,15,1), grid=(1920/15,1080/15))
 
 # Copy back
 cuda.memcpy_dtoh(mu_gpu, mu)
