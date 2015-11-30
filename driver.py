@@ -14,25 +14,28 @@ source1 = SourceModule(open('superpixel.cu').read())
 run_super_pixel = source1.get_function('superPixel')
 
 # mu = np.zeros_like(I)
-mu = np.copy(I)               # As an initialization, set mu to initial image in stack
-mu_gpu = cuda.mem_alloc(mu.nbytes)
-cuda.memcpy_htod(mu_gpu, mu)
 
-sig2 = np.ones_like(I)        # As an initialization, set variance to 1 for each pixel
-sig2_gpu = cuda.mem_alloc(sig2.nbytes)
-cuda.memcpy_htod(sig2_gpu, sig2)
-
-OUT = np.zeros_like(I)
-OUT_gpu = cuda.mem_alloc(OUT.nbytes)
-cuda.memcpy_htod(OUT_gpu, OUT)
 
 
 for i in range(4):
 	# Grab one image
 	I = misc.imread('../../thouis/grabber00{}.ppm'.format(i), flatten=True)
+	I = I.astype(np.float32)
+
+	if i == 0:
+		mu = np.copy(I)               # As an initialization, set mu to initial image in stack
+		mu_gpu = cuda.mem_alloc(mu.nbytes)
+		cuda.memcpy_htod(mu_gpu, mu)
+
+		sig2 = np.ones_like(I)        # As an initialization, set variance to 1 for each pixel
+		sig2_gpu = cuda.mem_alloc(sig2.nbytes)
+		cuda.memcpy_htod(sig2_gpu, sig2)
+
+		OUT = np.zeros_like(I)
+		OUT_gpu = cuda.mem_alloc(OUT.nbytes)
+		cuda.memcpy_htod(OUT_gpu, OUT)
 
 	# Copy to device
-	I = I.astype(np.float32)
 	I_gpu = cuda.mem_alloc(I.nbytes)
 	cuda.memcpy_htod(I_gpu, I)
 
