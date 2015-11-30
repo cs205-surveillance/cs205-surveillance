@@ -15,11 +15,13 @@ run_super_pixel = source1.get_function('superPixel')
 
 # mu = np.zeros_like(I)
 
+for i in range(20):
+	image_number = str(i)
+	while len(image_number) < 3:
+		image_number = "0"+image_number
 
-
-for i in range(4):
 	# Grab one image
-	I = misc.imread('../../thouis/grabber00{}.ppm'.format(i), flatten=True)
+	I = misc.imread('../../thouis/grabber{}.ppm'.format(image_number), flatten=True)
 	I = I.astype(np.float32)
 
 	if i == 0:
