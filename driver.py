@@ -13,17 +13,6 @@ run_gaussian_average = source.get_function('run_gaussian_average')
 source1 = SourceModule(open('superpixel.cu').read())
 run_super_pixel = source1.get_function('superPixel')
 
-# Grab one image
-I = misc.imread('../../thouis/grabber000.ppm', flatten=True)
-plt.imshow(I)
-
-time.sleep(30)
-
-# Copy to device
-I = I.astype(np.float32)
-I_gpu = cuda.mem_alloc(I.nbytes)
-cuda.memcpy_htod(I_gpu, I)
-
 # mu = np.zeros_like(I)
 mu = np.copy(I)               # As an initialization, set mu to initial image in stack
 mu_gpu = cuda.mem_alloc(mu.nbytes)
@@ -37,13 +26,22 @@ OUT = np.zeros_like(I)
 OUT_gpu = cuda.mem_alloc(OUT.nbytes)
 cuda.memcpy_htod(OUT_gpu, OUT)
 
-# Do algorithm
 
-run_gaussian_average(I_gpu, mu_gpu, sig2_gpu, OUT_gpu,block=(15,15,1), grid=(1920/15,1080/15))
+for i in range(4):
+	# Grab one image
+	I = misc.imread('../../thouis/grabber00{}.ppm'.format(i), flatten=True)
+
+	# Copy to device
+	I = I.astype(np.float32)
+	I_gpu = cuda.mem_alloc(I.nbytes)
+	cuda.memcpy_htod(I_gpu, I)
+
+	# Do algorithm
+	run_gaussian_average(I_gpu, mu_gpu, sig2_gpu, OUT_gpu,block=(15,15,1), grid=(1920/15,1080/15))
 
 # Copy back
-cuda.memcpy_dtoh(mu,mu_gpu)
-cuda.memcpy_dtoh(sig2,sig2_gpu)
+#cuda.memcpy_dtoh(mu,mu_gpu)
+#cuda.memcpy_dtoh(sig2,sig2_gpu)
 #cuda.memcpy_dtoh(OUT,OUT_gpu)
 
 # Post process
