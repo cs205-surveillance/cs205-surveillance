@@ -44,21 +44,21 @@ for i in range(20):
 	# Do algorithm
 	run_gaussian_average(I_gpu, mu_gpu, sig2_gpu, OUT_gpu,block=(15,15,1), grid=(1920/15,1080/15))
 
-# Copy back
-#cuda.memcpy_dtoh(mu,mu_gpu)
-#cuda.memcpy_dtoh(sig2,sig2_gpu)
-#cuda.memcpy_dtoh(OUT,OUT_gpu)
+	# Copy back
+	#cuda.memcpy_dtoh(mu,mu_gpu)
+	#cuda.memcpy_dtoh(sig2,sig2_gpu)
+	#cuda.memcpy_dtoh(OUT,OUT_gpu)
 
-# Post process
-#inputs = gpuarray.to_gpu(OUT)
-tol = np.array([11/12.0])
-TOL = gpuarray.to_gpu(tol)
-out = np.zeros([(1920/15)*(1080/15)])
-OUT2 = gpuarray.to_gpu(out)
-run_super_pixel(OUT_gpu,TOL,OUT2, block=(15,15,1), grid=(1920/15,1080/15))
-result = OUT2.get().reshape((1920/15,1080/15))
+	# Post process
+	#inputs = gpuarray.to_gpu(OUT)
+	tol = np.array([11/12.0])
+	TOL = gpuarray.to_gpu(tol)
+	out = np.zeros([(1920/15)*(1080/15)])
+	OUT2 = gpuarray.to_gpu(out)
+	run_super_pixel(OUT_gpu,TOL,OUT2, block=(15,15,1), grid=(1920/15,1080/15))
+	result = OUT2.get().reshape((1920/15,1080/15))
 
-# Show image, perhaps with pylab
-print result
-plt.imshow(result)
+	# Show image, perhaps with pylab
+	print result
+	plt.imshow(result)
 
