@@ -17,7 +17,7 @@ run_super_pixel = source1.get_function('superPixel')
 
 for i in range(20):
 	image_number = str(i)
-	while len(image_number) < 3:
+	while len(image_number) < 4:
 		image_number = "0"+image_number
 
 	# Grab one image
