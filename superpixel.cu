@@ -15,7 +15,7 @@ __global__ void superPixel(int *inputs, float *TOL, int *output)
 	int localId = (threadIdx.y * blockDim.x) + threadIdx.x;              
 
 	//initialize local sum array to be filled in with values from our input array
-	__shared__ int sum[gridDim.x*gridDim.y];
+	__shared__ int sum[1920/15 * 1080/15];
 
 	//assign values from binary input value array to our local sum array
     sum[localId] = inputs[globalId]; 
