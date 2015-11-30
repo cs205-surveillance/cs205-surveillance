@@ -6,7 +6,7 @@ import numpy as np
 from scipy import misc
 import matplotlib.pyplot as plt
 
-source = SourceModule(open('run_gaussian_average.cu').read())
+source = SourceModule(open('run_guassian_average.cu').read())
 run_gaussian_average = source.get_function('run_gaussian_average')
 
 source = SourceModule(open('superPixel.cu').read())
