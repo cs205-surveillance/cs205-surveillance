@@ -13,7 +13,7 @@ source1 = SourceModule(open('superpixel.cu').read())
 run_super_pixel = source1.get_function('superPixel')
 
 # Grab one image
-I = misc.imread('../thouis/grabber000.ppm', flatten=True)
+I = misc.imread('../../thouis/grabber000.ppm', flatten=True)
 
 plt.imshow(I)
 
