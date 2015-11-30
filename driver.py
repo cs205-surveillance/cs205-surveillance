@@ -61,4 +61,6 @@ for i in range(20):
 	# Show image, perhaps with pylab
 	print result
 	plt.imshow(result)
+	plt.show()
+	time.sleep(20)
 
