@@ -8,7 +8,7 @@ __global__ void run_gaussian_average(float *I, float *mu, float *sig2, float *OU
 
 	// rho is a temporal parameter, used when updating the mean and variance
 	float rho = 0.01;
-	float threshold = 1.96;
+	float threshold = .196;
 
 	// DO I NEED TO DECLARE 'OUT' as __shared__ ??
 
