@@ -1,12 +1,16 @@
 import pycuda.driver as cuda
 import pycuda.autoinit
 from pycuda.compiler import SourceModule
+import pycuda.gpuarray as gpuarray
 import numpy as np
 from scipy import misc
 import matplotlib.pyplot as plt
 
 source = SourceModule(open('run_gaussian_average.cu').read())
 run_gaussian_average = source.get_function('run_gaussian_average')
+
+source = SourceModule(open('superPixel.cu').read())
+run_super_pixel = source.get_function('superPixel')
 
 # Grab one image
 I = misc.imread('../thouis/grabber000.ppm', flatten=True)
@@ -33,16 +37,22 @@ cuda.memcpy_htod(OUT_gpu, OUT)
 
 # Do algorithm
 
-run_gaussian_average(cuda.In(I), cuda.InOut(mu), cuda.InOut(sig2), cuda.Out(OUT))
+run_gaussian_average(I_gpu, mu_gpu, sig2_gpu, OUT_gpu)
 
 # Copy back
 cuda.memcpy_dtoh(mu_gpu, mu)
 cuda.memcpy_dtoh(sig2_gpu, sig2)
-cuda.memcpy_dtoh(OUT_gpu, OUT)
+#cuda.memcpy_dtoh(OUT_gpu, OUT)
 
 # Post process
-
+#inputs = gpuarray.to_gpu(OUT)
+tol = np.array([11/12.0])
+TOL = gpuarray.to_gpu(tol)
+out = np.zeros([(1920/15)*(1080/15)])
+OUT2 = gpuarray.to_gpu(out)
+run_super_pixel(OUT_gpu,TOL,OUT2, block=(15,15,1), grid=(1920/15,1080/15))
+result = OUT2.get()
 
 # Show image, perhaps with pylab
-print OUT
+print OUT2
 
