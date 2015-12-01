@@ -7,7 +7,7 @@ __global__ void run_gaussian_average(float *I, float *mu, float *sig2, float *OU
 	// OUT = output image with filtered values for each pixel [1 if foreground, 0 if background]
 
 	// rho is a temporal parameter, used when updating the mean and variance
-	float rho = 0.01;
+	float rho = 0.01; // Using standard value, as advised by Wikipedia
 	float threshold = .196;
 
 	// DO I NEED TO DECLARE 'OUT' as __shared__ ??

@@ -15,7 +15,7 @@ run_super_pixel = source1.get_function('superPixel')
 
 # mu = np.zeros_like(I)
 
-for i in range(20):
+for i in range(70,90):
 	image_number = str(i)
 	while len(image_number) < 3:
 		image_number = "0"+image_number
@@ -42,7 +42,7 @@ for i in range(20):
 	cuda.memcpy_htod(I_gpu, I)
 
 	# Do algorithm
-	run_gaussian_average(I_gpu, mu_gpu, sig2_gpu, OUT_gpu,block=(15,15,1), grid=(1920/15,1080/15))
+	run_gaussian_average(I_gpu, mu_gpu, sig2_gpu, OUT_gpu, block=(15,15,1), grid=(1920/15,1080/15))
 
 	# Copy back
 	#cuda.memcpy_dtoh(mu,mu_gpu)
