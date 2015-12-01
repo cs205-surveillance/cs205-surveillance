@@ -49,6 +49,7 @@ for i in range(70,90):
 	#cuda.memcpy_dtoh(sig2,sig2_gpu)
 	cuda.memcpy_dtoh(OUT,OUT_gpu)
 
+	print "Number of non-zero entries: ", np.count_nonzero(OUT)
 	plt.imshow(OUT)
 	plt.show()
 
