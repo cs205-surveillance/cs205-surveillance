@@ -47,7 +47,10 @@ for i in range(70,90):
 	# Copy back
 	#cuda.memcpy_dtoh(mu,mu_gpu)
 	#cuda.memcpy_dtoh(sig2,sig2_gpu)
-	#cuda.memcpy_dtoh(OUT,OUT_gpu)
+	cuda.memcpy_dtoh(OUT,OUT_gpu)
+
+	plt.imshow(OUT)
+	plt.show()
 
 	# Post process
 	#inputs = gpuarray.to_gpu(OUT)
