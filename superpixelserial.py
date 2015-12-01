@@ -1,14 +1,45 @@
 import numpy as np
 
-def superPixel(incoords,length,width,TOL):
+def superPixel(incoords,TOL,width=15,height=15):
     
+    """
+    ###########
+    # Summary #
+    ###########
+    This is the serial implementation of the superpixel calculations.
+    The fct takes in a 2D binary array and computes parameters re: the img.
+    4 for loops are required to loop in 2 dimensions through the
+    pixels within an individual superpixel and loop in 2 dimensions
+    through the superpixels themselves within the input array
+    
+    #########
+    # Input #
+    #########
+
+    incoords = 1080 x 1920 array of 1's and 0's (e.g., the output from run_gaussian_avg)
+
+    TOL = tolerance level for anomaly detection. if percent of 1's
+    in a superpixel > TOL, then return 1 indicating an anomaly.
+    
+    width = desired length of superpixel, default set to 15
+    
+    height = desired width of superpixel, default set 15
+
+    ##########
+    # Output #
+    ##########
+    
+    Returns a 1D array of 1's and 0's indicating anomaly for each superpixel. 
+
+    """
+
     #image dimensions in terms of pixels
     imgWidth = incoords.shape[1]
     imgHeight = incoords.shape[0]
 
     #single superpixel width and height in terms of pixels
-    blockDimC = width
-    blockDimR = length
+    blockDimC = width   
+    blockDimR = height 
 
     #image dimensions in terms of superpixels
     gridDimC = imgWidth/blockDimC
@@ -18,7 +49,7 @@ def superPixel(incoords,length,width,TOL):
     N = gridDimC*gridDimR
     superPixels = np.zeros(N)
     
-    #loop and calculate sum of 1's in each superPixel
+    #loop and calculate sum of 1's in each superpixel
     n=0
     for r in range(gridDimR):
         for c in range(gridDimC):
@@ -26,7 +57,8 @@ def superPixel(incoords,length,width,TOL):
                 for j in range(blockDimC):
                     superPixels[n] += incoords[i+blockDimR*r,j+blockDimC*c]
             n+=1
-    #calculate percent of ones in superpixel
+    
+    #calculate percent of ones in each superpixel
     superPixels /= (blockDimR*blockDimC)
     
     #assign 1 if percent > TOL, else assign 0
@@ -34,4 +66,5 @@ def superPixel(incoords,length,width,TOL):
     for i in range(len(superPixels)):
         if superPixels[i] > TOL:
             output[i] = 1
+    
     return output
