@@ -1,6 +1,21 @@
 __global__ void superPixel(int *inputs, float *TOL, int *output)
 {
-	
+	////////////////////
+	// KERNEL OVERVIEW /
+	////////////////////
+
+	//This kernel is used to determine if there is an anomaly in a superpixel.
+	//This kernel takes in a 1080x1920 binary array and calculates the sum for each
+	//15x15 pixel block (i.e., superpixel). Once the summation for every block is 
+	//complete, the kernel calculates the percent of 1's over the whole superpixel.
+	//If that value is above our tolerance, the kernel returns a 1 for that superpixel.
+	//Else, it returns a 0. The final output is a 1D array, where each value in
+	//that array corresponds to one of the superpixels. 
+
+	//////////////////////////
+	// INITIALIZE PARAMETERS /
+	//////////////////////////
+
 	//blockDim.x gives the number of threads in a block (x direction)
 	//gridDim.x gives the number of blocks in a grid (x direction)
 	//blockDim.x * gridDim.x gives the number of threads in a grid (x direction)
@@ -21,6 +36,10 @@ __global__ void superPixel(int *inputs, float *TOL, int *output)
     sum[localId] = inputs[globalId]; 
     __syncthreads();
 
+	////////////////
+	// COMPUTATION /
+	////////////////
+
     //add up all 1's and 0's in local group using binary reduction
 	for (size_t offset = blockDim.x/2; offset > 0 ; offset >>= 1) {
         if (localId < offset) {    
@@ -28,6 +47,7 @@ __global__ void superPixel(int *inputs, float *TOL, int *output)
         }
         __syncthreads();
     }
+    
     //ouput final value
     if (localId == 0) {
     	float percentOnes = sum[0]/(blockDim.x*blockDim.y);
