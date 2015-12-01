@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 from scipy import misc
 
-def rga(I, thres, rho=0.05):
+def rga(I, thres, rho=0.05, cont=False):
 	global mu, sig2
 	
 	# Loop through, pixel by pixel (or row by row), might be able to do whole matrix elementwise
@@ -17,10 +17,14 @@ def rga(I, thres, rho=0.05):
 	d = abs(mu[~anom_mask]-I[~anom_mask])
 	sig2[~anom_mask] = d * d * rho + (1-rho)*sig2[~anom_mask]
 	
-	# Create binary mask on image based on any anomaly detected
-	temp[~anom_mask] = 0
-	temp[anom_mask] = 1
-	OUT = np.copy(temp)
+	if cont: # Check if you want continuous values saved rather than binary values.
+		temp2 = temp - thres
+		temp2[temp2 < 0] = 0
+		OUT = np.copy(temp2)
+	else: # Create binary mask on image based on any anomaly detected
+		temp[~anom_mask] = 0
+		temp[anom_mask] = 1
+		OUT = np.copy(temp)
 
 	return OUT
 
@@ -39,9 +43,9 @@ for i in range(65,90):
 		sig2 = np.ones_like(I)
 
 
-	OUT = rga(I, 5)
+	OUT = rga(I, 2.5, cont=True)
 	print "Number of non-zero entries: ", np.count_nonzero(OUT)
 	plt.imshow(OUT)
 	plt.show()
 
-	misc.imsave('cs205_images/Output/out{}.png'.format(image_number),OUT)
+	misc.imsave('cs205_images/cont_output/cont_out{}.png'.format(image_number),OUT)
