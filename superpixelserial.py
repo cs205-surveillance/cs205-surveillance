@@ -1,28 +1,37 @@
 import numpy as np
 
-def superpixel(incoords, num_super_pixels):
-    pixels_per_super_pixel = len(incoords)/num_super_pixels
-    superpixels=np.zeros(num_super_pixels)
-    for i in range(num_super_pixels):
-        for j in range(pixels_per_super_pixel):
-            superpixels[i] += incoords[j+i*pixels_per_super_pixel]
-    return superpixels/pixels_per_super_pixel
+def superPixel(incoords,length,width,TOL):
+    
+    #image dimensions in terms of pixels
+    imgWidth = incoords.shape[1]
+    imgHeight = incoords.shape[0]
 
+    #single superpixel width and height in terms of pixels
+    blockDimC = width
+    blockDimR = length
 
-def detector(incoords,num_super_pixels,threshold):
-	anomalies = np.zeros(num_super_pixels)
-	for i in range(len(incoords)):
-		if incoords[i] > threshold:
-			anomalies[i] = 1
-	return anomalies
+    #image dimensions in terms of superpixels
+    gridDimC = imgWidth/blockDimC
+    gridDimR = imgHeight/blockDimR
 
-inputs = np.zeros(100)
-inputs[22:25]=1
-
-threshold = .1
-num_super_pixels = 10
-
-output = superpixel(inputs,num_super_pixels)
-anomalies = detector(output,num_super_pixels,threshold)
-print anomalies
-
+    #number of superpixels in image
+    N = gridDimC*gridDimR
+    superPixels = np.zeros(N)
+    
+    #loop and calculate sum of 1's in each superPixel
+    n=0
+    for r in range(gridDimR):
+        for c in range(gridDimC):
+            for i in range(blockDimR):
+                for j in range(blockDimC):
+                    superPixels[n] += incoords[i+blockDimR*r,j+blockDimC*c]
+            n+=1
+    #calculate percent of ones in superpixel
+    superPixels /= (blockDimR*blockDimC)
+    
+    #assign 1 if percent > TOL, else assign 0
+    output = np.zeros(N)
+    for i in range(len(superPixels)):
+        if superPixels[i] > TOL:
+            output[i] = 1
+    return output
