@@ -15,7 +15,7 @@ run_super_pixel = source1.get_function('superPixel')
 
 # mu = np.zeros_like(I)
 
-for i in range(70,90):
+for i in range(65,90):
 	image_number = str(i)
 	while len(image_number) < 3:
 		image_number = "0"+image_number
