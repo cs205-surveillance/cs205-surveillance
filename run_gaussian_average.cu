@@ -8,15 +8,15 @@ __global__ void run_gaussian_average(float *I, float *mu, float *sig2, float *OU
 
 	// rho is a temporal parameter, used when updating the mean and variance
 	float rho = 0.01; // Using standard value, as advised by Wikipedia
-	float threshold = .196;
+	float threshold = 0.596; // .196;
 
 	// DO I NEED TO DECLARE 'OUT' as __shared__ ??
 
 	// Get current idx
 	int idx = threadIdx.x + blockIdx.x * blockDim.x;
 
-	// Compare abs(I[idx]-mu[idx])/sig[idx] < thres
-	if(abs(I[idx]-mu[idx])/sig2[idx] < threshold) {
+	// Compare abs(I[idx]-mu[idx])/sig[idx] > thres
+	if(abs(I[idx]-mu[idx])/sig2[idx] > threshold) {
 		// If True, mark OUT[idx] = 1
 		OUT[idx] = 1;
 	}
