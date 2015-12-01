@@ -43,3 +43,5 @@ for i in range(65,90):
 	print "Number of non-zero entries: ", np.count_nonzero(OUT)
 	plt.imshow(OUT)
 	plt.show()
+
+	misc.imsave('cs205_images/Output/out{}.png'.format(image_number),OUT)
