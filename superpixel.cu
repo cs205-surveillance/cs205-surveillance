@@ -1,9 +1,9 @@
 __global__ void superPixel(int *inputs, float *TOL, int *output)
 {
 	
-	//blockDim.x,y gives the number of threads in a block, in the particular direction
-	//gridDim.x,y gives the number of blocks in a grid, in the particular direction
-	//blockDim.x * gridDim.x gives the number of threads in a grid (in the x direction, in this case)
+	//blockDim.x gives the number of threads in a block (x direction)
+	//gridDim.x gives the number of blocks in a grid (x direction)
+	//blockDim.x * gridDim.x gives the number of threads in a grid (x direction)
 	
 	//block id
 	int blockId = blockIdx.x + blockIdx.y * gridDim.x; 
