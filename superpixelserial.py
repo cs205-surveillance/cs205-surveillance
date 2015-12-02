@@ -71,9 +71,10 @@ def superPixel(incoords,TOL,width=15,height=15):
     
     outputA = outputA.reshape(gridDimR,gridDimC)
     
+    #take our grid of superpixels and output corresponding top-left corner pixel location
     outputB = []
     for i in range(gridDimR):
-        for j in range(gridDimC)
+        for j in range(gridDimC):
             if outputA[i,j]==1
                 point = [i*blockDimR,j*blockDimC]
                 outputB.append(point)
