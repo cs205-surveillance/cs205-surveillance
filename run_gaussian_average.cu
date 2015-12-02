@@ -9,20 +9,20 @@ __global__ void run_gaussian_average(float *I, float *mu, float *sig2, float *OU
 	// rho is a temporal parameter, used when updating the mean and variance
 	float rho = 0.05; // Increased from 0.01 to more quickly integrate slight variances in background 
 	float threshold = 5; // .196;
-	int SIZE = 1920*1080;
+	int SIZE = 1920 * 1080;
 
 	// Get current idx
 	int idx = threadIdx.x + blockIdx.x * blockDim.x;
 
 	if (idx < SIZE) {
 		// Compare abs(I[idx]-mu[idx])/sig[idx] > thres
-		if (abs(I[idx]-mu[idx])/sig2[idx] > threshold) {
+		if (abs(I[idx] - mu[idx]) / sig2[idx] > threshold) {
 			// If True, mark OUT[idx] = 1
 			OUT[idx] = 1;
 		} else {
 			// Else, mark OUT[idx] = 0, adjust mean and variance
 			OUT[idx] = 0;
-			float d = abs(I[idx]-mu[idx]);
+			float d = abs(I[idx] - mu[idx]);
 			mu[idx] = rho * I[idx] + (1 - rho) * mu[idx];
 			sig2[idx] = d*d * rho + (1 - rho) * sig2[idx];
 		}

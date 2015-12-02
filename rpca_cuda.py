@@ -12,17 +12,13 @@ shrinker = ElementwiseKernel("float *x, float *z, float tau",
                              "z[i] = copysign(max(abs(x[i]) - tau, 0), x[i])"
                              "shrinker")
 
-squared = ElementwiseKernel("float *x, float *z",
-                            "z[i] = x[i] * x[i]",
-                            "squared")
-
 kernel = SourceModule("""
-__global__ void square(int *a, int *b, int *N) {
-    int id = blockDim.x * blockIdx.x + threadIdx.x;
+    __global__ void square(int *a, int *b, int *N) {
+        int id = blockDim.x * blockIdx.x + threadIdx.x;
 
-    if (id < N[0])
-            b[id] = (a[id] * a[id]);
-}
+        if (id < N[0])
+                b[id] = (a[id] * a[id]);
+    }
 """)
 square = kernel.get_function("square")
 

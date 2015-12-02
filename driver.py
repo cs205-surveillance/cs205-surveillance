@@ -28,30 +28,24 @@ for i in range(65,90):
 		# As an initialization, set mu to initial image in stack
 		mu_gpu = gpuarray.to_gpu(I)
 
-
-      # As an initialization, set variance to 1 for each pixel
+      	# As an initialization, set variance to 1 for each pixel
 		sig2_gpu = gpuarray.zeros_like(mu_gpu) + 1
 		
-      # Initialize the OUTPUT image
+      	# Initialize the OUTPUT image
 		OUT_gpu = gpuarray.zeros_like(mu_gpu)
 		
 
 	# Copy to device
 	I_gpu = gpuarray.to_gpu(I)
-	
 
 	# Do algorithm
 	run_gaussian_average(I_gpu, mu_gpu, sig2_gpu, OUT_gpu, block=(15,1,1), grid=(1920*1080/15,1))
-
 
 	# Copy back
 	sig2_result = sig2_gpu.get()
 	mu_result = mu_gpu.get().reshape((1080,1920))
 	rga_result = OUT_gpu.get().reshape((1080,1920))
 
-	# print "Number of non-zero entries: ", np.count_nonzero(rga_result)
-	print sig2_result
-	plt.imshow(mu_result)
 	plt.imshow(rga_result)
 	plt.show()
 
