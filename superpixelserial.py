@@ -75,7 +75,7 @@ def superPixel(incoords,TOL,width=15,height=15):
     outputB = []
     for i in range(gridDimR):
         for j in range(gridDimC):
-            if outputA[i,j]==1
+            if outputA[i,j]==1:
                 point = [i*blockDimR,j*blockDimC]
                 outputB.append(point)
 
