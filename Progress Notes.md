@@ -30,13 +30,6 @@ pyCuda (Reinier installed)
 9) Drawing overlay 
 10) Realtime check
 
-# Next Steps
-1) Learn how to Read PPM (Taylor)
-2) Greyscale (Taylor)
-3) Driver (Reinier)
-4) Averaging Kernal (Taylor)
-5) Superpixel/segment (Andrew)
-
 # Notes from Ray meeting 11/20
 1) added cuda path for andrew (and others). nvcc should work.
 2) export is temporary. 
@@ -45,3 +38,17 @@ pyCuda (Reinier installed)
 5) ssh with capital Y to display back. do ssh Y to see visual
 6) over break do the rpca or running average. 
 7) choose either slic or grid method. depends on how we get to that step
+
+# Notes from Ray Meeting 12/2
+what does the variance look like
+go with continuous not binary
+curious: why does sign look dark
+cut out small region of sign and plot how it progresses with time
+small window looking at avg. intensity and avg. variance on 3x3 pixel.
+continuous output easier to use.
+minimum filter on continous 3x3 filter to get rid of spec noises
+avg threshold per box. 
+minimum filter is take 3x3 filter like median filter nad take lowest value not median value. 
+use numpy as a view using a slice and set four borders to a color. 
+check pycuda make sure yuo aren't copying from GPU memory before copying
+want to minimize readbacks.
