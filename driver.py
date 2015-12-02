@@ -24,7 +24,7 @@ for i in range(65,90):
 	I = misc.imread('../../thouis/grabber{}.ppm'.format(image_number), flatten=True)
 	I = I.astype(np.float32)
 
-	if i == 70:
+	if i == 65:
 		mu = np.copy(I)               # As an initialization, set mu to initial image in stack
 		mu_gpu = cuda.mem_alloc(mu.nbytes)
 		cuda.memcpy_htod(mu_gpu, mu)
