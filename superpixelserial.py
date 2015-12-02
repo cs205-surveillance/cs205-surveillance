@@ -1,5 +1,6 @@
 import numpy as np
-
+from scipy import misc
+import matplotlib.pyplot as plt
 def superPixel(incoords,TOL,width=15,height=15):
     
     """
@@ -59,7 +60,7 @@ def superPixel(incoords,TOL,width=15,height=15):
             n+=1
     
     #calculate percent of ones in each superpixel
-    superPixels /= (blockDimR*blockDimC)
+    superPixels /= (blockDimR*blockDimC)*255         #*255 due to png formatting
     
     #assign 1 if percent > TOL, else assign 0
     output = np.zeros(N)
@@ -67,4 +68,32 @@ def superPixel(incoords,TOL,width=15,height=15):
         if superPixels[i] > TOL:
             output[i] = 1
     
-    return output
+    return output.reshape(gridDimR,gridDimC)
+
+########
+# TEST #
+########
+
+#loop through set of images
+for i in range(70,83):
+    image_number = str(i)
+    while len(image_number) < 3:
+        image_number = '0' + image_number
+
+    I = misc.imread('cs205_images/Output/out{}.png'.format(image_number), flatten=True)
+    I = I.astype(np.float32)
+
+    #run superPixel fct
+    output = superPixel(I,.9,30,30)
+
+    #plot resulting output of superpixels
+    plt.imshow(output)
+    plt.show()
+
+
+
+
+
+
+
+
