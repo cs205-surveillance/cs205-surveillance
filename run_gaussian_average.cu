@@ -1,5 +1,4 @@
-__global__ void run_gaussian_average(float *I, float *mu, float *sig2, float *OUT)
-{
+__global__ void run_gaussian_average(float *I, float *mu, float *sig2, float *OUT) {
     /*
 	 I = input image, intensities
 	 mu = running average intensity for each pixel, initially set to 1st image
