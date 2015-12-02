@@ -75,7 +75,7 @@ def superPixel(incoords,TOL,width=15,height=15):
 ########
 
 #loop through set of images
-for i in range(70,83):
+for i in range(65,89):
     image_number = str(i)
     while len(image_number) < 3:
         image_number = '0' + image_number
@@ -84,7 +84,7 @@ for i in range(70,83):
     I = I.astype(np.float32)
 
     #run superPixel fct
-    output = superPixel(I,.9,30,30)
+    output = superPixel(I,.8,30,30)
 
     #plot resulting output of superpixels
     plt.imshow(output)
