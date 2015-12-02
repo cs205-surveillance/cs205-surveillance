@@ -1,12 +1,12 @@
-#include "median9.h"
+#include "minimum9.h"
 
 // 3x3 median filter
-__kernel void median_3x3(__global __read_only float *in_values,
-                         __global __write_only float *out_values,
-                         __local float *buffer,
-                         int w, int h,
-                         int buf_w, int buf_h,
-                         const int halo) {
+__global__ void minimum_3x3(float *in_values,
+                            float *out_values,
+                            __local float *buffer,
+                            int w, int h,
+                            int buf_w, int buf_h,
+                            const int halo) {
 
   // Global position of output pixel
   const int x = get_global_id(0);
@@ -48,12 +48,12 @@ __kernel void median_3x3(__global __read_only float *in_values,
       }
   }
 
-  barrier(CLK_LOCAL_MEM_FENCE);
+  __syncthreads()
 
   if ((y < h) && (x < w)) {
-    out_values[y * w + x] = median9(buffer[(buf_y - 1) * buf_w + (buf_x - 1)], buffer[(buf_y - 1) * buf_w + buf_x], buffer[(buf_y - 1) * buf_w + (buf_x + 1)], 
-                                    buffer[buf_y * buf_w       + (buf_x - 1)], buffer[buf_y * buf_w       + buf_x], buffer[buf_y * buf_w       + (buf_x + 1)], 
-                                    buffer[(buf_y + 1) * buf_w + (buf_x - 1)], buffer[(buf_y + 1) * buf_w + buf_x], buffer[(buf_y + 1) * buf_w + (buf_x + 1)]);
+    out_values[y * w + x] = minimum9(buffer[(buf_y - 1) * buf_w + (buf_x - 1)], buffer[(buf_y - 1) * buf_w + buf_x], buffer[(buf_y - 1) * buf_w + (buf_x + 1)],
+                                     buffer[buf_y * buf_w       + (buf_x - 1)], buffer[buf_y * buf_w       + buf_x], buffer[buf_y * buf_w       + (buf_x + 1)],
+                                     buffer[(buf_y + 1) * buf_w + (buf_x - 1)], buffer[(buf_y + 1) * buf_w + buf_x], buffer[(buf_y + 1) * buf_w + (buf_x + 1)]);
   }
 }
 
