@@ -1,25 +1,30 @@
 __global__ void run_gaussian_average(float *I, float *mu, float *sig2, float *OUT)
 {
-	// I = input image, intensities
-	// mu = running average intensity for each pixel, initially set to 1st image
-	// sig2 = running average variance for each pixel, initially set to 1
-	// thres = threshold for comparison with mean value
-	// OUT = output image with filtered values for each pixel [1 if foreground, 0 if background]
+    /*
+	 I = input image, intensities
+	 mu = running average intensity for each pixel, initially set to 1st image
+	 sig2 = running average variance for each pixel, initially set to 1
+	 thres = threshold for comparison with mean value
+	 OUT = output image with filtered values for each pixel [1 if foreground, 0 if background]
+	 */
 
 	// rho is a temporal parameter, used when updating the mean and variance
-	float rho = 0.05; // Increased from 0.01 to more quickly integrate slight variances in background 
-	float threshold = 5; // .196;
+	float rho = 0.05;  // Increased from 0.01 to more quickly integrate slight variances in background
+	float threshold = 5;  // .196;
 	int SIZE = 1920 * 1080;
 
 	// Get current idx
 	int idx = threadIdx.x + blockIdx.x * blockDim.x;
 
 	if (idx < SIZE) {
-		// Compare abs(I[idx]-mu[idx])/sig[idx] > thres
+
+		// Compare z-value with threshold
 		if (abs(I[idx] - mu[idx]) / sig2[idx] > threshold) {
-			// If True, mark OUT[idx] = 1
-			OUT[idx] = 1;
+
+			OUT[idx] = 1;  // If true, mark OUT[idx] = 1
+
 		} else {
+
 			// Else, mark OUT[idx] = 0, adjust mean and variance
 			OUT[idx] = 0;
 			float d = abs(I[idx] - mu[idx]);
