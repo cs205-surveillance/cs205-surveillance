@@ -1,6 +1,7 @@
 import numpy as np
 from scipy import misc
 import matplotlib.pyplot as plt
+
 def superPixel(incoords,TOL,width=15,height=15):
     
     """
@@ -30,7 +31,7 @@ def superPixel(incoords,TOL,width=15,height=15):
     # Output #
     ##########
     
-    Returns a 1D array of 1's and 0's indicating anomaly for each superpixel. 
+    Returns a 2D array of 1's and 0's indicating anomaly for each superpixel. 
 
     """
 
@@ -60,16 +61,26 @@ def superPixel(incoords,TOL,width=15,height=15):
             n+=1
     
     #calculate percent of ones in each superpixel
-    superPixels /= (blockDimR*blockDimC)*255         #*255 due to png formatting
+    superPixels /= (blockDimR*blockDimC)        
     
     #assign 1 if percent > TOL, else assign 0
-    output = np.zeros(N)
+    outputA = np.zeros(N)
     for i in range(len(superPixels)):
         if superPixels[i] > TOL:
-            output[i] = 1
+            outputA[i] = 1
     
-    return output.reshape(gridDimR,gridDimC)
+    outputA = outputA.reshape(gridDimR,gridDimC)
+    
+    outputB = []
+    for i in range(gridDimR):
+        for j in range(gridDimC)
+            if outputA[i,j]==1
+                point = [i*blockDimR,j*blockDimC]
+                outputB.append(point)
 
+    return outputB
+
+"""
 ########
 # TEST #
 ########
@@ -80,6 +91,7 @@ for i in range(65,89):
     while len(image_number) < 3:
         image_number = '0' + image_number
 
+    #load image
     I = misc.imread('cs205_images/Output/out{}.png'.format(image_number), flatten=True)
     I = I.astype(np.float32)
 
@@ -89,7 +101,7 @@ for i in range(65,89):
     #plot resulting output of superpixels
     plt.imshow(output)
     plt.show()
-
+"""
 
 
 
