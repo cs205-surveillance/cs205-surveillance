@@ -22,6 +22,9 @@ for i in range(65,90):
 	I = misc.imread('cs205_images/grabber{}.ppm'.format(image_number), flatten=True)
 	I = I.astype(np.float32)
 
+	HEIGHT, WIDTH = I.shape[0], I.shape[1]
+	print HEIGHT, WIDTH
+
 	if i == 65:
 		mu = np.copy(I)
 		sig2 = np.ones_like(I)
