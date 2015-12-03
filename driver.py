@@ -26,7 +26,7 @@ for i in range(65, 90):
 
     # Load current image
     img = misc.imread('../../thouis/grabber{}.ppm'.format(image_number), flatten=True)
-    img = img.astype(np.float32).reshape((1920*1080,))
+    img = img.astype(np.float32).reshape((1,1920*1080))
 
     if i == 65:
         # As an initialization, set mu to initial image in stack
@@ -42,7 +42,7 @@ for i in range(65, 90):
     img_gpu = gpuarray.to_gpu(img)
 
     # Run Gaussian Average kernel
-    run_gaussian_average(img_gpu, mu_gpu, sig2_gpu, rga_out_gpu, block=(15, 1, 1), grid=(1920*1080/15, 1))
+    run_gaussian_average(img_gpu, mu_gpu, sig2_gpu, rga_out_gpu, block=(15, 1, 1), grid=(1,1920*1080/15))
     #rga_out_gpu=rga_out_gpu.reshape((1080,1920))
 
     # Reshape RGA output from 1D to 2D
