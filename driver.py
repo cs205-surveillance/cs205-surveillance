@@ -46,7 +46,7 @@ for i in range(65, 90):
     run_gaussian_average(img_gpu, mu_gpu, sig2_gpu, rga_out_gpu, block=(15, 1, 1), grid=(1920 * 1080 / 15, 1))
 
     # Reshape RGA output from 1D to 2D
-    rga_out_gpu = rga_out_gpu.reshape(1080, 1920)
+    #rga_out_gpu = rga_out_gpu.reshape(1080, 1920)
     
     # Run 3x3 Minimum filter to remove speckle noise
     denoised_gpu = gpuarray.empty_like(rga_out_gpu)
