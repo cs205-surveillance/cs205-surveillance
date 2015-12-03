@@ -23,11 +23,16 @@ __global__ void testsuperPixel(int *inputs, int *output)
         for (int i=1; i<4; i++) { 
             inputsToSum[0] = inputsToSum[0] + inputsToSum[i];
         }
-
-        output[blockId] = inputsToSum[0];
         
     }
     __syncthreads();
+    if (localId == 0) {
+        if (inputsToSum[0] > 190) { 
+            output[blockId] = inputsToSum[0];
+        }
+        
+    }
+           
 
  //    // int globalIdX = blockIdx.x * blockDim.x + threadIdx.x;
  //    // int globalIdY = blockIdx.y * blockDim.y + threadIdx.y;
