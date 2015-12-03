@@ -13,8 +13,8 @@ run_gaussian_average = rga_source.get_function('run_gaussian_average')
 superpixel_source = SourceModule(open('superpixel.cu').read())
 run_super_pixel = superpixel_source.get_function('superPixel')
 
-filter_source = SourceModule(open('minimum_filter.cu').read())
-run_minimum_filter = filter_source.get_function('minimum_3x3')
+# filter_source = SourceModule(open('minimum_filter.cu').read())
+# run_minimum_filter = filter_source.get_function('minimum_3x3')
 
 # Loop over all images
 for i in range(65, 90):
