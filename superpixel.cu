@@ -28,7 +28,7 @@ __global__ void superPixel(float *inputs, int *output)
 	//these index expressions seemingly work
     int globalIdX = blockIdx.x * blockDim.x + threadIdx.x;
     int globalIdY = blockIdx.y * blockDim.y + threadIdx.y;
-    int globalId = (globalIdY * 30) + globalIdX;
+    int globalId = (globalIdY * 1920) + globalIdX;
     int blockId = blockIdx.x + blockIdx.y * gridDim.x; 
 	int localId = (threadIdx.y * blockDim.x) + threadIdx.x;               
 
@@ -52,7 +52,7 @@ __global__ void superPixel(float *inputs, int *output)
     }
     __syncthreads();
     if (localId == 0) {
-        if (inputsToSum[0] > 70) { 
+        if (inputsToSum[0] > 700) { 
             output[blockId] = 1;
         }  
         else{
