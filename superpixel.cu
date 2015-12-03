@@ -28,7 +28,7 @@ __global__ void superPixel(float *inputs, int *output)
     int globalIdX = blockIdx.x * blockDim.x + threadIdx.x;
     int globalIdY = blockIdx.y * blockDim.y + threadIdx.y;
     
-    int globalId = (globalIdY * gridDim.x) + globalIdX;
+    int globalId = (globalIdY * 1920) + globalIdX;
     
     int blockId = blockIdx.x + blockIdx.y * gridDim.x; 
 	
@@ -48,9 +48,9 @@ __global__ void superPixel(float *inputs, int *output)
     
 
     // First thread in each row will compute row sum
-	if (localId % blockDim.y == 0) {
+	if (localId % 30 == 0) {
     	
-    	for (int i = localId + 1; i < localId + blockDim.x; i++) {
+    	for (int i = localId + 1; i < localId + 30; i++) {
 
     		inputsToSum[localId] += inputsToSum[i];
     		
@@ -61,7 +61,7 @@ __global__ void superPixel(float *inputs, int *output)
 
 	// One thread will combine above sums to get single value
 	if (localId == 0) {
-    	for (int i=0; i<blockDim.x*blockDim.y; i+= blockDim.x) {
+    	for (int i=0; i<900; i+= 30) {
     		inputsToSum[0] += inputsToSum[i];
     	}
     }
