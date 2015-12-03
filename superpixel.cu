@@ -1,5 +1,7 @@
 
-__global__ void superPixel(float *inputs, float *output)
+#include <stdio.h>
+
+__global__ void superPixel(float *inputs, int *output)
 {
 	////////////////////
 	// KERNEL OVERVIEW /
@@ -49,6 +51,9 @@ __global__ void superPixel(float *inputs, float *output)
 
     if (localId == 0) {
     	for (int i=1; i<900; i++) {
+    		if (globalId ==0) {
+    			printf("%d",inputsToSum[i])
+    		}
     		inputsToSum[0] = inputsToSum[0] + inputsToSum[i];
     	}
     }
@@ -65,10 +70,10 @@ __global__ void superPixel(float *inputs, float *output)
     if (localId == 0) {
     	float fraction = inputsToSum[0]/(900.0);
 	    if (fraction > .75) {
-	    	output[blockId] = fraction; //inputs to sum
+	    	output[blockId] = 1; //inputs to sum
 	    }
 	    else {
-	    	output[blockId] = fraction; //inputs to sum
+	    	output[blockId] = 0; //inputs to sum
 	    }
 	}
 	__syncthreads();
