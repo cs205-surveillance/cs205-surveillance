@@ -13,7 +13,7 @@ __global__ void testsuperPixel(int *inputs, int *output)
 	int localId = (threadIdx.y * blockDim.x) + threadIdx.x;              
     
 
-    if (globalId == 2) {
+    if (globalId == 4) {
         printf("%d",inputs[globalIdX]);
 
     }
