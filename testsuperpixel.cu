@@ -13,7 +13,7 @@ __global__ void testsuperPixel(int *inputs, int *output)
     __shared__ int inputsToSum[4];
     inputsToSum[localId] = inputs[globalId];
     
-    if (globalId == 12) {
+    if (globalId == 10) {
         for (int i=0; i<4; i++) { 
             printf("%d\n",inputsToSum[i]);
             __syncthreads();
