@@ -61,12 +61,12 @@ for i in range(65, 90):
     # Set parameters for super pixel kernel
     tol = np.array([.75])
     tol_gpu = gpuarray.to_gpu(tol)
-    spxl_out = np.zeros((1920/30) * (1080/30), dtype=int)
+    spxl_out = np.zeros((1920) * (1080), dtype=int)
     spxl_out_gpu = gpuarray.to_gpu(spxl_out)
     
     # Run super pixel kernel
     run_super_pixel(rga_out_gpu, tol_gpu, spxl_out_gpu, block=(30, 30, 1), grid=(1920/30, 1080/30))
-    result = spxl_out_gpu.get().reshape((1080/30, 1920/30))
+    result = spxl_out_gpu.get().reshape((1080, 1920))
 
     # Show image, perhaps with pylab
     print result
