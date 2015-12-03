@@ -36,7 +36,7 @@ __global__ void superPixel(float *inputs, int *output)
 	int localId = (threadIdx.y * blockDim.x) + threadIdx.x;              
 
 	// Initialize local sum array to be filled in with values from our input array
-	__shared__ float inputsToSum[30*30];
+	extern __shared__ float inputsToSum[30*30];
 
 	// Assign values from input value array to our local sum array
     inputsToSum[localId] = inputs[globalId];
@@ -63,7 +63,7 @@ __global__ void superPixel(float *inputs, int *output)
     //Ouput final value
     if (localId == 0) {
     	float fraction = inputsToSum[0]/(900);
-	    if (fraction > .5) {
+	    if (fraction > .75) {
 	    	output[blockId] = 1; //inputs to sum
 	    }
 	    else {
