@@ -10,7 +10,7 @@ test_superpixel_source = SourceModule(open('testsuperpixel.cu').read())
 run_super_pixel = test_superpixel_source.get_function('testsuperPixel')
 
 #test_array = np.array([[0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1],[0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1],[0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1],[0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1],[0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2],[0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2],[0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2],[0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2]])
-test_array = np.array([[21,31,41,51],[61,71,81,91]])
+test_array = np.array([[21,31,41,51],[61,71,81,91]]).reshape(2,4)
 test_array_gpu = gpuarray.to_gpu(test_array)
 print test_array
 
