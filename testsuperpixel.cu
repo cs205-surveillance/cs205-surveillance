@@ -13,10 +13,11 @@ __global__ void testsuperPixel(int *inputs, int *output)
     __shared__ int inputsToSum[4];
     inputsToSum[localId] = inputs[globalId];
 
-    // if (blockId == 2) {
-    //     printf("%d",inputsToSum[localId]);
-
-    // }
+    if (localId == 0) {
+        for (int i=1; i<4; i++) { 
+            printf("%d\n",inputsToSum[i]);
+        }
+    }
 
     //this sums up each block/superpixel
     if (localId == 0) {
