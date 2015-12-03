@@ -52,6 +52,7 @@ for i in range(65, 90):
     # mu_result = mu_gpu.get().reshape((1080, 1920))
     rga_result = rga_out_gpu.get().reshape((1080, 1920))
 
+    print rga_result
     plt.imshow(rga_result)
     plt.show()
 
