@@ -6,11 +6,11 @@ __global__ void testsuperPixel(int *inputs, int *output)
 	//these index expressions seemingly work
     int globalIdX = blockIdx.x * blockDim.x + threadIdx.x;
     int globalIdY = blockIdx.y * blockDim.y + threadIdx.y;
-    int globalId = (globalIdY * 6) + globalIdX;
+    int globalId = (globalIdY * 8) + globalIdX;
     int blockId = blockIdx.x + blockIdx.y * gridDim.x; 
 	int localId = (threadIdx.y * blockDim.x) + threadIdx.x;              
     
-    __shared__ int inputsToSum[4];
+    __shared__ int inputsToSum[8];
     inputsToSum[localId] = inputs[globalId];
     
     if (globalId == 10) {
