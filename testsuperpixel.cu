@@ -6,23 +6,17 @@ __global__ void testsuperPixel(int *inputs, int *output)
 	
     int globalIdX = blockIdx.x * blockDim.x + threadIdx.x;
     int globalIdY = blockIdx.y * blockDim.y + threadIdx.y;
-    int globalId = (globalIdY * 2) + globalIdX;
+    int globalId = (globalIdY * 4) + globalIdX;
 
     int blockId = blockIdx.x + blockIdx.y * gridDim.x; 
 	//int globalId = blockId * (blockDim.x * blockDim.y) + (threadIdx.y * blockDim.x) + threadIdx.x;
 	int localId = (threadIdx.y * blockDim.x) + threadIdx.x;              
     
-    printf("%d\n", globalIdX);
-    __syncthreads();
-    printf("%d\n", globalIdY);
-    __syncthreads();
-    printf("%d\n", globalId);
-    __syncthreads();
-    printf("%d\n", blockId);
 
+    if (globalId == 0) {
+        printf("%d",inputs[globalIdX,globalIdY]);
 
-
-
+    }
 
 
  //    // int globalIdX = blockIdx.x * blockDim.x + threadIdx.x;
