@@ -47,16 +47,14 @@ for i in range(65, 90):
 
     # Reshape RGA output from 1D to 2D
     rga_out_gpu = rga_out_gpu.reshape(1080, 1920)
-    result = rga_out_gpu.get()
-
-    # Show image
-    print result
-    plt.imshow(result)
-    plt.show()
     
     # Run 3x3 Minimum filter to remove speckle noise
     denoised_gpu = gpuarray.empty_like(rga_out_gpu)
     run_minimum_filter(rga_out_gpu, denoised_gpu, block=(5, 5, 1))
+
+    # Show image
+    plt.imshow(denoised_gpu.get())
+    plt.show()
 
     # Set parameters for super pixel kernel
     spxl_out = np.zeros((1920 / 30) * (1080 / 30), dtype=int)
