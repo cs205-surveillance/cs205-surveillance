@@ -56,7 +56,7 @@ for i in range(65, 90):
     
     # Run 3x3 Minimum filter to remove speckle noise
     denoised_gpu = gpuarray.empty_like(rga_out_gpu)
-    run_minimum_filter(rga_out_gpu, denoised_gpu)
+    run_minimum_filter(rga_out_gpu, denoised_gpu, block=(5, 5, 1))
 
     # Set parameters for super pixel kernel
     spxl_out = np.zeros((1920 / 30) * (1080 / 30), dtype=int)
