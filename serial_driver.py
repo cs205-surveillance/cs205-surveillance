@@ -36,8 +36,8 @@ for i in range(65,90):
 	filt_out = min_filter(OUT, iterations=1)
 
 	# misc.imsave('cs205_images/cont_output/cont_out{}.png'.format(image_number),OUT)
-	output = superPixel(filt_out, 10*700,r,r)
-
+	superpixel_output = superPixel(filt_out, 10*700,r,r)
+	output = coordinates(superpixel_output)
 	im = Image.open('cs205_images/grabber{}.ppm'.format(image_number))
 	draw = ImageDraw.Draw(im)
 	numAnom = len(output)
