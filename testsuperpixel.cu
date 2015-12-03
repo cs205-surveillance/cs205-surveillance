@@ -9,7 +9,7 @@ __global__ void testsuperPixel(int *inputs, int *output)
     int globalIdX = blockIdx.x * blockDim.x + threadIdx.x;
     int globalIdY = blockIdx.y * blockDim.y + threadIdx.y;
     int globalId = (globalIdY * 8) + globalIdX;
-    int idx = threadIdx.x + blockIdx.x * blockDim.x
+    int idx = threadIdx.x + blockIdx.x * blockDim.x;
 
 	// Initialize local sum array to be filled in with values from our input array
 	__shared__ int inputsToSum[16];
