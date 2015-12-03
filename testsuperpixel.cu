@@ -3,29 +3,28 @@
 
 __global__ void testsuperPixel(int *inputs, int *output)
 {
-	
+	//these index expressions seemingly work
     int globalIdX = blockIdx.x * blockDim.x + threadIdx.x;
     int globalIdY = blockIdx.y * blockDim.y + threadIdx.y;
     int globalId = (globalIdY * 4) + globalIdX;
-
     int blockId = blockIdx.x + blockIdx.y * gridDim.x; 
-	//int globalId = blockId * (blockDim.x * blockDim.y) + (threadIdx.y * blockDim.x) + threadIdx.x;
 	int localId = (threadIdx.y * blockDim.x) + threadIdx.x;              
     
     __shared__ int inputsToSum[8];
     inputsToSum[localId] = inputs[globalId];
 
-    if (blockId == 2) {
-        printf("%d",inputsToSum[localId]);
+    // if (blockId == 2) {
+    //     printf("%d",inputsToSum[localId]);
 
-    }
-
-    // if (localId == 0) {
-    //  for (int i=1; i<4; i++) { 
-    //      inputsToSum[0] = inputsToSum[0] + inputsToSum[i];
-    //  }
     // }
-    // __syncthreads();
+
+    if (localId == 0) {
+        for (int i=1; i<4; i++) { 
+            inputsToSum[0] = inputsToSum[0] + inputsToSum[i];
+        }
+        printf("%d",inputsToSum[localId])
+    }
+    __syncthreads();
 
  //    // int globalIdX = blockIdx.x * blockDim.x + threadIdx.x;
  //    // int globalIdY = blockIdx.y * blockDim.y + threadIdx.y;
