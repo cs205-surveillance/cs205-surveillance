@@ -8,8 +8,6 @@ from pycuda.compiler import SourceModule
 from coordinates import coordinates
 from PIL import Image, ImageDraw
 from time import time
-from multiprocessing import Pool
-
 
 # Import and compile CUDA kernels
 rga_source = SourceModule(open('run_gaussian_average.cu').read())
@@ -54,9 +52,6 @@ for i in range(69, 300):
 
     # Prepare for timing
     t0 = time()
-
-    # Prepare pool
-    pool = Pool(processes=1)
 
     # Initialization
     if i == 69:
