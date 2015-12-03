@@ -27,6 +27,6 @@ __global__ void run_gaussian_average(float *I, float *mu, float *sig2, float *OU
 
 		} 
 
-		OUT[idx] = (abs(I[idx] - mu[idx]) / sig2[idx]) // Continuous output
+		OUT[idx] = (abs(I[idx] - mu[idx]) / sig2[idx]); // Continuous output
 	}
 }
