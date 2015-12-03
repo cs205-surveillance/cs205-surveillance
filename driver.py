@@ -5,7 +5,7 @@ import pycuda.driver as cuda
 import matplotlib.pyplot as plt
 import pycuda.gpuarray as gpuarray
 from pycuda.compiler import SourceModule
-from coordinates.py import coordinates
+from coordinates import coordinates
 
 # Import and compile CUDA kernels
 rga_source = SourceModule(open('run_gaussian_average.cu').read())
