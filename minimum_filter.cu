@@ -9,12 +9,12 @@ __global__ void minimum_3x3(float *in_values,
                             const int halo) {
 
   // Global position of output pixel
-  const int x = get_global_id(0);
+  const int x  = get_global_id(0);
   const int y = get_global_id(1);
 
   // Local position relative to (0, 0) in workgroup
-  const int lx = get_local_id(0);
-  const int ly = get_local_id(1);
+  const int lx = threadIdx.x;
+  const int ly = threadIdx.y;
 
   // coordinates of the upper left corner of the buffer in image
   // space, including halo
