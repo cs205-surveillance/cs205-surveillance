@@ -26,7 +26,7 @@ __global__ void superPixel(float *inputs, int *output)
 	// blockDim.x * gridDim.x gives the number of threads in a grid (x direction)
 	
 	// Block id
-	int blockId = blockIdx.x + blockIdx.y * gridDim.x; 
+	int blockId = blockIdx.x + (blockIdx.y * gridDim.x); 
 	
 	// Global thread id
 	int globalId = blockId * (blockDim.x * blockDim.y) + (threadIdx.y * blockDim.x) + threadIdx.x;
@@ -39,8 +39,8 @@ __global__ void superPixel(float *inputs, int *output)
 	int localId = (threadIdx.y * blockDim.x) + threadIdx.x;              
 
 	if (globalId ==0) {
-    	printf("%d",globalId);
-		printf("%d",localId);
+    	printf("%d",blockIdx.x + blockIdx.y * gridDim.x);
+		printf("%d",blockIdx.x + (blockIdx.y * gridDim.x));
 		printf("%d",blockId);
     }
 
