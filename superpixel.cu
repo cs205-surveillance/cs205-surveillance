@@ -61,7 +61,7 @@ __global__ void superPixel(float *inputs, float *TOL, float *output)
  //        }    
  //    }
  //    __syncthreads();
-
+    print TOL[0]
     //Ouput final value
     if (localId == 0) {
     	float fraction = inputsToSum[0]/(blockDim.x*blockDim.y);
