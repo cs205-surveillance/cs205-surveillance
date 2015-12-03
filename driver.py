@@ -45,9 +45,6 @@ for i in range(65, 90):
     run_gaussian_average(img_gpu, mu_gpu, sig2_gpu, rga_out_gpu, block=(15, 1, 1), grid=(1920*1080/15, 1))
 
     # Reshape RGA output from 1D to 2D
-
-    rga_out_host = rga_out_gpu.get().reshape((1080, 1920))
-    rga_out_gpu = gpuarray.to_gpu(rga_out_host)
     # Copy back (for testing)
     # sig2_result = sig2_gpu.get()
     # mu_result = mu_gpu.get().reshape((1080, 1920))
