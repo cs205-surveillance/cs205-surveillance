@@ -40,7 +40,7 @@ __global__ void superPixel(float *inputs, float *TOL, float *output)
 	__shared__ float sum[30*30];
 
 	// Assign values from input value array to our local sum array
-    //sum[localId] = inputs[globalId]; 
+    sum[localId] = inputs[globalId]; 
     //__syncthreads();
 
 	/////////////////
