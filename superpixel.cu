@@ -43,14 +43,32 @@ __global__ void superPixel(float *inputs, int *output)
 	/////////////////
 	// COMPUTATION //
 	/////////////////
+    
 
-    if (localId == 0) {
+    for (int j = 0; j<30; j++) {
+    	
+    	if (localId == 0 + j*30) {
+	    	
+	    	for (int i=j*30+1; i < j*30 + 30; i++) {
+
+	    		inputsToSum[j] = inputsToSum[j] + inputsToSum[i];
+	    		__syncthreads();
+	    	}
+	    }
+
+	if (localId == 0) {
     	for (int i=1; i<900; i++) {
     		inputsToSum[0] = inputsToSum[0] + inputsToSum[i];
-    		__syncthreads();
     	}
     }
-    __syncthreads();
+
+    // if (localId == 0 {
+    // 	for (int i=1; i<900; i++) {
+    // 		inputsToSum[0] = inputsToSum[0] + inputsToSum[i];
+    // 		__syncthreads();
+    // 	}
+    // }
+
     if (localId == 0) {
         if (inputsToSum[0] > 660) { 
             output[blockId] = 1;
