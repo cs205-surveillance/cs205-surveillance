@@ -11,7 +11,7 @@ __global__ void testsuperPixel(int *inputs, int *output)
     // int globalId = (globalIdY * 8) + globalIdX;
 
 	// Initialize local sum array to be filled in with values from our input array
-	__shared__ int inputsToSum[16];
+	__shared__ int inputsToSum[8];
 
 	// Assign values from input value array to our local sum array
     inputsToSum[localId] = inputs[globalId];
