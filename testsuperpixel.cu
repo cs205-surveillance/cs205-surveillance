@@ -7,7 +7,7 @@ __global__ void testsuperPixel(int *inputs, int *output)
 	int globalId = blockId * (blockDim.x * blockDim.y) + (threadIdx.y * blockDim.x) + threadIdx.x;
 	int localId = (threadIdx.y * blockDim.x) + threadIdx.x;              
     
-    printf("%d\n", globalId)
+    printf("%d\n", globalId);
 
 
 
