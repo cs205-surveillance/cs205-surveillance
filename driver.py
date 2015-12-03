@@ -54,7 +54,9 @@ for i in range(65, 90):
     run_minimum_filter(rga_out_gpu, denoised_gpu, block=(3, 3, 1))
 
     # Show image
-    plt.imshow(denoised_gpu.get())
+    result = denoised_gpu.get()
+    print(result)
+    plt.imshow(result)
     plt.show()
 
     # Set parameters for super pixel kernel
