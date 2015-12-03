@@ -78,10 +78,22 @@ __global__ void superPixel(float *inputs, int *output)
  //    }
  //    __syncthreads();
 
-    //Ouput final value
+ //    //Ouput final value
+ //    if (localId == 0) {
+ //    	float fraction = inputsToSum[0]/(900.0);
+	//     if (fraction > .75) {
+	//     	output[blockId] = 1; //inputs to sum
+	//     }
+	//     else {
+	//     	output[blockId] = 0; //inputs to sum
+	//     }
+	// }
+	// __syncthreads();
+
+	Ouput final value
     if (localId == 0) {
-    	float fraction = inputsToSum[0]/(900.0);
-	    if (fraction > .75) {
+    	
+	    if (blockId % 2 ==0) {
 	    	output[blockId] = 1; //inputs to sum
 	    }
 	    else {
