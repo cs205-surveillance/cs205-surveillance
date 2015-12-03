@@ -21,7 +21,7 @@ run_minimum_filter = filter_source.get_function('minimum_3x3')
 
 t0 = time()
 # Loop over all images
-for i in range(69, 90):
+for i in range(71, 90):
 
     # Number image according to file name
     image_number = str(i)
@@ -33,7 +33,7 @@ for i in range(69, 90):
     img = img.astype(np.float32).reshape((1, 1920 * 1080))
 
     # Initialization
-    if i == 69:
+    if i == 71:
         # Set mu to initial image in stack
         mu_gpu = gpuarray.to_gpu(img)
 
@@ -80,9 +80,10 @@ for i in range(69, 90):
     im = Image.open('../../thouis/grabber{}.ppm'.format(image_number))
     draw = ImageDraw.Draw(im)
     numAnom = len(output)
+    r = 30
     if numAnom > 0:
         for pt in output:
-            #Draw rectangles
+            # Draw rectangles
             draw.line((pt[1],pt[0],pt[1],pt[0]+r), fill=(255,120,0), width=4)
             draw.line((pt[1], pt[0]+r, pt[1]+r, pt[0]+r), fill=(255,120,0), width=4)
             draw.line((pt[1], pt[0], pt[1]+r, pt[0]), fill=(255,120,0), width=4)
