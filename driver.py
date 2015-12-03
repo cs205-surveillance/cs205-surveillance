@@ -67,7 +67,7 @@ for i in range(65, 90):
     rga_out_gpu = gpuarray.to_gpu(rga_result)
     
     # Run super pixel kernel
-    run_super_pixel(rga_out_gpu, spxl_out_gpu, block=(30, 30, 1), grid=(1080/30, 1920/30))
+    run_super_pixel(rga_out_gpu, spxl_out_gpu, block=(30, 30, 1), grid=(1,1))#grid=(1080/30, 1920/30))
     result = spxl_out_gpu.get().reshape((1080/30, 1920/30))
 
     # Show image, perhaps with pylab
