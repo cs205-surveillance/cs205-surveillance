@@ -61,7 +61,7 @@ for i in range(65, 90):
     # Set parameters for super pixel kernel
     tol = np.array([.75])
     tol_gpu = gpuarray.to_gpu(tol)
-    spxl_out = np.zeros((1920) * (1080), dtype=int)
+    spxl_out = np.zeros((1920/30) * (1080/30), dtype=int)
     spxl_out_gpu = gpuarray.to_gpu(spxl_out)
     
     print rga_out_gpu.get()
