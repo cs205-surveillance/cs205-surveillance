@@ -3,11 +3,21 @@
 
 __global__ void testsuperPixel(int *inputs, int *output)
 {
-	int blockId = blockIdx.x + blockIdx.y * gridDim.x; 
-	int globalId = blockId * (blockDim.x * blockDim.y) + (threadIdx.y * blockDim.x) + threadIdx.x;
+	
+    int globalIdX = blockIdx.x * blockDim.x + threadIdx.x;
+    int globalIdY = blockIdx.y * blockDim.y + threadIdx.y;
+    int globalId = (globalIdY * 4) + globalIdX;
+
+    int blockId = blockIdx.x + blockIdx.y * gridDim.x; 
+	//int globalId = blockId * (blockDim.x * blockDim.y) + (threadIdx.y * blockDim.x) + threadIdx.x;
 	int localId = (threadIdx.y * blockDim.x) + threadIdx.x;              
     
+    printf("%d\n", globalIdX);
+    __syncthreads();
+    printf("%d\n", globalIdY);
+    __syncthreads();
     printf("%d\n", globalId);
+    __syncthreads();
     printf("%d\n", blockId);
 
 
@@ -17,7 +27,7 @@ __global__ void testsuperPixel(int *inputs, int *output)
 
  //    // int globalIdX = blockIdx.x * blockDim.x + threadIdx.x;
  //    // int globalIdY = blockIdx.y * blockDim.y + threadIdx.y;
- //    // int globalId = (globalIdY * 8) + globalIdX;
+ //    // int globalId = (globalIdY * 4) + globalIdX;
 
 	// // Initialize local sum array to be filled in with values from our input array
 	// __shared__ int inputsToSum[8];
