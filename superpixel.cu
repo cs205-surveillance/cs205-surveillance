@@ -45,7 +45,7 @@ __global__ void superPixel(float *inputs, int *output)
 	/////////////////
     
 
-
+    // Each row in each block will sum up its row
 	if (localId % 30 == 0) {
     	
     	for (int i = localId + 1; i < localId + 30; i++) {
@@ -57,6 +57,7 @@ __global__ void superPixel(float *inputs, int *output)
 	
 	__syncthreads();
 
+	// First thread will sum all of the above sums to get single value
 	if (localId == 0) {
     	for (int i=0; i<900; i+= 30) {
     		inputsToSum[0] += inputsToSum[i];
