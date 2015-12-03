@@ -28,7 +28,6 @@ __global__ void superPixel(float *inputs, float *TOL, int *output)
 	// Global thread id
 	int globalId = blockId * (blockDim.x * blockDim.y) + (threadIdx.y * blockDim.x) + threadIdx.x;
 	//int globalId = threadIdx.x + (blockDim.x * ((gridDim.x * blockIdx.y) + blockIdx.x));
-	
 	//int globalIdX = blockIdx.x * blockDim.x + threadIdx.x;
     //int globalIdY = blockIdx.y * blockDim.y + threadIdx.y;
     //int globalId = (globalIdY * 1080) + globalIdX;   
@@ -67,10 +66,10 @@ __global__ void superPixel(float *inputs, float *TOL, int *output)
     if (localId == 0) {
     	float fraction = inputsToSum[0]/(blockDim.x*blockDim.y);
 	    if (fraction > TOL[0]) {
-	    	output[blockId] = 1;
+	    	output[blockId] = inputsToSum; //inputs to sum
 	    }
 	    else {
-	    	output[blockId] = 0;
+	    	output[blockId] = inputsToSum; //inputs to sum
 	    }
 	}
 	__syncthreads();
