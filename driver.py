@@ -19,10 +19,10 @@ run_super_pixel = superpixel_source.get_function('superPixel')
 filter_source = SourceModule(open('minimum_filter.cu').read())
 run_minimum_filter = filter_source.get_function('minimum_3x3')
 
-t0 = time()
+time_array = []
 # Loop over all images
-for i in range(71, 90):
-
+for i in range(69, 300):
+    
     # Number image according to file name
     image_number = str(i)
     while len(image_number) < 3:
@@ -31,9 +31,9 @@ for i in range(71, 90):
     # Load current image
     img = misc.imread('../../thouis/grabber{}.ppm'.format(image_number), flatten=True)
     img = img.astype(np.float32).reshape((1, 1920 * 1080))
-
+    t0 = time()
     # Initialization
-    if i == 71:
+    if i == 69:
         # Set mu to initial image in stack
         mu_gpu = gpuarray.to_gpu(img)
 
@@ -56,40 +56,32 @@ for i in range(71, 90):
     denoised_gpu = gpuarray.empty_like(rga_out_gpu)
     run_minimum_filter(rga_out_gpu, denoised_gpu, block=(3, 3, 1), grid=(1920, 1080))
 
-    # Show image
-    result = denoised_gpu.get()
-    print(result)
-    plt.imshow(result)
-    plt.show()
-
     # Set parameters for super pixel kernel
     spxl_out = np.zeros((1920 / 30) * (1080 / 30), dtype=int)
     spxl_out_gpu = gpuarray.to_gpu(spxl_out)
     
     # Run super pixel kernel
     run_super_pixel(denoised_gpu, spxl_out_gpu, block=(30, 30, 1), grid=(1920 / 30, 1080 / 30))
-    result = spxl_out_gpu.get()
-
-
-    # Show image
-    print result.reshape((1080 / 30, 1920 / 30))
-    plt.imshow(result.reshape((1080 / 30, 1920 / 30)))
-    plt.show()
     
-    # output = coordinates(result)
-    # im = Image.open('../../thouis/grabber{}.ppm'.format(image_number))
-    # draw = ImageDraw.Draw(im)
-    # numAnom = len(output)
-    # r = 30
-    # if numAnom > 0:
-    #     for pt in output:
-    #         # Draw rectangles
-    #         draw.line((pt[1],pt[0],pt[1],pt[0]+r), fill=(255,120,0), width=4)
-    #         draw.line((pt[1], pt[0]+r, pt[1]+r, pt[0]+r), fill=(255,120,0), width=4)
-    #         draw.line((pt[1], pt[0], pt[1]+r, pt[0]), fill=(255,120,0), width=4)
-    #         draw.line((pt[1]+r, pt[0], pt[1]+r, pt[0]+r), fill=(255,120,0), width=4)
+    result = spxl_out_gpu.get()
+    output = coordinates(result)
+    
+    t1 = time()
+    time_array.append(t1-t0)
+        
+    im = Image.open('../../thouis/grabber{}.ppm'.format(image_number))
+    draw = ImageDraw.Draw(im)
+    numAnom = len(output)
+    r = 30
+    if numAnom > 0:
+        for pt in output:
+            # Draw rectangles
+            draw.line((pt[1],pt[0],pt[1],pt[0]+r), fill=(255,120,0), width=4)
+            draw.line((pt[1], pt[0]+r, pt[1]+r, pt[0]+r), fill=(255,120,0), width=4)
+            draw.line((pt[1], pt[0], pt[1]+r, pt[0]), fill=(255,120,0), width=4)
+            draw.line((pt[1]+r, pt[0], pt[1]+r, pt[0]+r), fill=(255,120,0), width=4)
+    del draw
+    
+    im.save('cs205_images/parallel_output/tracker{}.png'.format(image_number))
 
-    # del draw
-    # im.show()
-# tend = time()
-# print "Per frame processing time: ", (tend-t0)/(90-69)
+print "Per frame processing time: ", np.mean(time_array)
