@@ -24,7 +24,8 @@ __global__ void testsuperPixel(int *inputs, int *output)
     // __syncthreads();
 
     for (size_t offset = blockDim.x/2; offset > 0 ; offset >>= 1) {
-        if (localId < offset) {    
+        if (localId < offset) {  
+        	printf("%d",offset);  
             inputsToSum[localId] += inputsToSum[localId + offset];
         }    
     }
