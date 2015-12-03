@@ -14,8 +14,9 @@ __global__ void testsuperPixel(int *inputs, int *output)
     inputsToSum[localId] = inputs[globalId];
 
     if (localId == 0) {
-        for (int i=1; i<4; i++) { 
+        for (int i=0; i<4; i++) { 
             printf("%d\n",inputsToSum[i]);
+            __syncthreads();
         }
     }
 
