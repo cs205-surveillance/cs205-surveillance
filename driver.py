@@ -7,6 +7,7 @@ import pycuda.gpuarray as gpuarray
 from pycuda.compiler import SourceModule
 from coordinates import coordinates
 from PIL import Image, ImageDraw
+from time import time
 
 # Import and compile CUDA kernels
 rga_source = SourceModule(open('run_gaussian_average.cu').read())
@@ -18,8 +19,9 @@ run_super_pixel = superpixel_source.get_function('superPixel')
 filter_source = SourceModule(open('minimum_filter.cu').read())
 run_minimum_filter = filter_source.get_function('minimum_3x3')
 
+t0 = time()
 # Loop over all images
-for i in range(65, 90):
+for i in range(69, 90):
 
     # Number image according to file name
     image_number = str(i)
@@ -88,4 +90,5 @@ for i in range(65, 90):
 
     del draw
     im.show()
-
+# tend = time()
+# print "Per frame processing time: ", (tend-t0)/(90-69)
