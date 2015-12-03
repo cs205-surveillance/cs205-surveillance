@@ -20,7 +20,7 @@ __global__ void testsuperPixel(int *inputs, int *output)
 
     if (localId == 0) {
     	for (int i=1; i<16; i++) {
-    		printf("%d",offset);  
+    		printf("%d",i);  
     		inputsToSum[0] = inputsToSum[0] + inputsToSum[i];
     	}
     }
