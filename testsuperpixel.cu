@@ -26,7 +26,6 @@ __global__ void testsuperPixel(int *inputs, int *output)
             inputsToSum[0] = inputsToSum[0] + inputsToSum[i];
             __syncthreads();
         }
-        
     }
     __syncthreads();
     if (localId == 0) {
