@@ -41,7 +41,7 @@ __global__ void superPixel(float *inputs, int *output)
 	if (globalId ==0) {
     	printf("%d",blockIdx.x + blockIdx.y * gridDim.x);
 		printf("%d",blockIdx.x + (blockIdx.y * gridDim.x));
-		printf("%d",blockId);
+		printf("%d\n",blockId);
     }
 
 
