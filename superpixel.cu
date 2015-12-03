@@ -90,7 +90,7 @@ __global__ void superPixel(float *inputs, int *output)
 	// }
 	// __syncthreads();
 
-	Ouput final value
+	//Ouput final value
     if (localId == 0) {
     	
 	    if (blockId % 2 ==0) {
