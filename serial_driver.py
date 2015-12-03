@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from time import time
-
+from coordinates import coordinates
 from PIL import Image, ImageDraw
 from scipy import misc
 from serial_run_gaussian_average import rga
