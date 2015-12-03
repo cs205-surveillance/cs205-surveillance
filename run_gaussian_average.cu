@@ -18,18 +18,15 @@ __global__ void run_gaussian_average(float *I, float *mu, float *sig2, float *OU
 
 	if (idx < SIZE) {
 
-		// Compare z-value with threshold
-		if (abs(I[idx] - mu[idx]) / sig2[idx] > threshold) {
+		// Compare z-value with threshold. If below, update pixel mean and variance 
+		if ((abs(I[idx] - mu[idx]) / sig2[idx]) - threshold < 0) {
 
-			OUT[idx] = 1;  // If true, mark OUT[idx] = 1
+			float d = abs(I[idx] - mu[idx]); // Deviation from mean
+			mu[idx] = rho * I[idx] + (1 - rho) * mu[idx]; // Update pixel
+			sig2[idx] = d*d * rho + (1 - rho) * sig2[idx]; // Update variance
 
-		} else {
+		} 
 
-			// Else, mark OUT[idx] = 0, adjust mean and variance
-			OUT[idx] = 0;
-			float d = abs(I[idx] - mu[idx]);
-			mu[idx] = rho * I[idx] + (1 - rho) * mu[idx];
-			sig2[idx] = d*d * rho + (1 - rho) * sig2[idx];
-		}
+		OUT[idx] = (abs(I[idx] - mu[idx]) / sig2[idx]) // Continuous output
 	}
 }
