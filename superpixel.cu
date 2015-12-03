@@ -69,7 +69,7 @@ __global__ void superPixel(float *inputs, float *TOL, float *output)
 	    	output[blockId] = fraction; //inputs to sum
 	    }
 	    else {
-	    	output[blockId] = fraction; //inputs to sum
+	    	output[blockId] = 0; //inputs to sum
 	    }
 	}
 	__syncthreads();
