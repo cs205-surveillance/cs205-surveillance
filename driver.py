@@ -77,7 +77,7 @@ for i in range(69, 90):
     # plt.show()
     
     output = coordinates(result)
-    im = Image.open('cs205_images/grabber{}.ppm'.format(image_number))
+    im = Image.open('../../thouis/grabber{}.ppm'.format(image_number))
     draw = ImageDraw.Draw(im)
     numAnom = len(output)
     if numAnom > 0:
