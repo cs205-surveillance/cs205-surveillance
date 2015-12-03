@@ -5,6 +5,7 @@ import pycuda.driver as cuda
 import matplotlib.pyplot as plt
 import pycuda.gpuarray as gpuarray
 from pycuda.compiler import SourceModule
+from coordinates.py import coordinates
 
 # Import and compile CUDA kernels
 rga_source = SourceModule(open('run_gaussian_average.cu').read())
@@ -62,10 +63,12 @@ for i in range(65, 90):
     
     # Run super pixel kernel
     run_super_pixel(denoised_gpu, spxl_out_gpu, block=(30, 30, 1), grid=(1920 / 30, 1080 / 30))
-    result = spxl_out_gpu.get().reshape((1080 / 30, 1920 / 30))
+    result = spxl_out_gpu.get()
 
     # Show image
-    print result
-    plt.imshow(result)
+    print result.reshape((1080 / 30, 1920 / 30))
+    plt.imshow(result.reshape((1080 / 30, 1920 / 30)))
     plt.show()
+
+    print coordinates(result)
 
