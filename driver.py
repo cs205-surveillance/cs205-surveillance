@@ -68,11 +68,13 @@ for i in range(65, 90):
     run_super_pixel(denoised_gpu, spxl_out_gpu, block=(30, 30, 1), grid=(1920 / 30, 1080 / 30))
     result = spxl_out_gpu.get()
 
-    # Show image
-    print result.reshape((1080 / 30, 1920 / 30))
-    plt.imshow(result.reshape((1080 / 30, 1920 / 30)))
-    plt.show()
 
+    # Show image
+    # print result.reshape((1080 / 30, 1920 / 30))
+    # plt.imshow(result.reshape((1080 / 30, 1920 / 30)))
+    # plt.show()
+    
+    output = coordinates(result)
     im = Image.open('cs205_images/grabber{}.ppm'.format(image_number))
     draw = ImageDraw.Draw(im)
     numAnom = len(output)
