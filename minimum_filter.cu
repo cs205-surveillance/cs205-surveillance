@@ -1,5 +1,3 @@
-#define min(a, b) (((a) < (b)) ? (a) : (b))
-
 __global__ void minimum_3x3(float *in_values, float *out_values) {
 
   // Constants
