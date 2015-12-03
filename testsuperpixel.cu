@@ -1,4 +1,6 @@
 
+#include <stdio.h>
+
 __global__ void testsuperPixel(int *inputs, int *output)
 {
 	int blockId = blockIdx.x + blockIdx.y * gridDim.x; 
