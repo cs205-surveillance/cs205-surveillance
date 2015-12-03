@@ -18,9 +18,7 @@ def rga(I, thres, mu, sig2, rho=0.05, cont=False):
 	sig2[~anom_mask] = d * d * rho + (1-rho)*sig2[~anom_mask]
 	
 	if cont: # Check if you want continuous values saved rather than binary values.
-		temp2 = temp - thres
-		temp2[temp2 < 0] = 0
-		OUT = np.copy(temp2)
+		OUT = np.copy(temp)
 	else: # Create binary mask on image based on any anomaly detected
 		temp[~anom_mask] = 0
 		temp[anom_mask] = 1

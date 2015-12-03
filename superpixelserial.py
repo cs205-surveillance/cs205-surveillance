@@ -61,7 +61,7 @@ def superPixel(incoords,TOL,width=15,height=15):
             n+=1
     
     #calculate percent of ones in each superpixel
-    super_pixel /= (block_dim_r*block_dim_c)        
+    # super_pixel /= (block_dim_r*block_dim_c)        
     
     #assign 1 if percent > TOL, else assign 0
     output_intermediate = np.zeros(N)
