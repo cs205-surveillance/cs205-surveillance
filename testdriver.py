@@ -19,7 +19,7 @@ spxl_out_gpu = gpuarray.to_gpu(spxl_out)
 
 # Run super pixel kernel
 # for grid put the number of blocks across and then blocks down.
-run_super_pixel(test_array_gpu, spxl_out_gpu, block=(2, 2, 1), grid=(4,2))
+run_super_pixel(test_array_gpu, spxl_out_gpu, block=(2, 2, 1), grid=(2,1))
 result = spxl_out_gpu.get()#.reshape((8,16))
 
 # Show image, perhaps with pylab
