@@ -6,7 +6,7 @@ __global__ void testsuperPixel(float *inputs, int *output)
 	int localId = (threadIdx.y * blockDim.x) + threadIdx.x;              
 
 	// Initialize local sum array to be filled in with values from our input array
-	__shared__ float inputsToSum[4];
+	__shared__ float inputsToSum[16];
 
 	// Assign values from input value array to our local sum array
     inputsToSum[localId] = inputs[globalId];
@@ -17,7 +17,7 @@ __global__ void testsuperPixel(float *inputs, int *output)
 	/////////////////
 
     if (localId == 0) {
-    	for (int i=1; i<4; i++) {
+    	for (int i=1; i<16; i++) {
     		inputsToSum[0] = inputsToSum[0] + inputsToSum[i];
     	}
     }

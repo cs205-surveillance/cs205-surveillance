@@ -12,7 +12,7 @@ run_super_pixel = test_superpixel_source.get_function('testsuperPixel')
 # filter_source = SourceModule(open('minimum_filter.cu').read())
 # run_minimum_filter = filter_source.get_function('minimum_3x3')
 
-test_array = np.array([[0,1],[0,1]])
+test_array = np.array([[0,1,0,1],[0,1,0,1],[0,1,0,1],[0,1,0,1])
 test_array_gpu = gpuarray.to_gpu(test_array)
 print test_array
 
@@ -20,8 +20,8 @@ spxl_out = np.zeros(1, dtype=int)
 spxl_out_gpu = gpuarray.to_gpu(spxl_out)
 
 # Run super pixel kernel
-run_super_pixel(test_array_gpu, spxl_out_gpu, block=(2, 2, 1), grid=(1, 0))
-result = spxl_out_gpu.get().reshape((1080/30, 1920/30))
+run_super_pixel(test_array_gpu, spxl_out_gpu, block=(2, 2, 1), grid=(2, 2))
+result = spxl_out_gpu.get().reshape((2,2))
 
 # Show image, perhaps with pylab
 print result
