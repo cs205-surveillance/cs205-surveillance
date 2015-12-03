@@ -52,8 +52,8 @@ for i in range(65, 90):
     #mu_result = mu_gpu.get().reshape((1080, 1920))
     #rga_result = rga_out_gpu.get().reshape((1080, 1920))
 
-    plt.imshow(rga_result)
-    plt.show()
+    #plt.imshow(rga_result)
+    #plt.show()
 
     # Run 3x3 Minimum filter to remove speckle noise
     #run_minimum_filter()
@@ -68,12 +68,8 @@ for i in range(65, 90):
     run_super_pixel(rga_out_gpu,tol_gpu, spxl_out_gpu, block=(30,30,1), grid=(1080/30,1920/30))
     result = spxl_out_gpu.get().reshape((1080/30,1920/30))
 
-    print result
-    
-
-
     # Show image, perhaps with pylab
-    # print result
-    # plt.imshow(result)
-    # plt.show()
+    print result
+    plt.imshow(result)
+    plt.show()
 
