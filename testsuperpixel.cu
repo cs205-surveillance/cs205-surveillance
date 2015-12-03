@@ -10,7 +10,7 @@ __global__ void testsuperPixel(int *inputs, int *output)
     int blockId = blockIdx.x + blockIdx.y * gridDim.x; 
 	int localId = (threadIdx.y * blockDim.x) + threadIdx.x;              
     
-    __shared__ int inputsToSum[8];
+    __shared__ int inputsToSum[4];
     inputsToSum[localId] = inputs[globalId];
 
     // if (blockId == 2) {
@@ -29,8 +29,7 @@ __global__ void testsuperPixel(int *inputs, int *output)
     if (localId == 0) {
         if (inputsToSum[0] > 190) { 
             output[blockId] = inputsToSum[0];
-        }
-        
+        }  
     }
            
 
