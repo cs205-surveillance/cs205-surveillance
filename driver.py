@@ -1,10 +1,10 @@
-import pycuda.driver as cuda
-import pycuda.autoinit
-from pycuda.compiler import SourceModule
-import pycuda.gpuarray as gpuarray
 import numpy as np
 from scipy import misc
+import pycuda.autoinit
+import pycuda.driver as cuda
 import matplotlib.pyplot as plt
+import pycuda.gpuarray as gpuarray
+from pycuda.compiler import SourceModule
 
 # Import and compile CUDA kernels
 rga_source = SourceModule(open('run_gaussian_average.cu').read())
@@ -15,7 +15,6 @@ run_super_pixel = superpixel_source.get_function('superPixel')
 
 #filter_source = SourceModule(open('minimum_filter.cu').read())
 #run_minimum_filter = filter_source.get_function('minimum_3x3')
-
 
 # Loop over all images
 for i in range(65, 90):
