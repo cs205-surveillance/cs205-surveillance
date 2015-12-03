@@ -72,6 +72,6 @@ for i in range(65, 90):
 
     # Show image, perhaps with pylab
     print result
-    plt.imshow(result)
-    plt.show()
+    #plt.imshow(result)
+    #plt.show()
 
