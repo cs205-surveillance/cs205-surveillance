@@ -49,7 +49,7 @@ for i in range(65, 90):
     # Copy back (for testing)
     # sig2_result = sig2_gpu.get()
     # mu_result = mu_gpu.get().reshape((1080, 1920))
-    rga_result = rga_out_gpu.get().reshape((1080, 1920))
+    rga_result = np.array([rga_out_gpu.get()]).reshape((1080, 1920))
 
     print rga_result
     plt.imshow(rga_result)
