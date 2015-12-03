@@ -42,7 +42,6 @@ __global__ void superPixel(float *inputs, int *output)
     	printf("%d",globalId);
 		printf("%d",localId);
 		printf("%d",blockId);
-    	printf("%d",inputsToSum[i]);
     }
 
 
