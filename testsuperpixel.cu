@@ -18,20 +18,21 @@ __global__ void testsuperPixel(int *inputs, int *output)
 	// COMPUTATION //
 	/////////////////
 
-    // if (localId == 0) {
-    // 	for (int i=1; i<16; i++) {
-    // 		inputsToSum[0] = inputsToSum[0] + inputsToSum[i];
-    // 	}
-    // }
-    // __syncthreads();
-
-    for (size_t offset = blockDim.x/2; offset > 0 ; offset >>= 1) {
-        if (localId < offset) {  
-        	printf("%d",offset);  
-            inputsToSum[localId] += inputsToSum[localId + offset];
-        }    
+    if (localId == 0) {
+    	for (int i=1; i<16; i++) {
+    		printf("%d",offset);  
+    		inputsToSum[0] = inputsToSum[0] + inputsToSum[i];
+    	}
     }
     __syncthreads();
+
+    // for (size_t offset = blockDim.x/2; offset > 0 ; offset >>= 1) {
+    //     if (localId < offset) {  
+    //     	printf("%d",offset);  
+    //         inputsToSum[localId] += inputsToSum[localId + offset];
+    //     }    
+    // }
+    // __syncthreads();
 
 	if (localId == 0) {
     	output[blockId] = inputsToSum[0];
