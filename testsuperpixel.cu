@@ -14,7 +14,7 @@ __global__ void testsuperPixel(int *inputs, int *output)
     
 
     if (globalId == 4) {
-        printf("%d",inputs[globalIdX]);
+        printf("%d",inputs[globalIdX,globalIdY]);
 
     }
 
