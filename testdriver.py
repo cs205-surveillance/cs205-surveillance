@@ -16,7 +16,7 @@ test_array = np.array([[0,1],[0,1]])
 test_array_gpu = gpuarray.to_gpu(test_array)
 print test_array
 
-spxl_out = np.zeros(1), dtype=int)
+spxl_out = np.zeros(1, dtype=int)
 spxl_out_gpu = gpuarray.to_gpu(spxl_out)
 
 # Run super pixel kernel
