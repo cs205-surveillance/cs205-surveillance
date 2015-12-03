@@ -45,21 +45,21 @@ __global__ void superPixel(float *inputs, int *output)
 	/////////////////
     
 
-    for (int j = 0; j<30; j++) {
-    	
-    	if (localId == 0 + j*30) {
-	    	
-	    	for (int i=j*30+1; i < j*30 + 30; i++) {
 
-	    		inputsToSum[j] = inputsToSum[j] + inputsToSum[i];
-	    		__syncthreads();
-	    	}
-	    }
-	}
+	if (localId % 30 == 0) {
+    	
+    	for (int i = localId + 1; i < localId + 30; i++) {
+
+    		inputsToSum[localId] += inputsToSum[i];
+    		
+    	}
+    }
+	
+	__syncthreads();
 
 	if (localId == 0) {
-    	for (int i=1; i<900; i++) {
-    		inputsToSum[0] = inputsToSum[0] + inputsToSum[i];
+    	for (int i=0; i<900; i+= 30) {
+    		inputsToSum[0] += inputsToSum[i];
     	}
     }
 
@@ -71,7 +71,7 @@ __global__ void superPixel(float *inputs, int *output)
     // }
 
     if (localId == 0) {
-        if (inputsToSum[0] > 660) { 
+        if (inputsToSum[0] > 700) { 
             output[blockId] = 1;
         }  
         else{
