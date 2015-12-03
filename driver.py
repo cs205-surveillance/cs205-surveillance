@@ -6,15 +6,15 @@ import numpy as np
 from scipy import misc
 import matplotlib.pyplot as plt
 
-# Import and compile CUDA kernels for 3 functions
+# Import and compile CUDA kernels
 rga_source = SourceModule(open('run_gaussian_average.cu').read())
 run_gaussian_average = rga_source.get_function('run_gaussian_average')
 
 superpixel_source = SourceModule(open('superpixel.cu').read())
 run_super_pixel = superpixel_source.get_function('superPixel')
 
-filter_source = SourceModule(open('minimum_filter.cu').read())
-run_minimum_filter = filter_source.get_function('minimum_3x3')
+#filter_source = SourceModule(open('minimum_filter.cu').read())
+#run_minimum_filter = filter_source.get_function('minimum_3x3')
 
 
 # Loop over all images
