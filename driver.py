@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import pycuda.gpuarray as gpuarray
 from pycuda.compiler import SourceModule
 from coordinates import coordinates
+from PIL import Image, ImageDraw
 
 # Import and compile CUDA kernels
 rga_source = SourceModule(open('run_gaussian_average.cu').read())
@@ -70,5 +71,16 @@ for i in range(65, 90):
     plt.imshow(result.reshape((1080 / 30, 1920 / 30)))
     plt.show()
 
-    print coordinates(result)
+    im = Image.open('cs205_images/grabber{}.ppm'.format(image_number))
+    draw = ImageDraw.Draw(im)
+    numAnom = len(output)
+    if numAnom > 0:
+        for pt in output:
+            #Draw rectangles
+            draw.line((pt[1],pt[0],pt[1],pt[0]+r), fill=(255,120,0), width=4)
+            draw.line((pt[1], pt[0]+r, pt[1]+r, pt[0]+r), fill=(255,120,0), width=4)
+            draw.line((pt[1], pt[0], pt[1]+r, pt[0]), fill=(255,120,0), width=4)
+            draw.line((pt[1]+r, pt[0], pt[1]+r, pt[0]+r), fill=(255,120,0), width=4)
 
+    del draw
+    im.show()
