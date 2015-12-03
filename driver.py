@@ -51,7 +51,7 @@ for i in range(65, 90):
     
     # Run 3x3 Minimum filter to remove speckle noise
     denoised_gpu = gpuarray.empty_like(rga_out_gpu)
-    run_minimum_filter(rga_out_gpu, denoised_gpu, block=(3, 3, 1))
+    run_minimum_filter(rga_out_gpu, denoised_gpu, block=(3, 3, 1), grid=(1920, 1080))
 
     # Show image
     result = denoised_gpu.get()
