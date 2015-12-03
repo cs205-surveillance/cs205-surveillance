@@ -37,7 +37,7 @@ __global__ void testsuperPixel(int *inputs, int *output)
     // }
     // __syncthreads();
 
-	if (threadIdx.x == 0) & (threadIdx.y ==0) {
+	if (threadIdx.x == 0 && threadIdx.y ==0) {
         printf("%d\n", threadIdx.x );
         printf("%d\n", threadIdx.y );
         printf("%d\n", blockDim.x );
