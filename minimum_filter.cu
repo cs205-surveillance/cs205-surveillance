@@ -1,11 +1,10 @@
 // 3x3 median filter
 __global__ void minimum_3x3(float *in_values,
                             float *out_values,
-                            __shared__ float *buffer,
                             int w, int h,
                             int buf_w, int buf_h,
                             const int halo) {
-  //__shared__ float *buffer[buf_w * buf_h];
+  __shared__ float buffer[25];
 
   // Global position of output pixel
   const int x = blockIdx.x * blockDim.x + threadIdx.x;
