@@ -25,20 +25,12 @@ __global__ void superPixel(float *inputs, int *output)
 	// gridDim.x gives the number of blocks in a grid (x direction)
 	// blockDim.x * gridDim.x gives the number of threads in a grid (x direction)
 	
-	// Block id
-	int blockId = blockIdx.x + (blockIdx.y * gridDim.x); 
-	
-	// Global thread id
-	int globalId = blockId * (blockDim.x * blockDim.y) + (threadIdx.y * blockDim.x) + threadIdx.x;
-	//int globalId = threadIdx.x + (blockDim.x * ((gridDim.x * blockIdx.y) + blockIdx.x));
-	//int globalIdX = blockIdx.x * blockDim.x + threadIdx.x;
-    //int globalIdY = blockIdx.y * blockDim.y + threadIdx.y;
-    //int globalId = (globalIdY * 1080) + globalIdX;   
-
-	// Local thread id
-	int localId = (threadIdx.y * blockDim.x) + threadIdx.x;              
-
-
+	//these index expressions seemingly work
+    int globalIdX = blockIdx.x * blockDim.x + threadIdx.x;
+    int globalIdY = blockIdx.y * blockDim.y + threadIdx.y;
+    int globalId = (globalIdY * 4) + globalIdX;
+    int blockId = blockIdx.x + blockIdx.y * gridDim.x; 
+	int localId = (threadIdx.y * blockDim.x) + threadIdx.x;               
 
 
 	// Initialize local sum array to be filled in with values from our input array
@@ -57,48 +49,17 @@ __global__ void superPixel(float *inputs, int *output)
     		inputsToSum[0] = inputsToSum[0] + inputsToSum[i];
     	}
     }
-    __syncthreads();
-
-    //print statements
-    if (globalId == 901) {
-    	printf("%d\n",globalId);
-		printf("%d\n",blockId);
-		printf("%d\n",localId);
-		for (int j=0;j < (sizeof (inputsToSum) /sizeof (inputsToSum[0]));j++) {
-    		printf("%lf\n",inputsToSum[j]);
-    	}
-    }
     
-    //Add up all values in local group using binary reduction
-	// for (size_t offset = blockDim.x/2; offset > 0 ; offset >>= 1) {
- //        if (localId < offset) {    
- //            inputsToSum[localId] += inputsToSum[localId + offset];
- //        }    
- //    }
- //    __syncthreads();
-
-    //Ouput final value
+    __syncthreads();
+    
     if (localId == 0) {
-    	float fraction = inputsToSum[0]/(900.0);
-	    if (fraction > .75) {
-	    	output[blockId] = 1; //inputs to sum
-	    }
-	    else {
-	    	output[blockId] = 0; //inputs to sum
-	    }
-	}
-	__syncthreads();
+        if (inputsToSum[0] > 700) { 
+            output[blockId] = 1;
+        }  
+        else{
+        	output[blockId] = 0;
+        }
+    }
 
-	// //Ouput final value
- //    if (localId == 0) {
-    	
-	//     if (blockId % 2 ==0) {
-	//     	output[blockId] = 1; //inputs to sum
-	//     }
-	//     else {
-	//     	output[blockId] = 0; //inputs to sum
-	//     }
-	// }
-	// __syncthreads();
 }
 
