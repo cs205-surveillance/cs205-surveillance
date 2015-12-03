@@ -1,9 +1,7 @@
-#include "minimum9.h"
-
 // 3x3 median filter
 __global__ void minimum_3x3(float *in_values,
                             float *out_values,
-                            __local float *buffer,
+                            __shared__ float *buffer,
                             int w, int h,
                             int buf_w, int buf_h,
                             const int halo) {
@@ -51,9 +49,20 @@ __global__ void minimum_3x3(float *in_values,
   __syncthreads();
 
   if ((y < h) && (x < w)) {
-    out_values[y * w + x] = minimum9(buffer[(buf_y - 1) * buf_w + (buf_x - 1)], buffer[(buf_y - 1) * buf_w + buf_x], buffer[(buf_y - 1) * buf_w + (buf_x + 1)],
-                                     buffer[buf_y * buf_w       + (buf_x - 1)], buffer[buf_y * buf_w       + buf_x], buffer[buf_y * buf_w       + (buf_x + 1)],
-                                     buffer[(buf_y + 1) * buf_w + (buf_x - 1)], buffer[(buf_y + 1) * buf_w + buf_x], buffer[(buf_y + 1) * buf_w + (buf_x + 1)]);
+
+    float s0 = buffer[(buf_y - 1) * buf_w + (buf_x - 1)],
+    float s1 = buffer[(buf_y - 1) * buf_w + buf_x],
+    float s2 = buffer[(buf_y - 1) * buf_w + (buf_x + 1)],
+    float s3 = buffer[buf_y * buf_w + (buf_x - 1)],
+    float s4 = buffer[buf_y * buf_w + buf_x],
+    float s5 = buffer[buf_y * buf_w + (buf_x + 1)],
+    float s6 = buffer[(buf_y + 1) * buf_w + (buf_x - 1)],
+    float s7 = buffer[(buf_y + 1) * buf_w + buf_x],
+    float s8 = buffer[(buf_y + 1) * buf_w + (buf_x + 1)]);
+
+    out_values[y * w + x] = min(s0, min(s1, min(s2, min(s3, min(s4, min(s5, min(s6, min(s7, s8))))))))
+
+
   }
 }
 
