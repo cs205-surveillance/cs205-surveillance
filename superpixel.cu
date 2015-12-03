@@ -38,10 +38,10 @@ __global__ void superPixel(float *inputs, int *output)
 	// Local thread id
 	int localId = (threadIdx.y * blockDim.x) + threadIdx.x;              
 
-	if (globalId ==0) {
-    	printf("%d",blockIdx.x + blockIdx.y * gridDim.x);
-		printf("%d",blockIdx.x + (blockIdx.y * gridDim.x));
-		printf("%d\n",blockId);
+	if (globalId == 901) {
+    	printf("%d",globalId);
+		printf("%d",blockId);
+		printf("%d\n",localId);
     }
 
 
