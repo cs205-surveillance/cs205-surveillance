@@ -47,7 +47,6 @@ __global__ void superPixel(int *inputs, float *TOL, int *output)
     		sum[0] += sum[i];
 
     	}
-
     }
     __syncthreads();
     // Add up all values in local group using binary reduction
