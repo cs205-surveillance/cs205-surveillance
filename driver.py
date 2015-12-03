@@ -47,7 +47,11 @@ for i in range(65, 90):
 
     # Reshape RGA output from 1D to 2D
     rga_out_gpu = rga_out_gpu.reshape(1080,1920)
-    
+    result = rga_out_gpu.get()
+
+    print result
+    plt.imshow(result)
+    plt.show()
     # Run 3x3 Minimum filter to remove speckle noise
     #run_minimum_filter()
 
