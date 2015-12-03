@@ -13,8 +13,8 @@ run_gaussian_average = rga_source.get_function('run_gaussian_average')
 superpixel_source = SourceModule(open('superpixel.cu').read())
 run_super_pixel = superpixel_source.get_function('superPixel')
 
-# filter_source = SourceModule(open('minimum_filter.cu').read())
-# run_minimum_filter = filter_source.get_function('minimum_3x3')
+filter_source = SourceModule(open('minimum_filter.cu').read())
+run_minimum_filter = filter_source.get_function('minimum_3x3')
 
 # Loop over all images
 for i in range(65, 90):
@@ -26,13 +26,14 @@ for i in range(65, 90):
 
     # Load current image
     img = misc.imread('../../thouis/grabber{}.ppm'.format(image_number), flatten=True)
-    img = img.astype(np.float32).reshape((1,1920*1080))
+    img = img.astype(np.float32).reshape((1, 1920 * 1080))
 
+    # Initialization
     if i == 65:
-        # As an initialization, set mu to initial image in stack
+        # Set mu to initial image in stack
         mu_gpu = gpuarray.to_gpu(img)
 
-        # As an initialization, set variance to 1 for each pixel
+        # Set variance to 1 for each pixel
         sig2_gpu = gpuarray.zeros_like(mu_gpu) + 1
 
         # Initialize the output image
@@ -42,28 +43,30 @@ for i in range(65, 90):
     img_gpu = gpuarray.to_gpu(img)
 
     # Run Gaussian Average kernel
-    run_gaussian_average(img_gpu, mu_gpu, sig2_gpu, rga_out_gpu, block=(15, 1, 1), grid=(1920*1080/15, 1))
+    run_gaussian_average(img_gpu, mu_gpu, sig2_gpu, rga_out_gpu, block=(15, 1, 1), grid=(1920 * 1080 / 15, 1))
 
     # Reshape RGA output from 1D to 2D
-    rga_out_gpu = rga_out_gpu.reshape(1080,1920)
+    rga_out_gpu = rga_out_gpu.reshape(1080, 1920)
     result = rga_out_gpu.get()
 
+    # Show image
     print result
     plt.imshow(result)
     plt.show()
     
     # Run 3x3 Minimum filter to remove speckle noise
-    #run_minimum_filter()
+    denoised_gpu = gpuarray.empty_like(rga_out_gpu)
+    run_minimum_filter(rga_out_gpu, denoised_gpu)
 
     # Set parameters for super pixel kernel
-    spxl_out = np.zeros((1920/30)*(1080/30), dtype=int)
+    spxl_out = np.zeros((1920 / 30) * (1080 / 30), dtype=int)
     spxl_out_gpu = gpuarray.to_gpu(spxl_out)
     
     # Run super pixel kernel
-    run_super_pixel(rga_out_gpu, spxl_out_gpu, block=(30, 30, 1), grid=(1920/30, 1080/30))
-    result = spxl_out_gpu.get().reshape((1080/30, 1920/30))
+    run_super_pixel(denoised_gpu, spxl_out_gpu, block=(30, 30, 1), grid=(1920 / 30, 1080 / 30))
+    result = spxl_out_gpu.get().reshape((1080 / 30, 1920 / 30))
 
-    # Show image, perhaps with pylab
+    # Show image
     print result
     plt.imshow(result)
     plt.show()

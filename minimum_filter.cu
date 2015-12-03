@@ -1,12 +1,16 @@
 #define min(a, b) (((a) < (b)) ? (a) : (b))
 
-__global__ void minimum_3x3(float *in_values,
-                            float *out_values,
-                            int w, int h,
-                            int buf_w, int buf_h,
-                            const int halo) {
+__global__ void minimum_3x3(float *in_values, float *out_values) {
+
+  // Constants
+  const int w = 1920;
+  const int h = 1080;
+  const int buf_w = 5;
+  const int buf_h = 5;
+  const int halo = 1;
+
   // Create buffer per block
-  __shared__ float buffer[25];
+  __shared__ float buffer[buf_w * buf_h];
 
   // Global position of output pixel
   const int x = blockIdx.x * blockDim.x + threadIdx.x;
@@ -27,7 +31,6 @@ __global__ void minimum_3x3(float *in_values,
 
   // Local index within work-group
   const int localIndex = ly * blockDim.x + lx;
-
 
   if ((y < h) && (x < w)) { 
     if (localIndex < buf_w)
@@ -65,4 +68,3 @@ __global__ void minimum_3x3(float *in_values,
     out_values[y * w + x] = min(s0, min(s1, min(s2, min(s3, min(s4, min(s5, min(s6, min(s7, s8))))))));
   }
 }
-
