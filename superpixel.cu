@@ -30,7 +30,7 @@ __global__ void superPixel(int *inputs, float *TOL, int *output)
 	//int globalId = threadIdx.x + (blockDim.x * ((gridDim.x * blockIdx.y) + blockIdx.x));
 	int globalIdX = blockIdx.x * blockDim.x + threadIdx.x;
  	int globalIdY = blockIdx.y * blockDim.y + threadIdx.y;
- 	int globalId = (globalIdy * 1080) + globalIdX;   
+ 	int globalId = (globalIdY * 1080) + globalIdX;   
 
 	// Local thread id
 	int localId = (threadIdx.y * blockDim.x) + threadIdx.x;              
@@ -46,19 +46,19 @@ __global__ void superPixel(int *inputs, float *TOL, int *output)
 	// COMPUTATION //
 	/////////////////
 
-    if (localId == 0) {
-    	for (int i = 0; i < 30*30; i++) {
-    		sum[0] += sum[i];
-    	}
+    // if (localId == 0) {
+    // 	for (int i = 0; i < 30*30; i++) {
+    // 		sum[0] += sum[i];
+    // 	}
+    // }
+    // __syncthreads();
+    //Add up all values in local group using binary reduction
+	for (size_t offset = blockDim.x/2; offset > 0 ; offset >>= 1) {
+        if (localId < offset) {    
+            sum[localId] += sum[localId + offset];
+        }
+        __syncthreads();
     }
-    __syncthreads();
-    // Add up all values in local group using binary reduction
-	// for (size_t offset = blockDim.x/2; offset > 0 ; offset >>= 1) {
- //        if (localId < offset) {    
- //            sum[localId] += sum[localId + offset];
- //        }
- //        __syncthreads();
- //    }
     
     // Ouput final value
     if (localId == 0) {
