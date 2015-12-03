@@ -1,5 +1,5 @@
 
-__global__ void superPixel(float *inputs, int *output)
+__global__ void superPixel(float *inputs, float *output)
 {
 	////////////////////
 	// KERNEL OVERVIEW /
