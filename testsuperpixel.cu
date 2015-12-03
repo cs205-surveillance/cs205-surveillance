@@ -1,5 +1,5 @@
 
-__global__ void superPixel(float *inputs, int *output)
+__global__ void testsuperPixel(float *inputs, int *output)
 {
 	int blockId = blockIdx.x + blockIdx.y * gridDim.x; 
 	int globalId = blockId * (blockDim.x * blockDim.y) + (threadIdx.y * blockDim.x) + threadIdx.x;
