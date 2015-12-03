@@ -1,4 +1,4 @@
-__global__ void superPixel(float *inputs, float *output)
+__global__ void superPixel(float *inputs, int *output)
 {
 	////////////////////
 	// KERNEL OVERVIEW /
@@ -48,12 +48,10 @@ __global__ void superPixel(float *inputs, float *output)
 
     if (localId == 0) {
     	for (int i=1; i<900;i++) {
-
     	inputsToSum[0] += inputsToSum[i];
-    	
     	}
     }
-
+    
     //Add up all values in local group using binary reduction
 	// for (size_t offset = blockDim.x/2; offset > 0 ; offset >>= 1) {
  //        if (localId < offset) {    
