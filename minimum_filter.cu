@@ -1,14 +1,14 @@
 // 3x3 median filter
 __global__ void minimum_3x3(float *in_values,
                             float *out_values,
-                            __shared__ float *buffer,
                             int w, int h,
                             int buf_w, int buf_h,
                             const int halo) {
+  __shared__ float *buffer[buf_w * buf_h];
 
   // Global position of output pixel
-  const int x  = get_global_id(0);
-  const int y = get_global_id(1);
+  const int x = blockIdx.x * blockDim.x + threadIdx.x;
+  const int y = blockIdx.y * blockDim.y + threadIdx.y;
 
   // Local position relative to (0, 0) in workgroup
   const int lx = threadIdx.x;
@@ -24,7 +24,7 @@ __global__ void minimum_3x3(float *in_values,
   const int buf_y = ly + halo;
 
   // Local index within work-group
-  const int localIndex = ly * get_local_size(0) + lx;
+  const int localIndex = ly * blockDim.x + lx;
 
 
   if ((y < h) && (x < w)) { 
