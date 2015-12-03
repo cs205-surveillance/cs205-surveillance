@@ -67,5 +67,6 @@ __global__ void superPixel(int *inputs, float *TOL, int *output)
 	    	output[blockId] = 0;
 	    }
 	}
+	__syncthreads();
 }
 
