@@ -32,7 +32,7 @@ __global__ void superPixel(int *inputs, float *TOL, int *output)
 	int localId = (threadIdx.y * blockDim.x) + threadIdx.x;              
 
 	// Initialize local sum array to be filled in with values from our input array
-	__shared__ int sum[1920/30 * 1080/30];
+	__shared__ int sum[30*30];
 
 	// Assign values from input value array to our local sum array
     sum[localId] = inputs[globalId]; 
@@ -42,13 +42,21 @@ __global__ void superPixel(int *inputs, float *TOL, int *output)
 	// COMPUTATION //
 	/////////////////
 
-    // Add up all values in local group using binary reduction
-	for (size_t offset = blockDim.x/2; offset > 0 ; offset >>= 1) {
-        if (localId < offset) {    
-            sum[localId] += sum[localId + offset];
-        }
-        __syncthreads();
+    if (localId == 0) {
+    	for (int i ==1;i<30*30;i++) {
+    		sum[0] += sum[i];
+
+    	}
+
     }
+
+    // Add up all values in local group using binary reduction
+	// for (size_t offset = blockDim.x/2; offset > 0 ; offset >>= 1) {
+ //        if (localId < offset) {    
+ //            sum[localId] += sum[localId + offset];
+ //        }
+ //        __syncthreads();
+ //    }
     
     // Ouput final value
     if (localId == 0) {
