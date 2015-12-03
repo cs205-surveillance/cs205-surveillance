@@ -27,7 +27,11 @@ __global__ void superPixel(int *inputs, float *TOL, int *output)
 	
 	// Global thread id
 	//int globalId = blockId * (blockDim.x * blockDim.y) + (threadIdx.y * blockDim.x) + threadIdx.x;
-	int globalId = threadIdx.x + (blockDim.x * ((gridDim.x * blockIdx.y) + blockIdx.x));
+	//int globalId = threadIdx.x + (blockDim.x * ((gridDim.x * blockIdx.y) + blockIdx.x));
+	int globalIdX = blockIdx.x * blockDim.x + threadIdx.x;
+ 	int globalIdY = blockIdx.y * blockDim.y + threadIdx.y;
+ 	int globalId = (globalIdy * 1080) + globalIdX;   
+
 	// Local thread id
 	int localId = (threadIdx.y * blockDim.x) + threadIdx.x;              
 
