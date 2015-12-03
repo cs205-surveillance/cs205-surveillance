@@ -9,7 +9,7 @@ __global__ void testsuperPixel(int *inputs, int *output)
     int globalIdX = blockIdx.x * blockDim.x + threadIdx.x;
     int globalIdY = blockIdx.y * blockDim.y + threadIdx.y;
     int globalId = (globalIdY * 8) + globalIdX;
-
+    int idx = threadIdx.x + blockIdx.x * blockDim.x
 
 	// Initialize local sum array to be filled in with values from our input array
 	__shared__ int inputsToSum[16];
@@ -40,8 +40,9 @@ __global__ void testsuperPixel(int *inputs, int *output)
 	if (threadIdx.x == 0 && threadIdx.y == 0) {
         // printf("%d\n", threadIdx.x );
         // printf("%d\n", threadIdx.y );
-        printf("%d\n", blockDim.y );
-        // printf("%d\n", blockIdx.x );
+        //printf("%d\n", blockDim.y );
+        printf("%d\n", globalId );
+        printf("%d\n", idx );
         // printf("%d\n", blockIdx.y );
     	output[blockId] = inputsToSum[0];
     }
