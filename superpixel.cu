@@ -29,47 +29,40 @@ __global__ void superPixel(float *inputs, float *TOL, int *output)
 	int globalId = blockId * (blockDim.x * blockDim.y) + (threadIdx.y * blockDim.x) + threadIdx.x;
 	//int globalId = threadIdx.x + (blockDim.x * ((gridDim.x * blockIdx.y) + blockIdx.x));
 	
-	// int globalIdX = blockIdx.x * blockDim.x + threadIdx.x;
- // 	int globalIdY = blockIdx.y * blockDim.y + threadIdx.y;
- // 	int globalId = (globalIdY * 1080) + globalIdX;   
+	//int globalIdX = blockIdx.x * blockDim.x + threadIdx.x;
+    //int globalIdY = blockIdx.y * blockDim.y + threadIdx.y;
+    //int globalId = (globalIdY * 1080) + globalIdX;   
 
 	// Local thread id
 	int localId = (threadIdx.y * blockDim.x) + threadIdx.x;              
 
 	// Initialize local sum array to be filled in with values from our input array
-	__shared__ float sum[30*30];
+	__shared__ float inputsToSum[30*30];
 
 	// Assign values from input value array to our local sum array
-    sum[localId] = inputs[globalId]; 
+    inputsToSum[localId] = inputs[globalId]
     __syncthreads();
 
 	/////////////////
 	// COMPUTATION //
 	/////////////////
 
-    if (localId == 0) {
-    	for (int i = 1; i < 30*30; i++) {
-    		sum[0] += sum[i];
-    	}
+    //Add up all values in local group using binary reduction
+	for (size_t offset = blockDim.x/2; offset > 0 ; offset >>= 1) {
+        if (localId < offset) {    
+            inputsToSum[localId] += inputsToSum[localId + offset];
+        }    
     }
     __syncthreads();
 
- //    //Add up all values in local group using binary reduction
-	// for (size_t offset = blockDim.x/2; offset > 0 ; offset >>= 1) {
- //        if (localId < offset) {    
- //            sum[localId] += sum[localId + offset];
- //        }
- //        __syncthreads();
- //    }
-    
     //Ouput final value
     if (localId == 0) {
-    	float fraction = sum[0]/(blockDim.x*blockDim.y);
+    	float fraction = inputsToSum[0]/(blockDim.x*blockDim.y);
 	    if (fraction > TOL[0]) {
-	    	output[blockId] = 1.0;
+	    	output[blockId] = 1;
 	    }
 	    else {
-	    	output[blockId] = 0.0;
+	    	output[blockId] = 0;
 	    }
 	}
 	__syncthreads();
