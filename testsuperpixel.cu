@@ -22,7 +22,7 @@ __global__ void testsuperPixel(int *inputs, int *output)
         for (int i=1; i<4; i++) { 
             inputsToSum[0] = inputsToSum[0] + inputsToSum[i];
         }
-        printf("%d",inputsToSum[localId])
+        printf("%d",inputsToSum[localId]);
     }
     __syncthreads();
 
