@@ -72,24 +72,24 @@ for i in range(71, 90):
 
 
     # Show image
-    # print result.reshape((1080 / 30, 1920 / 30))
-    # plt.imshow(result.reshape((1080 / 30, 1920 / 30)))
-    # plt.show()
+    print result.reshape((1080 / 30, 1920 / 30))
+    plt.imshow(result.reshape((1080 / 30, 1920 / 30)))
+    plt.show()
     
-    output = coordinates(result)
-    im = Image.open('../../thouis/grabber{}.ppm'.format(image_number))
-    draw = ImageDraw.Draw(im)
-    numAnom = len(output)
-    r = 30
-    if numAnom > 0:
-        for pt in output:
-            # Draw rectangles
-            draw.line((pt[1],pt[0],pt[1],pt[0]+r), fill=(255,120,0), width=4)
-            draw.line((pt[1], pt[0]+r, pt[1]+r, pt[0]+r), fill=(255,120,0), width=4)
-            draw.line((pt[1], pt[0], pt[1]+r, pt[0]), fill=(255,120,0), width=4)
-            draw.line((pt[1]+r, pt[0], pt[1]+r, pt[0]+r), fill=(255,120,0), width=4)
+    # output = coordinates(result)
+    # im = Image.open('../../thouis/grabber{}.ppm'.format(image_number))
+    # draw = ImageDraw.Draw(im)
+    # numAnom = len(output)
+    # r = 30
+    # if numAnom > 0:
+    #     for pt in output:
+    #         # Draw rectangles
+    #         draw.line((pt[1],pt[0],pt[1],pt[0]+r), fill=(255,120,0), width=4)
+    #         draw.line((pt[1], pt[0]+r, pt[1]+r, pt[0]+r), fill=(255,120,0), width=4)
+    #         draw.line((pt[1], pt[0], pt[1]+r, pt[0]), fill=(255,120,0), width=4)
+    #         draw.line((pt[1]+r, pt[0], pt[1]+r, pt[0]+r), fill=(255,120,0), width=4)
 
-    del draw
-    im.show()
+    # del draw
+    # im.show()
 # tend = time()
 # print "Per frame processing time: ", (tend-t0)/(90-69)
