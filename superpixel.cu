@@ -1,4 +1,4 @@
-__global__ void superPixel(float *inputs, float *TOL, float *output)
+__global__ void superPixel(float *inputs, float *TOL, int *output)
 {
 	////////////////////
 	// KERNEL OVERVIEW /
@@ -66,10 +66,10 @@ __global__ void superPixel(float *inputs, float *TOL, float *output)
     if (localId == 0) {
     	float fraction = sum[0]/(blockDim.x*blockDim.y);
 	    if (fraction > TOL[0]) {
-	    	output[blockId] = 1;
+	    	output[blockId] = 1.0;
 	    }
 	    else {
-	    	output[blockId] = 0;
+	    	output[blockId] = 0.0;
 	    }
 	}
 	__syncthreads();
