@@ -1,4 +1,7 @@
-__global__ void superPixel(float *inputs, float *output)
+
+#include <stdio.h>
+
+__global__ void superPixel(float *inputs, int *output)
 {
 	////////////////////
 	// KERNEL OVERVIEW /
@@ -23,7 +26,7 @@ __global__ void superPixel(float *inputs, float *output)
 	// blockDim.x * gridDim.x gives the number of threads in a grid (x direction)
 	
 	// Block id
-	int blockId = blockIdx.x + blockIdx.y * gridDim.x; 
+	int blockId = blockIdx.x + (blockIdx.y * gridDim.x); 
 	
 	// Global thread id
 	int globalId = blockId * (blockDim.x * blockDim.y) + (threadIdx.y * blockDim.x) + threadIdx.x;
@@ -34,6 +37,13 @@ __global__ void superPixel(float *inputs, float *output)
 
 	// Local thread id
 	int localId = (threadIdx.y * blockDim.x) + threadIdx.x;              
+
+	if (globalId == 901) {
+    	printf("%d",globalId);
+		printf("%d",blockId);
+		printf("%d\n",localId);
+    }
+
 
 	// Initialize local sum array to be filled in with values from our input array
 	__shared__ float inputsToSum[30*30];
@@ -47,13 +57,14 @@ __global__ void superPixel(float *inputs, float *output)
 	/////////////////
 
     if (localId == 0) {
-    	for (int i=1; i<900;i++) {
-
-    	inputsToSum[0] += inputsToSum[i];
-    	
+    	for (int i=1; i<900; i++) {
+    		// if (globalId ==0) {
+    		// 	printf("%d",inputsToSum[i]);
+    		// }
+    		inputsToSum[0] = inputsToSum[0] + inputsToSum[i];
     	}
     }
-
+    __syncthreads();
     //Add up all values in local group using binary reduction
 	// for (size_t offset = blockDim.x/2; offset > 0 ; offset >>= 1) {
  //        if (localId < offset) {    
@@ -64,7 +75,7 @@ __global__ void superPixel(float *inputs, float *output)
 
     //Ouput final value
     if (localId == 0) {
-    	float fraction = inputsToSum[0]/(blockDim.x*blockDim.y);
+    	float fraction = inputsToSum[0]/(900.0);
 	    if (fraction > .75) {
 	    	output[blockId] = 1; //inputs to sum
 	    }
