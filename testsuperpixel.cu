@@ -15,7 +15,7 @@ __global__ void testsuperPixel(int *inputs, int *output)
     __shared__ int inputsToSum[8];
     inputsToSum[localId] = inputs[globalId];
 
-    if (localId == 0) {
+    if (blockId == 1) {
         printf("%d",inputsToSum[localId]);
 
     }
