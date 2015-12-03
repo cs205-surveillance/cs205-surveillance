@@ -66,10 +66,10 @@ __global__ void superPixel(float *inputs, float *TOL, float *output)
     if (localId == 0) {
     	float fraction = inputsToSum[0]/(blockDim.x*blockDim.y);
 	    if (fraction > TOL[0]) {
-	    	output[blockId] = inputsToSum[0]; //inputs to sum
+	    	output[blockId] = fraction; //inputs to sum
 	    }
 	    else {
-	    	output[blockId] = inputsToSum[0]; //inputs to sum
+	    	output[blockId] = fraction; //inputs to sum
 	    }
 	}
 	__syncthreads();
