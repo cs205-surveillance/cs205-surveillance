@@ -58,12 +58,12 @@ __global__ void superPixel(int *inputs, float *TOL, int *output)
     
     // Ouput final value
     if (localId == 0) {
-    	float fraction = 255*sum[0]/(blockDim.x*blockDim.y);
+    	float fraction = sum[0]/(255*blockDim.x*blockDim.y);
 	    if (fraction > TOL[0]) {
-	    	output[blockId] = 1;
+	    	output[blockId] = sum[0];
 	    }
 	    else {
-	    	output[blockId] = 0;
+	    	output[blockId] = sum[0];
 	    }
 	}
 	__syncthreads();
