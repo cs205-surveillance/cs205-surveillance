@@ -12,7 +12,7 @@ run_super_pixel = test_superpixel_source.get_function('testsuperPixel')
 # filter_source = SourceModule(open('minimum_filter.cu').read())
 # run_minimum_filter = filter_source.get_function('minimum_3x3')
 
-test_array = np.array([[0,1,0,1],[0,1,0,1],[0,1,0,1],[0,1,0,1])
+test_array = np.array([[0,1,0,1],[0,1,0,1],[0,1,0,1],[0,1,0,1]])
 test_array_gpu = gpuarray.to_gpu(test_array)
 print test_array
 
