@@ -1,9 +1,11 @@
-// 3x3 median filter
+#define min(a, b) (((a) < (b)) ? (a) : (b))
+
 __global__ void minimum_3x3(float *in_values,
                             float *out_values,
                             int w, int h,
                             int buf_w, int buf_h,
                             const int halo) {
+  // Create buffer per block
   __shared__ float buffer[25];
 
   // Global position of output pixel
