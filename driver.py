@@ -33,7 +33,7 @@ for i in range(69, 90):
     img = img.astype(np.float32).reshape((1, 1920 * 1080))
 
     # Initialization
-    if i == 65:
+    if i == 69:
         # Set mu to initial image in stack
         mu_gpu = gpuarray.to_gpu(img)
 
