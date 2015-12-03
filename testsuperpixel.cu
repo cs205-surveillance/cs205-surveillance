@@ -34,7 +34,7 @@ __global__ void testsuperPixel(int *inputs, int *output)
     // __syncthreads();
 
 	if (localId == 0) {
-        printf("%d", globalId );
+        printf("%d\n", globalId );
     	output[blockId] = inputsToSum[0];
     }
 
