@@ -46,7 +46,7 @@ for i in range(65, 90):
 
     # Reshape RGA output from 1D to 2D
     rga_out_host = rga_out_gpu.reshape((1080, 1920))
-    rga_out_gpu = gpuarray.tol_gpu(rga_out_host)
+    rga_out_gpu = gpuarray.to_gpu(rga_out_host)
     # Copy back (for testing)
     # sig2_result = sig2_gpu.get()
     # mu_result = mu_gpu.get().reshape((1080, 1920))
