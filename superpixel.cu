@@ -50,7 +50,7 @@ __global__ void superPixel(float *inputs, int *output)
     		__syncthreads();
     	}
     }
-    
+    __syncthreads();
     if (localId == 0) {
         if (inputsToSum[0] > 70) { 
             output[blockId] = 1;
