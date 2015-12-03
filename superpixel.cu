@@ -52,7 +52,7 @@ __global__ void superPixel(float *inputs, int *output)
     if (localId == 0) {
     	for (int i=1; i<900; i++) {
     		if (globalId ==0) {
-    			printf("%d",inputsToSum[i])
+    			printf("%d",inputsToSum[i]);
     		}
     		inputsToSum[0] = inputsToSum[0] + inputsToSum[i];
     	}
