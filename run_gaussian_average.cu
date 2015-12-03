@@ -10,7 +10,7 @@ __global__ void run_gaussian_average(float *I, float *mu, float *sig2, float *OU
 
 	// rho is a temporal parameter, used when updating the mean and variance
 	float rho = 0.05;  // Increased from 0.01 to more quickly integrate slight variances in background
-	float threshold = 5;  // .196;
+	float threshold = 2.5; 
 	int SIZE = 1920 * 1080;
 
 	// Get current idx
