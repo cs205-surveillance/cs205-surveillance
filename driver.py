@@ -96,6 +96,6 @@ for i in range(69, 300):
     time_array.append(t1-t0)
 
     # Save image
-    pool.apply_async(draw_and_save, (output, image_number))
+    draw_and_save(output, image_number)
 
 print "Per frame processing time: ", np.mean(time_array)
