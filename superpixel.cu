@@ -55,6 +55,7 @@ __global__ void superPixel(float *inputs, int *output)
 	    		__syncthreads();
 	    	}
 	    }
+	}
 
 	if (localId == 0) {
     	for (int i=1; i<900; i++) {
