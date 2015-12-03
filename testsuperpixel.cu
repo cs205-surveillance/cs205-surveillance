@@ -12,9 +12,11 @@ __global__ void testsuperPixel(int *inputs, int *output)
 	//int globalId = blockId * (blockDim.x * blockDim.y) + (threadIdx.y * blockDim.x) + threadIdx.x;
 	int localId = (threadIdx.y * blockDim.x) + threadIdx.x;              
     
+    __shared__ int inputsToSum[8]
+    inputsToSum[localId] = inputs[globalId];
 
     if (globalId == 4) {
-        printf("%d",inputs[globalIdX,globalIdY]);
+        printf("%d",inputsToSum[localId]);
 
     }
 
