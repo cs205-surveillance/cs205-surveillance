@@ -28,7 +28,7 @@ __global__ void superPixel(float *inputs, int *output)
 	//these index expressions seemingly work
     int globalIdX = blockIdx.x * blockDim.x + threadIdx.x;
     int globalIdY = blockIdx.y * blockDim.y + threadIdx.y;
-    int globalId = (globalIdY * 4) + globalIdX;
+    int globalId = (globalIdY * 30) + globalIdX;
     int blockId = blockIdx.x + blockIdx.y * gridDim.x; 
 	int localId = (threadIdx.y * blockDim.x) + threadIdx.x;               
 
