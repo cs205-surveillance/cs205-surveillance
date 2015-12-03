@@ -27,7 +27,7 @@ __global__ void testsuperPixel(int *inputs, int *output)
     }
     __syncthreads();
     if (localId == 0) {
-        if (inputsToSum[0] > 190) { 
+        if (inputsToSum[0] > 1) { 
             output[blockId] = inputsToSum[0];
         }  
     }
