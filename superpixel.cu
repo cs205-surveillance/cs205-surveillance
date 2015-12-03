@@ -52,12 +52,12 @@ __global__ void superPixel(float *inputs, int *output)
 	// COMPUTATION //
 	/////////////////
 
-    if (localId == 0) {
-    	for (int i=1; i<900; i++) {
+    if (localId < 450) {
+    	for (int i=1; i<450; i++) {
     		// if (globalId ==0) {
     		// 	printf("%d",inputsToSum[i]);
     		// }
-    		inputsToSum[0] = inputsToSum[0] + inputsToSum[i];
+    		inputsToSum[0] = inputsToSum[0] + inputsToSum[i+450];
     	}
     }
     __syncthreads();
