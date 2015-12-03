@@ -60,8 +60,7 @@ __global__ void minimum_3x3(float *in_values,
     float s7 = buffer[(buf_y + 1) * buf_w + buf_x];
     float s8 = buffer[(buf_y + 1) * buf_w + (buf_x + 1)]);
 
-    out_values[y * w + x] = min(s0, min(s1, min(s2, min(s3, min(s4, min(s5, min(s6, min(s7, s8))))))))
-
+    out_values[y * w + x] = min(s0, min(s1, min(s2, min(s3, min(s4, min(s5, min(s6, min(s7, s8))))))));
 
   }
 }
