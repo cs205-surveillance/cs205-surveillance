@@ -51,8 +51,6 @@ __global__ void superPixel(float *inputs, int *output)
     	}
     }
     
-    
-    
     if (localId == 0) {
         if (inputsToSum[0] > 70) { 
             output[blockId] = 1;

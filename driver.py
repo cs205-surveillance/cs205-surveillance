@@ -43,7 +43,6 @@ for i in range(65, 90):
 
     # Run Gaussian Average kernel
     run_gaussian_average(img_gpu, mu_gpu, sig2_gpu, rga_out_gpu, block=(15, 1, 1), grid=(1920*1080/15, 1))
-    #rga_out_gpu=rga_out_gpu.reshape((1080,1920))
 
     # Reshape RGA output from 1D to 2D
     rga_out_gpu = rga_out_gpu.reshape(1080,1920)
@@ -52,6 +51,7 @@ for i in range(65, 90):
     print result
     plt.imshow(result)
     plt.show()
+    
     # Run 3x3 Minimum filter to remove speckle noise
     #run_minimum_filter()
 
@@ -60,7 +60,7 @@ for i in range(65, 90):
     spxl_out_gpu = gpuarray.to_gpu(spxl_out)
     
     # Run super pixel kernel
-    run_super_pixel(rga_out_gpu, spxl_out_gpu, block=(30, 30, 1), grid=(1920/30,1080/30))
+    run_super_pixel(rga_out_gpu, spxl_out_gpu, block=(30, 30, 1), grid=(1920/30, 1080/30))
     result = spxl_out_gpu.get().reshape((1080/30, 1920/30))
 
     # Show image, perhaps with pylab
