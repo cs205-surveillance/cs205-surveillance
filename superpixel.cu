@@ -47,10 +47,11 @@ __global__ void superPixel(float *inputs, int *output)
     if (localId == 0) {
     	for (int i=1; i<900; i++) {
     		inputsToSum[0] = inputsToSum[0] + inputsToSum[i];
+    		__syncthreads();
     	}
     }
     
-    __syncthreads();
+    
     
     if (localId == 0) {
         if (inputsToSum[0] > 70) { 
