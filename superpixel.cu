@@ -38,16 +38,18 @@ __global__ void superPixel(float *inputs, int *output)
 	// Local thread id
 	int localId = (threadIdx.y * blockDim.x) + threadIdx.x;              
 
-	if (globalId == 901) {
-    	printf("%d",globalId);
-		printf("%d",blockId);
-		printf("%d\n",localId);
-    }
+
 
 
 	// Initialize local sum array to be filled in with values from our input array
 	__shared__ float inputsToSum[30*30];
 
+	if (globalId == 901) {
+    	printf("%d\n",globalId);
+		printf("%d\n",blockId);
+		printf("%d\n",localId);
+		printf("%d\n",inputsToSum);
+    }
 	// Assign values from input value array to our local sum array
     inputsToSum[localId] = inputs[globalId];
     __syncthreads();
