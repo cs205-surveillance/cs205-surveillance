@@ -48,7 +48,7 @@ __global__ void minimum_3x3(float *in_values,
       }
   }
 
-  __syncthreads()
+  __syncthreads();
 
   if ((y < h) && (x < w)) {
     out_values[y * w + x] = minimum9(buffer[(buf_y - 1) * buf_w + (buf_x - 1)], buffer[(buf_y - 1) * buf_w + buf_x], buffer[(buf_y - 1) * buf_w + (buf_x + 1)],
