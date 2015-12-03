@@ -53,7 +53,7 @@ __global__ void testsuperPixel(int *inputs, int *output)
  //        printf("%d\n", blockIdx.y);
  //        printf("%d\n", blockIdx.x);
  //    	output[blockId] = inputsToSum[0];
-    }
+  //  }
 
 }
 
