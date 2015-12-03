@@ -36,7 +36,7 @@ __global__ void superPixel(float *inputs, int *output)
 
 
 	// Initialize local sum array to be filled in with values from our input array
-	__shared__ float inputsToSum[blockDim.x*blockDim.y];
+	__shared__ float inputsToSum[30*30];
 
 	// Assign values from input value array to our local sum array
     inputsToSum[localId] = inputs[globalId];
