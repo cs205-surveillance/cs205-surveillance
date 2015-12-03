@@ -61,15 +61,15 @@ __global__ void superPixel(float *inputs, float *TOL, float *output)
  //        }    
  //    }
  //    __syncthreads();
-    printf("%d", TOL[0]);
+
     //Ouput final value
     if (localId == 0) {
     	float fraction = inputsToSum[0]/(blockDim.x*blockDim.y);
 	    if (fraction > TOL[0]) {
-	    	output[blockId] = fraction; //inputs to sum
+	    	output[blockId] = TOL[0]; //inputs to sum
 	    }
 	    else {
-	    	output[blockId] = 0; //inputs to sum
+	    	output[blockId] = TOL[0]; //inputs to sum
 	    }
 	}
 	__syncthreads();
