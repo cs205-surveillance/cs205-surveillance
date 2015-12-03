@@ -10,16 +10,16 @@ test_superpixel_source = SourceModule(open('testsuperpixel.cu').read())
 run_super_pixel = test_superpixel_source.get_function('testsuperPixel')
 
 #test_array = np.array([[0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1],[0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1],[0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1],[0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1],[0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2],[0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2],[0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2],[0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2]])
-test_array = np.array([[20,30,40,50,60,71,81,91],[60,70,80,90,110,120,130,140],[21,31,41,51,61,71,81,91],[61,71,81,91,101,111,121,131]]).reshape(4,8)
+test_array = np.array([[20,30,40,50,60,71,81,91,101,111],[60,70,80,90,110,120,130,140,150,160],[21,31,41,51,61,71,81,91,101,111],[61,71,81,91,101,111,121,131,141,151]]).reshape(4,10)
 test_array_gpu = gpuarray.to_gpu(test_array)
 print test_array
 
-spxl_out = np.zeros(8, dtype=int)
+spxl_out = np.zeros(10, dtype=int)
 spxl_out_gpu = gpuarray.to_gpu(spxl_out)
 
 # Run super pixel kernel
 # for grid put the number of blocks across and then blocks down.
-run_super_pixel(test_array_gpu, spxl_out_gpu, block=(2, 2, 1), grid=(4,2))
+run_super_pixel(test_array_gpu, spxl_out_gpu, block=(2, 2, 1), grid=(5,2))
 result = spxl_out_gpu.get()#.reshape((8,16))
 
 # Show image, perhaps with pylab
