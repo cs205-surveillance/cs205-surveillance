@@ -1,4 +1,4 @@
-__global__ void superPixel(int *inputs, float *TOL, int *output)
+__global__ void superPixel(float *inputs, float *TOL, int *output)
 {
 	////////////////////
 	// KERNEL OVERVIEW /
@@ -26,11 +26,12 @@ __global__ void superPixel(int *inputs, float *TOL, int *output)
 	int blockId = blockIdx.x + blockIdx.y * gridDim.x; 
 	
 	// Global thread id
-	//int globalId = blockId * (blockDim.x * blockDim.y) + (threadIdx.y * blockDim.x) + threadIdx.x;
+	int globalId = blockId * (blockDim.x * blockDim.y) + (threadIdx.y * blockDim.x) + threadIdx.x;
 	//int globalId = threadIdx.x + (blockDim.x * ((gridDim.x * blockIdx.y) + blockIdx.x));
-	int globalIdX = blockIdx.x * blockDim.x + threadIdx.x;
- 	int globalIdY = blockIdx.y * blockDim.y + threadIdx.y;
- 	int globalId = (globalIdY * 1080) + globalIdX;   
+	
+	// int globalIdX = blockIdx.x * blockDim.x + threadIdx.x;
+ // 	int globalIdY = blockIdx.y * blockDim.y + threadIdx.y;
+ // 	int globalId = (globalIdY * 1080) + globalIdX;   
 
 	// Local thread id
 	int localId = (threadIdx.y * blockDim.x) + threadIdx.x;              
