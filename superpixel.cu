@@ -43,13 +43,13 @@ __global__ void superPixel(int *inputs, float *TOL, int *output)
 	/////////////////
 
     if (localId == 0) {
-    	for (int i ==1;i<30*30;i++) {
+    	for (int i = 1; i < 30*30; i++) {
     		sum[0] += sum[i];
 
     	}
 
     }
-
+    __syncthreads();
     // Add up all values in local group using binary reduction
 	// for (size_t offset = blockDim.x/2; offset > 0 ; offset >>= 1) {
  //        if (localId < offset) {    
