@@ -16,10 +16,17 @@ __global__ void testsuperPixel(int *inputs, int *output)
 	// COMPUTATION //
 	/////////////////
 
-    if (localId == 0) {
-    	for (int i=1; i<16; i++) {
-    		inputsToSum[0] = inputsToSum[0] + inputsToSum[i];
-    	}
+    // if (localId == 0) {
+    // 	for (int i=1; i<16; i++) {
+    // 		inputsToSum[0] = inputsToSum[0] + inputsToSum[i];
+    // 	}
+    // }
+    // __syncthreads();
+
+    for (size_t offset = blockDim.x/2; offset > 0 ; offset >>= 1) {
+        if (localId < offset) {    
+            inputsToSum[localId] += inputsToSum[localId + offset];
+        }    
     }
     __syncthreads();
 
