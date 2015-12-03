@@ -8,6 +8,8 @@ from pycuda.compiler import SourceModule
 from coordinates import coordinates
 from PIL import Image, ImageDraw
 from time import time
+from multiprocessing import Pool
+
 
 # Import and compile CUDA kernels
 rga_source = SourceModule(open('run_gaussian_average.cu').read())
@@ -19,7 +21,25 @@ run_super_pixel = superpixel_source.get_function('superPixel')
 filter_source = SourceModule(open('minimum_filter.cu').read())
 run_minimum_filter = filter_source.get_function('minimum_3x3')
 
+
+def draw_and_save(output, image_number):
+    im = Image.open('../../thouis/grabber{}.ppm'.format(image_number))
+    draw = ImageDraw.Draw(im)
+    numAnom = len(output)
+    r = 30
+    if numAnom > 0:
+        for pt in output:
+            # Draw rectangles
+            draw.line((pt[1],pt[0],pt[1],pt[0]+r), fill=(255,120,0), width=4)
+            draw.line((pt[1], pt[0]+r, pt[1]+r, pt[0]+r), fill=(255,120,0), width=4)
+            draw.line((pt[1], pt[0], pt[1]+r, pt[0]), fill=(255,120,0), width=4)
+            draw.line((pt[1]+r, pt[0], pt[1]+r, pt[0]+r), fill=(255,120,0), width=4)
+    del draw
+    im.save('cs205_images/parallel_output/tracker{}.png'.format(image_number))
+
+
 time_array = []
+
 # Loop over all images
 for i in range(69, 300):
     
@@ -31,7 +51,13 @@ for i in range(69, 300):
     # Load current image
     img = misc.imread('../../thouis/grabber{}.ppm'.format(image_number), flatten=True)
     img = img.astype(np.float32).reshape((1, 1920 * 1080))
+
+    # Prepare for timing
     t0 = time()
+
+    # Prepare pool
+    pool = Pool(processes=1)
+
     # Initialization
     if i == 69:
         # Set mu to initial image in stack
@@ -68,20 +94,8 @@ for i in range(69, 300):
     
     t1 = time()
     time_array.append(t1-t0)
-        
-    im = Image.open('../../thouis/grabber{}.ppm'.format(image_number))
-    draw = ImageDraw.Draw(im)
-    numAnom = len(output)
-    r = 30
-    if numAnom > 0:
-        for pt in output:
-            # Draw rectangles
-            draw.line((pt[1],pt[0],pt[1],pt[0]+r), fill=(255,120,0), width=4)
-            draw.line((pt[1], pt[0]+r, pt[1]+r, pt[0]+r), fill=(255,120,0), width=4)
-            draw.line((pt[1], pt[0], pt[1]+r, pt[0]), fill=(255,120,0), width=4)
-            draw.line((pt[1]+r, pt[0], pt[1]+r, pt[0]+r), fill=(255,120,0), width=4)
-    del draw
-    
-    im.save('cs205_images/parallel_output/tracker{}.png'.format(image_number))
+
+    # Save image
+    pool.apply_async(draw_and_save, (output, image_number))
 
 print "Per frame processing time: ", np.mean(time_array)
