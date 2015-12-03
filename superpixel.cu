@@ -66,7 +66,8 @@ __global__ void superPixel(float *inputs, int *output)
     	printf("%d\n",globalId);
 		printf("%d\n",blockId);
 		printf("%d\n",localId);
-		printf("%d\n",inputsToSum);
+		for (i=0;i < (sizeof (inputsToSum) /sizeof (inputsToSum[0]));i++) {
+    		printf("%lf\n",inputsToSum[i]);
     }
     //Add up all values in local group using binary reduction
 	// for (size_t offset = blockDim.x/2; offset > 0 ; offset >>= 1) {
