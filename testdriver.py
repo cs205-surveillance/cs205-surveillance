@@ -21,7 +21,7 @@ spxl_out_gpu = gpuarray.to_gpu(spxl_out)
 
 # Run super pixel kernel
 run_super_pixel(test_array_gpu, spxl_out_gpu, block=(2, 2, 1), grid=(8, 16))
-result = spxl_out_gpu.get().reshape((2,2))
+result = spxl_out_gpu.get().reshape((8,16))
 
 # Show image, perhaps with pylab
 print result
