@@ -53,8 +53,8 @@ for i in range(65, 90):
     #mu_result = mu_gpu.get().reshape((1080, 1920))
     #rga_result = rga_out_gpu.get().reshape((1080, 1920))
 
-    plt.imshow(rga_result)
-    plt.show()
+    # plt.imshow(rga_result)
+    # plt.show()
 
     # Run 3x3 Minimum filter to remove speckle noise
     #run_minimum_filter()
