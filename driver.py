@@ -46,7 +46,7 @@ for i in range(65, 90):
     #rga_out_gpu=rga_out_gpu.reshape((1080,1920))
 
     # Reshape RGA output from 1D to 2D
-    rga_result = rga_out_gpu.get().reshape((1080, 1920))
+    rga_result = rga_out_gpu.reshape((1080, 1920))
     print rga_result[1079,3]
     
     # #print rga_result
