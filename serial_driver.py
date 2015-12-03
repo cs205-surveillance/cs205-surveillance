@@ -15,7 +15,7 @@ r = 30 # pixels, used to define superpixel dimension and outline
 # global mu, sig2
 # Read in sequence of images, run them through RGA filter
 t0 = time()
-for i in range(65,90):
+for i in range(69,300):
 	image_number = str(i)
 	while len(image_number) < 3:
 		image_number = '0' + image_number
@@ -23,7 +23,7 @@ for i in range(65,90):
 	I = misc.imread('cs205_images/grabber{}.ppm'.format(image_number), flatten=True)
 	I = I.astype(np.float32)
 
-	if i == 65:
+	if i == 69:
 		mu = np.copy(I)
 		sig2 = np.ones_like(I)
 
