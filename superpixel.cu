@@ -62,7 +62,7 @@ __global__ void superPixel(float *inputs, int *output)
 
     //Ouput final value
     if (localId == 0) {
-    	float fraction = inputsToSum[0]/(blockDim.x*blockDim.y);
+    	float fraction = inputsToSum[0]/(900);
 	    if (fraction > .5) {
 	    	output[blockId] = 1; //inputs to sum
 	    }
