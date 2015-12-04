@@ -44,26 +44,24 @@ __global__ void superPixel(float *inputs, int *output)
 	///////////////////////////////////////////////////////////////////////////
 	// AJ's SPACE:
 	int blockId = blockIdx.x + blockIdx.y * gridDim.x;
-	int globalIdY = 30*blockIdx.y;
-	int globalIdX = 1920*globalIdY + blockIdx.x * 32 + threadIdx.x;
+	int globalIdY = 30 * blockIdx.y;
+	int globalIdX = 1920 * globalIdY + blockIdx.x * 32 + threadIdx.x;
 	int globalId  = (globalIdY * 1920) + globalIdX;
 
 	float sum = 0;
-	if (threadIdx.x == 0 && threadIdx.y==0) {
-		printf("%d\n",globalId);
-		printf("%d\n",globalIdX);
-		printf("%d\n",globalIdY);
-	}
-	__syncthreads();	
+	// if (threadIdx.x == 0 && threadIdx.y==0) {
+	// 	printf("%d\n",globalId);
+	// 	printf("%d\n",globalIdX);
+	// 	printf("%d\n",globalIdY);
+	// }
+	// __syncthreads();	
 
 	// Bounds check
-	if (globalIdY < 1080 && globalIdX < 1920) {
+	// if (globalIdY < 1080 && globalIdX < 1920) {
 			// Sum column of pixels below 
-		for (int i =0; i <30; i++) {
-			sum += inputs[globalId + i*1920];
-			}
-	}
-	
+	for (int i =0; i <30; i++) {
+		sum += inputs[globalId + i*1920];
+		}
 	__syncthreads();
 
 	if (threadIdx.x == 0) {
@@ -80,9 +78,6 @@ __global__ void superPixel(float *inputs, int *output)
 	}
 
 }
-
-
-
 	///////////////////////////////////////////////////////////////////////////
 
 
