@@ -20,7 +20,7 @@ run_minimum_filter = filter_source.get_function('minimum_3x3')
 
 
 def draw_and_save(output, image_number):
-    im = Image.open('../../thouis/grabber{}.ppm'.format(image_number))
+    im = Image.open('../../thouis/miscreants/{}.png'.format(image_number))
     draw = ImageDraw.Draw(im)
     numAnom = len(output)
     r = 30
@@ -38,15 +38,15 @@ def draw_and_save(output, image_number):
 time_array = []
 
 # Loop over all images
-for i in range(69, 300):
+for i in range(260, 644):
     
     # Number image according to file name
     image_number = str(i)
-    while len(image_number) < 3:
+    while len(image_number) < 5:
         image_number = "0" + image_number
 
     # Load current image
-    img = misc.imread('../../thouis/grabber{}.ppm'.format(image_number), flatten=True)
+    img = misc.imread('../../thouis/miscreants/{}.png'.format(image_number), flatten=True)
     img = img.astype(np.float32).reshape((1, 1920 * 1080))
 
     # Prepare for timing
@@ -71,11 +71,14 @@ for i in range(69, 300):
 
     # Reshape RGA output from 1D to 2D
     rga_out_gpu = rga_out_gpu.reshape(1080, 1920)
+    plt.imshow(rga_out_gpu.get()) #Just testing
+    plt.show()
     
     # Run 3x3 Minimum filter to remove speckle noise
     denoised_gpu = gpuarray.empty_like(rga_out_gpu)
     run_minimum_filter(rga_out_gpu, denoised_gpu, block=(3, 3, 1), grid=(1920, 1080))
-
+    plt.imshow(denoised_gpu.get()) #Just testing...
+    plt.show()
     # Set parameters for super pixel kernel
     spxl_out = np.zeros((1920 / 30) * (1080 / 30), dtype=int)
     spxl_out_gpu = gpuarray.to_gpu(spxl_out)
@@ -84,12 +87,14 @@ for i in range(69, 300):
     run_super_pixel(denoised_gpu, spxl_out_gpu, block=(30, 30, 1), grid=(1920 / 30, 1080 / 30))
     
     result = spxl_out_gpu.get()
+    plt.imshow(result) # Just testing...
+    plt.show()
     output = coordinates(result)
     
     t1 = time()
     time_array.append(t1-t0)
 
     # Save image
-    draw_and_save(output, image_number)
+    # draw_and_save(output, image_number)
 
 print "Per frame processing time: ", np.mean(time_array)
