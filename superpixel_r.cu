@@ -41,7 +41,7 @@ __global__ void superPixel(float *inputs, int *output)
 
     float sum = 0.0;
 
-    for (int i = 0: i < 32; i++)
+    for (int i = 0; i < 32; i++)
         sum += inputs[globalAdjusted + i];
 
     __syncthreads();
