@@ -60,13 +60,14 @@ __global__ void superPixel(float *inputs, int *output)
 	if (globalIdY < 1080 && globalIdX < 1920) {
 			// Sum column of pixels below 
 		for (int i =0; i <30; i++) {
+			printf("%f\n",sum);
 			sum += inputs[globalId + i*1920];
 		}
 		
 		printf("%f\n",sum);
 
 	}
-	printf("%f\n",sum);	
+	//printf("%f\n",sum);	
 	__syncthreads();
 	
 	// Sum all values in our block
