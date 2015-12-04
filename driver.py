@@ -12,7 +12,7 @@ from time import time
 rga_source = SourceModule(open('run_gaussian_average.cu').read())
 run_gaussian_average = rga_source.get_function('run_gaussian_average')
 
-superpixel_source = SourceModule(open('superpixel.cu').read())
+superpixel_source = SourceModule(open('superpixel_r.cu').read())
 run_super_pixel = superpixel_source.get_function('superPixel')
 
 filter_source = SourceModule(open('minimum_filter.cu').read())
