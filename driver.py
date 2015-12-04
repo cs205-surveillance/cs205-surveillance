@@ -83,7 +83,7 @@ for i in range(260, 644):
     plt.imshow(denoised_gpu.get()) #Just testing...
     plt.show()
     # Set parameters for super pixel kernel
-    spxl_out = np.zeros((1920 / 30) * (1080 / 30), dtype=int)
+    spxl_out = np.zeros((1920 / 32) * (1080 / 30), dtype=int)
     spxl_out_gpu = gpuarray.to_gpu(spxl_out)
     
     # Run super pixel kernel
