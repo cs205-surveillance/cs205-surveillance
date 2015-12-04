@@ -64,7 +64,7 @@ __global__ void superPixel(float *inputs, int *output)
 			sum += inputs[globalId + i*1920];
 		}
 		
-	__syncthreads()
+	__syncthreads();
 	printf("%f\n",sum);
 		//works up until here here
 
