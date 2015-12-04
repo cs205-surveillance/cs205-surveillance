@@ -87,7 +87,7 @@ for i in range(260, 644):
     run_super_pixel(denoised_gpu, spxl_out_gpu, block=(32, 1, 1), grid=(1920 / 32, 1080 / 32))
     
     result = spxl_out_gpu.get()
-    plt.imshow(result) # Just testing...
+    plt.imshow(result.reshape(1080 / 30, 1920 / 30)) # Just testing...
     plt.show()
     output = coordinates(result)
     

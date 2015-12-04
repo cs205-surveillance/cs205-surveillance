@@ -42,13 +42,13 @@ __global__ void superPixel(float *inputs, int *output)
     float sum = 0.0;
 
     for (int i = 0; i < 32; i++)
-        sum += inputs[globalAdjusted + i];
-
+        sum += inputs[globalAdjusted + i*1920];
+    	// sum += inputs[(yStart * 1920) + globalIdX + i*1920];
     __syncthreads();
 
     if (threadIdx.x == 0) {
         for (int offset = 32/2; offset > 0; offset /= 2)
-            sum += __shfl_down(sum, offset, 32);
+            sum += __shfl_down(sum, offset, 32); //may have to be "16"
         if (sum > 7000) {
             output[blockId] = 1;
         } else {
