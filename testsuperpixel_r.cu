@@ -12,7 +12,7 @@ __global__ void testsuperPixel(float *inputs, int *output)
 
 	/*
 	This kernel is used to determine if there is an anomaly in a superpixel.
-	This kernel takes in a 1080x1920 array (the output from minimum filter kernel) 
+	This kernel takes in a 1080x32 array (the output from minimum filter kernel) 
 	and calculates the sum for each 30x30 pixel block (i.e., superpixel). Once the 
 	summation for every block is complete, the kernel determines if the sum is above our
 	tolerance. If so, the kernel returns a 1 for that superpixel. Else, it returns a 0. The 
@@ -30,14 +30,14 @@ __global__ void testsuperPixel(float *inputs, int *output)
 	/*
     int globalIdX = blockIdx.x * blockDim.x + threadIdx.x;
     int globalIdY = blockIdx.y * blockDim.y + threadIdx.y;
-    int globalId = (globalIdY * 1920) + globalIdX;
+    int globalId = (globalIdY * 32) + globalIdX;
     int blockId = blockIdx.x + blockIdx.y * gridDim.x;
 	int localId = (threadIdx.y * blockDim.x) + threadIdx.x;
 
     // Virtual 32 x 32
 	int yStart = 32 * blockIdx.y;
 	int globalYAdjusted = yStart * blockDim.y + threadIdx.y;
-	int globalAdjusted = (globalIdY * 1920) + globalIdX;
+	int globalAdjusted = (globalIdY * 32) + globalIdX;
 	*/
 
 
@@ -46,8 +46,8 @@ __global__ void testsuperPixel(float *inputs, int *output)
 	// AJ's SPACE:
 	int blockId = blockIdx.x + blockIdx.y * gridDim.x;
 	int globalIdY = 30 * blockIdx.y;
-	int globalIdX = 1920 * globalIdY + blockIdx.x * 32 + threadIdx.x;
-	int globalId  = (globalIdY * 1920) + globalIdX;
+	int globalIdX = 32 * globalIdY + blockIdx.x * 32 + threadIdx.x;
+	int globalId  = (globalIdY * 32) + globalIdX;
 
 	float sum = 0.0;
 	// if (threadIdx.x == 0 && threadIdx.y==0) {
@@ -58,11 +58,11 @@ __global__ void testsuperPixel(float *inputs, int *output)
 	// __syncthreads();	
 	printf("%i\n",globalIdY);
 	// Bounds check
-	if (globalIdY < 1080 && globalIdX < 1920) {
+	if (globalIdY < 4 && globalIdX < 32) {
 			// Sum column of pixels below 
 		for (int i =0; i <30; i++) {
 			//printf("%f\n",sum);
-			sum += inputs[globalId + i*1920];
+			sum += inputs[globalId + i*32];
 		}
 		//works up until here here		
 	__syncthreads();
@@ -95,9 +95,9 @@ __global__ void testsuperPixel(float *inputs, int *output)
 /*
     float sum = 0.0;
 
-    if (globalAdjusted + 32 * 1920 < 1920 * 1080) {
+    if (globalAdjusted + 32 * 32 < 32 * 1080) {
         for (int i = 0; i < 32; i++)
-            sum += inputs[globalAdjusted + i * 1920]; // sum += inputs[(yStart * 1920) + globalIdX + i*1920];
+            sum += inputs[globalAdjusted + i * 32]; // sum += inputs[(yStart * 32) + globalIdX + i*32];
     }
     __syncthreads();
 
