@@ -42,7 +42,7 @@ __global__ void superPixel(float *inputs, int *output)
     float sum = 0.0;
 
     for (int i = 0; i < 32; i++)
-        sum += inputs[globalAdjusted + i*gridDim.x];
+        sum += inputs[globalAdjusted + i*1920];
 
     __syncthreads();
 
