@@ -69,7 +69,7 @@ __global__ void superPixel(float *inputs, int *output)
 	//if (threadIdx.x == 0) {
 		// Sum all values in our block
     for (int offset = 16; offset > 0; offset /= 2) {
-        sum2 += __shfl_down(sum, offset); //may have to be "16"
+        sum2 += __shfl_down(sum2, offset); //may have to be "16"
     	}
 	printf("%f\n",sum2);	
     if (sum2 > 15*700) {
