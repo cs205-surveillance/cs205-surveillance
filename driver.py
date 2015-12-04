@@ -28,10 +28,10 @@ def draw_and_save(output, image_number):
     if numAnom > 0:
         for pt in output:
             # Draw rectangles
-            draw.line((pt[1],pt[0],pt[1],pt[0]+r), fill=(255,120,0), width=4)
-            draw.line((pt[1], pt[0]+r, pt[1]+r, pt[0]+r), fill=(255,120,0), width=4)
-            draw.line((pt[1], pt[0], pt[1]+r, pt[0]), fill=(255,120,0), width=4)
-            draw.line((pt[1]+r, pt[0], pt[1]+r, pt[0]+r), fill=(255,120,0), width=4)
+            draw.line((pt[1], pt[0], pt[1], pt[0]+r), fill=(255, 120, 0), width=4)
+            draw.line((pt[1], pt[0]+r, pt[1]+r, pt[0]+r), fill=(255, 120, 0), width=4)
+            draw.line((pt[1], pt[0], pt[1]+r, pt[0]), fill=(255, 120, 0), width=4)
+            draw.line((pt[1]+r, pt[0], pt[1]+r, pt[0]+r), fill=(255, 120, 0), width=4)
     del draw
     im.save('cs205_images/parallel_output/tracker{}.png'.format(image_number))
 
