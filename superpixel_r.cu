@@ -64,10 +64,10 @@ __global__ void superPixel(float *inputs, int *output)
 			}
 	}
 	__syncthreads();
-
+	printf("%f\n",sum);	
 	// Sum all values in our block
     for (int offset = 16; offset > 0; offset /= 2) {
-        printf("%f\n",sum);	
+        
         sum += __shfl_down(sum, offset);
     	}
 
