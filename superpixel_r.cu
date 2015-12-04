@@ -1,4 +1,6 @@
 
+
+
 #include <stdio.h>
 
 __global__ void superPixel(float *inputs, int *output)
@@ -55,8 +57,8 @@ __global__ void superPixel(float *inputs, int *output)
 			sum += inputs[globalId + i*1920];
 		}
 	}
+	printf("%d\n",sum);
 	__syncthreads();
-
 
 	if (threadIdx.x == 0) {
 			// Sum all values in our block
