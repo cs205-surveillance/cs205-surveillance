@@ -53,7 +53,7 @@ for i in range(260, 644):
     t0 = time()
 
     # Initialization
-    if i == 69:
+    if i == 260:
         # Set mu to initial image in stack
         mu_gpu = gpuarray.to_gpu(img)
 
