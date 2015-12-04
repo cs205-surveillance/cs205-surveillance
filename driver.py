@@ -92,7 +92,7 @@ for i in range(260, 644):
     # CHOOSE #
     ##########
     #run_super_pixel(denoised_gpu, spxl_out_gpu, block=(32, 30, 1), grid=(1920 / 30, 1080 / 30))
-    run_super_pixel_r(denoised_gpu, spxl_out_gpu, block=(32, 1, 1), grid=(1920 / 32, 30))
+    run_super_pixel_r(denoised_gpu, spxl_out_gpu, block=(32, 1, 1), grid=(1920 / 32, 1080 / 30))
     
     result = spxl_out_gpu.get()
     plt.imshow(result.reshape(1080 / 30, 1920 / 32)) # 32 for optimized pixel size
