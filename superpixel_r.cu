@@ -64,24 +64,21 @@ __global__ void superPixel(float *inputs, int *output)
 			sum += inputs[globalId + i*1920];
 		}
 		
-	__syncthreads();
-	printf("%f\n",sum);
 		//works up until here here
 
-	}
 		
 	__syncthreads();
 	
 	// Sum all values in our block
     for (int offset = 16; offset > 0; offset /= 2) {
-        
+        printf("%f\n",sum);
         sum += __shfl_down(sum, offset);
     	
     	}
 
     __syncthreads();
 	//printf("%f\n",sum);	
-    
+	}    
 	if (threadIdx.x == 0) {
 	    if (sum > 15*700) {
 	        output[blockId] = 1;
