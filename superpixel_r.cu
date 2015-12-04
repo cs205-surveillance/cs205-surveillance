@@ -73,7 +73,7 @@ __global__ void superPixel(float *inputs, int *output)
     	}
 	//printf("%f\n",sum);	
 	}    
-	if (threadIdx.x == 0) {
+	if (globalId % 32 == 0) {
 	    if (sum > 200) {
 	        output[blockId] = 1;
 	    } 
