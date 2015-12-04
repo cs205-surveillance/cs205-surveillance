@@ -50,30 +50,25 @@ __global__ void testsuperPixel(float *inputs, int *output)
 	int globalId  = (globalIdY * 32) + globalIdX;
 
 	float sum = 0.0;
-	// if (threadIdx.x == 0 && threadIdx.y==0) {
-	// 	printf("%d\n",globalId);
-	// 	printf("%d\n",globalIdX);
-	// 	printf("%d\n",globalIdY);
-	// }
-	// __syncthreads();	
-	printf("%d\n",globalId);
-	// Bounds check
+
 	if (globalIdY < 4 && globalIdX < 32) {
 			// Sum column of pixels below 
 		for (int i =0; i <30; i++) {
 			//printf("%f\n",sum);
 			sum += inputs[globalId + i*32];
 		}
+	}
+	printf("%f\n",sum);
 		//works up until here here		
 	__syncthreads();
 	
 	// Sum all values in our block
     for (int offset = 16; offset > 0; offset /= 2) {
-        //printf("%f\n",sum);
+        printf("%f\n",sum);
         sum += __shfl_down(sum, offset);
     	}
 	//printf("%f\n",sum);	
-	}    
+	   
 	if (globalId % 32 == 0) {
 	    if (sum > 200) {
 	        output[blockId] = 1;
