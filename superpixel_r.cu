@@ -41,7 +41,7 @@ __global__ void superPixel(float *inputs, int *output)
 
 	///////////////////////////////////////////////////////////////////////////
 	// AJ's SPACE:
-
+	int blockId = blockIdx.x + blockIdx.y * gridDim.x;
 	int globalIdY = 32*blockIdx.y;
 	int globalIdX = 1920*globalIdY + blockIdx.x * 32 + threadIdx.x;
 	int globalId  = (globalIdY * 1920) + globalIdX;
@@ -71,7 +71,7 @@ __global__ void superPixel(float *inputs, int *output)
 	        }   
 	}
 
-
+}
 
 
 
