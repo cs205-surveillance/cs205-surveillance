@@ -51,8 +51,8 @@ __global__ void testsuperPixel(float *inputs, int *output)
 
 	float sum = 0.0;
 
-	printf("%f\n",globalIdX);
-	printf("%f\n",globalId);
+	printf("%d\n",globalIdX);
+	printf("%d\n",globalId);
 	if (globalIdY < 4 && globalIdX < 32) {
 			// Sum column of pixels below 
 		for (int i =0; i <30; i++) {
