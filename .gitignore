@@ -60,3 +60,6 @@ target/
 
 # Created by .ignore support plugin (hsz.mobi)
 *.ppm
+
+#cs205_images folder
+cs205_images/
