@@ -48,7 +48,7 @@ __global__ void superPixel(float *inputs, int *output)
 	int globalIdX = 1920 * globalIdY + blockIdx.x * 32 + threadIdx.x;
 	int globalId  = (globalIdY * 1920) + globalIdX;
 
-	float sum = 0;
+	double sum = 0;
 	// if (threadIdx.x == 0 && threadIdx.y==0) {
 	// 	printf("%d\n",globalId);
 	// 	printf("%d\n",globalIdX);
@@ -65,13 +65,14 @@ __global__ void superPixel(float *inputs, int *output)
 	}
 	__syncthreads();
 
+	double sum2 = 0;
 	//if (threadIdx.x == 0) {
 		// Sum all values in our block
     for (int offset = 16; offset > 0; offset /= 2) {
-        sum += __shfl_down(sum, offset, 32); //may have to be "16"
+        sum2 += __shfl_down(sum, offset); //may have to be "16"
     	}
-	printf("%f\n",sum);	
-    if (sum > 15*700) {
+	printf("%f\n",sum2);	
+    if (sum2 > 15*700) {
         output[blockId] = 1;
     } 
     else {
