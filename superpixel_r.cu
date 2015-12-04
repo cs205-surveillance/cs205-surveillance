@@ -72,7 +72,7 @@ __global__ void superPixel(float *inputs, int *output)
     	}
 
     __syncthreads();
-	printf("%f\n",sum);	
+	printf("%d\n",sum);	
     
 	if (threadIdx.x == 0) {
 	    if (sum > 15*700) {
