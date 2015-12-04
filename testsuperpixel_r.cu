@@ -51,6 +51,8 @@ __global__ void testsuperPixel(float *inputs, int *output)
 
 	float sum = 0.0;
 
+	printf("%f\n",globalIdX);
+	printf("%f\n",globalId);
 	if (globalIdY < 4 && globalIdX < 32) {
 			// Sum column of pixels below 
 		for (int i =0; i <30; i++) {
@@ -58,7 +60,7 @@ __global__ void testsuperPixel(float *inputs, int *output)
 			sum += inputs[globalId + i*32];
 		}
 	
-	printf("%f\n",sum);
+	
 		//works up until here here		
 	__syncthreads();
 	}
