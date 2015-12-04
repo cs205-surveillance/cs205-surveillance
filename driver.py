@@ -12,8 +12,11 @@ from time import time
 rga_source = SourceModule(open('run_gaussian_average.cu').read())
 run_gaussian_average = rga_source.get_function('run_gaussian_average')
 
-superpixel_source = SourceModule(open('superpixel_r.cu').read())
+superpixel_source = SourceModule(open('superpixel.cu').read())
 run_super_pixel = superpixel_source.get_function('superPixel')
+
+superpixel_source_r = SourceModule(open('superpixel_r.cu').read())
+run_super_pixel_r = superpixel_source_r.get_function('superPixel')
 
 filter_source = SourceModule(open('minimum_filter.cu').read())
 run_minimum_filter = filter_source.get_function('minimum_3x3')
@@ -84,7 +87,8 @@ for i in range(260, 644):
     spxl_out_gpu = gpuarray.to_gpu(spxl_out)
     
     # Run super pixel kernel
-    run_super_pixel(denoised_gpu, spxl_out_gpu, block=(32, 1, 1), grid=(1920 / 32, 1080 / 32))
+    run_super_pixel(denoised_gpu, spxl_out_gpu, block=(30, 30, 1), grid=(1920 / 30, 1080 / 30))
+    #run_super_pixel_r(denoised_gpu, spxl_out_gpu, block=(32, 1, 1), grid=(1920 / 32, 1080 / 32))
     
     result = spxl_out_gpu.get()
     plt.imshow(result.reshape(1080 / 30, 1920 / 30)) # Just testing...
