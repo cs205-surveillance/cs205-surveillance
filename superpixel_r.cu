@@ -57,11 +57,12 @@ __global__ void superPixel(float *inputs, int *output)
 	// __syncthreads();	
 
 	// Bounds check
-	// if (globalIdY < 1080 && globalIdX < 1920) {
+	if (globalIdY < 1080 && globalIdX < 1920) {
 			// Sum column of pixels below 
-	for (int i =0; i <30; i++) {
-		sum += inputs[globalId + i*1920];
-		}
+		for (int i =0; i <30; i++) {
+			sum += inputs[globalId + i*1920];
+			}
+	}
 	__syncthreads();
 
 	if (threadIdx.x == 0) {
