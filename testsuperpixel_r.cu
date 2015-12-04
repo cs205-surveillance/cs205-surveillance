@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 
+
 __global__ void testsuperPixel(float *inputs, int *output)
 {
 	////////////////////
