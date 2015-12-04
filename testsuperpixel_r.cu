@@ -56,7 +56,7 @@ __global__ void testsuperPixel(float *inputs, int *output)
 	// 	printf("%d\n",globalIdY);
 	// }
 	// __syncthreads();	
-	printf("%d\n",globalIdY);
+	printf("%d\n",globalId);
 	// Bounds check
 	if (globalIdY < 4 && globalIdX < 32) {
 			// Sum column of pixels below 
