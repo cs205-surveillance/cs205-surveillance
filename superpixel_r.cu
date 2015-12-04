@@ -71,7 +71,7 @@ __global__ void superPixel(float *inputs, int *output)
         sum += __shfl_down(sum, offset); //may have to be "16"
     	}
 
-    __syncthreads()
+    __syncthreads();
 	printf("%f\n",sum);	
     
 	if (threadIdx.x == 0) {
