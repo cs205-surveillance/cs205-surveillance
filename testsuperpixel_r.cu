@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 
-__global__ void superPixel(float *inputs, int *output)
+__global__ void testsuperPixel(float *inputs, int *output)
 {
 	////////////////////
 	// KERNEL OVERVIEW /

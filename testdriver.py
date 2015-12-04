@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import pycuda.gpuarray as gpuarray
 from pycuda.compiler import SourceModule
 
-test_superpixel_source = SourceModule(open('testsuperpixel.cu').read())
+test_superpixel_source = SourceModule(open('testsuperpixel_r.cu').read())
 run_super_pixel = test_superpixel_source.get_function('testsuperPixel')
 
 #test_array = np.array([[0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1],[0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1],[0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1],[0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1],[0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2],[0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2],[0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2],[0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2]])
