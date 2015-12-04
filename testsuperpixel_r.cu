@@ -69,7 +69,7 @@ __global__ void testsuperPixel(float *inputs, int *output)
 	
 	// Sum all values in our block
     for (int offset = 16; offset > 0; offset /= 2) {
-        printf("%f\n",sum);
+        //printf("%f\n",sum);
         sum += __shfl_down(sum, offset);
     	}
 	//printf("%f\n",sum);	
