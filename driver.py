@@ -1,7 +1,6 @@
 import numpy as np
 from scipy import misc
 import pycuda.autoinit
-import pycuda.driver as cuda
 import matplotlib.pyplot as plt
 import pycuda.gpuarray as gpuarray
 from pycuda.compiler import SourceModule
