@@ -49,7 +49,7 @@ __global__ void superPixel(float *inputs, int *output)
 	int globalId  = (globalIdY * 1920) + globalIdX;
 
 	float sum = 0;
-	if (threadIdx.x == 0) {
+	if (threadIdx.x == 0 && threadIdx.y==0) {
 		printf("%d\n",globalId);
 		printf("%d\n",globalIdX);
 		printf("%d\n",globalIdY);
