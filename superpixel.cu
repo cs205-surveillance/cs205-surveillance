@@ -62,7 +62,7 @@ __global__ void superPixel(float *inputs, int *output)
 
     // Assign 1 if sum above threshold. 
     if (localId == 0) {
-        if (inputsToSum[0] > 10*800) { 
+        if (inputsToSum[0] > 15*700) { 
             output[blockId] = 1;
         }  
         else{

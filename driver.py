@@ -87,8 +87,12 @@ for i in range(260, 644):
     spxl_out_gpu = gpuarray.to_gpu(spxl_out)
     
     # Run super pixel kernel
-    run_super_pixel(denoised_gpu, spxl_out_gpu, block=(30, 30, 1), grid=(1920 / 30, 1080 / 30))
-    #run_super_pixel_r(denoised_gpu, spxl_out_gpu, block=(32, 1, 1), grid=(1920 / 32, 1080 / 32))
+    
+    ##########
+    # CHOOSE #
+    ##########
+    #run_super_pixel(denoised_gpu, spxl_out_gpu, block=(30, 30, 1), grid=(1920 / 30, 1080 / 30))
+    run_super_pixel_r(denoised_gpu, spxl_out_gpu, block=(32, 1, 1), grid=(1920 / 32, 34)) #making it 34 bc 1080 % 32 != 0 
     
     result = spxl_out_gpu.get()
     plt.imshow(result.reshape(1080 / 30, 1920 / 30)) # Just testing...

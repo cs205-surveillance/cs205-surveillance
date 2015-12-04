@@ -24,6 +24,7 @@ __global__ void superPixel(float *inputs, int *output)
 	// gridDim.x gives the number of blocks in a grid (x direction)
 	// blockDim.x * gridDim.x gives the number of threads in a grid (x direction)
 
+	/*
     int globalIdX = blockIdx.x * blockDim.x + threadIdx.x;
     int globalIdY = blockIdx.y * blockDim.y + threadIdx.y;
     int globalId = (globalIdY * 1920) + globalIdX;
@@ -34,11 +35,56 @@ __global__ void superPixel(float *inputs, int *output)
 	int yStart = 32 * blockIdx.y;
 	int globalYAdjusted = yStart * blockDim.y + threadIdx.y;
 	int globalAdjusted = (globalIdY * 1920) + globalIdX;
+	*/
+
+
+
+	///////////////////////////////////////////////////////////////////////////
+	// AJ's SPACE:
+
+	int globalIdY = 32*blockIdx.y;
+	int globalIdX = 1920*globalIdY + blockIdx.x * 32 + threadIdx.x;
+	int globalId  = (globalIdY * 1920) + globalIdX;
+
+	float sum = 0;
+
+	// Bounds check
+	if (globalIdY < 1080 && globalIdX < 1920) {
+		// Sum column of pixels below 
+		for (int i =0; i <32; i++) {
+			sum += inputs[globalId + i*1920];
+		}
+	}
+	__syncthreads();
+
+
+	if (threadIdx.x == 0) {
+			// Sum all values in our block
+	        for (int offset = 32/2; offset > 0; offset /= 2) {
+	            sum += __shfl_down(sum, offset, 32); //may have to be "16"
+	        	}
+	        if (sum > 15*700) {
+	            output[blockId] = 1;
+	        } 
+	        else {
+	            output[blockId] = 0;
+	        }   
+	}
+
+
+
+
+
+	///////////////////////////////////////////////////////////////////////////
+
+
+
+
 
 	/////////////////
 	// COMPUTATION //
 	/////////////////
-
+/*
     float sum = 0.0;
 
     if (globalAdjusted + 32 * 1920 < 1920 * 1080) {
@@ -50,11 +96,11 @@ __global__ void superPixel(float *inputs, int *output)
     if (threadIdx.x == 0) {
         for (int offset = 32/2; offset > 0; offset /= 2)
             sum += __shfl_down(sum, offset, 32); //may have to be "16"
-        if (sum > 7000) {
+        if (sum > 15*700) {
             output[blockId] = 1;
         } else {
             output[blockId] = 0;
         }
     }
 }
-
+*/
