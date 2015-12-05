@@ -5,7 +5,7 @@ from coordinates import coordinates
 from PIL import Image, ImageDraw
 from scipy import misc
 from serial_run_gaussian_average import rga
-from superpixelserial import superPixel
+from serial_super_pixel import super_pixel
 from serial_min_filter import min_filter
 
 print "Made it through import statements"
