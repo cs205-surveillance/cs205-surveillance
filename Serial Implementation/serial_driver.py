@@ -48,7 +48,7 @@ for i in range(69,300):
 	# misc.imsave("cs205_images/filtered_output/filt_{}.jpeg".format(image_number), filt_out)
 
 	# Aggregate into superpixels and flag anomalous behavior
-	superpixel_output = superPixel(filt_out, 12.5*700,r,r)
+	superpixel_output = super_pixel(filt_out, 12.5*700,r,r)
 	t3 = time()
 	output = coordinates(superpixel_output)
 
