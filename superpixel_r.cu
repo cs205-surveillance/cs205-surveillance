@@ -18,6 +18,7 @@ __global__ void superPixel(float *inputs, int *output) {
 	int globalIdY = 30 * blockIdx.y;
 	int globalIdX = blockIdx.x * 32 + threadIdx.x;
 	int globalId  = (globalIdY * 1920) + globalIdX;
+	
 	float sum = 0.0;
 
 	// Loop down 30 rows and sum
