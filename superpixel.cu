@@ -1,6 +1,3 @@
-
-#include <stdio.h>
-
 __global__ void superPixel(float *inputs, int *output)
 {
 	////////////////////
@@ -16,23 +13,16 @@ __global__ void superPixel(float *inputs, int *output)
 	final output is a 1D array, where each value in that array corresponds to one of the superpixels.
 	*/ 
 
-	///////////////////////////
-	// INITIALIZE PARAMETERS //
-	///////////////////////////
-
 	// blockDim.x gives the number of threads in a block (x direction)
 	// gridDim.x gives the number of blocks in a grid (x direction)
 	// blockDim.x * gridDim.x gives the number of threads in a grid (x direction)
 	
+	// Initialize parameters
     int globalIdX = blockIdx.x * blockDim.x + threadIdx.x;
     int globalIdY = blockIdx.y * blockDim.y + threadIdx.y;
-    
     int globalId = (globalIdY * 1920) + globalIdX;
-    
     int blockId = blockIdx.x + blockIdx.y * gridDim.x; 
-	
 	int localId = (threadIdx.y * blockDim.x) + threadIdx.x;               
-
 
 	// Initialize local array to be filled with values from input array
 	__shared__ float inputsToSum[30*30];
@@ -40,10 +30,6 @@ __global__ void superPixel(float *inputs, int *output)
 	// Assign values from input value array to local sum array
     inputsToSum[localId] = inputs[globalId];
     __syncthreads();
-
-	/////////////////
-	// COMPUTATION //
-	/////////////////
 
     // First thread in each row will compute a row sum
 	if (localId % 30 == 0) {
