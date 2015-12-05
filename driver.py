@@ -26,14 +26,17 @@ def draw_and_save(output, image_number):
     im = Image.open('../../thouis/miscreants/{}.png'.format(image_number))
     draw = ImageDraw.Draw(im)
     numAnom = len(output)
-    r = 30
+    r0 = 32
+    r1 = 30
+
     if numAnom > 0:
         for pt in output:
             # Draw rectangles
-            draw.line((pt[1], pt[0], pt[1], pt[0]+r), fill=(255, 120, 0), width=4)
-            draw.line((pt[1], pt[0]+r, pt[1]+r, pt[0]+r), fill=(255, 120, 0), width=4)
-            draw.line((pt[1], pt[0], pt[1]+r, pt[0]), fill=(255, 120, 0), width=4)
-            draw.line((pt[1]+r, pt[0], pt[1]+r, pt[0]+r), fill=(255, 120, 0), width=4)
+            draw.line((pt[1], pt[0], pt[1], pt[0]+r0), fill=(255, 120, 0), width=4)
+            draw.line((pt[1], pt[0]+r0, pt[1]+r1, pt[0]+r0), fill=(255, 120, 0), width=4)
+            draw.line((pt[1], pt[0], pt[1]+r1, pt[0]), fill=(255, 120, 0), width=4)
+            draw.line((pt[1]+r1, pt[0], pt[1]+r1, pt[0]+r0), fill=(255, 120, 0), width=4)
+    
     del draw
     im.save('cs205_images/parallel_output/tracker{}.jpg'.format(image_number))
 
@@ -74,8 +77,8 @@ for i in range(260, 644):
 
     # Reshape RGA output from 1D to 2D
     rga_out_gpu = rga_out_gpu.reshape(1080, 1920)
-    plt.imshow(rga_out_gpu.get()) #Just testing
-    plt.show()
+    # plt.imshow(rga_out_gpu.get()) #Just testing
+    # plt.show()
     
     # Run 3x3 Minimum filter to remove speckle noise
     denoised_gpu = gpuarray.empty_like(rga_out_gpu)
@@ -88,15 +91,14 @@ for i in range(260, 644):
     
     # Run super pixel kernel
     
-    ##########
-    # CHOOSE #
-    ##########
+    ################################
+    # CHOOSE A KERNEL TO RUN BELOW #
     #run_super_pixel(denoised_gpu, spxl_out_gpu, block=(32, 30, 1), grid=(1920 / 32, 1080 / 30))
     run_super_pixel_r(denoised_gpu, spxl_out_gpu, block=(32, 1, 1), grid=(1920 / 32, 1080 / 30))
     
-    result = spxl_out_gpu.get()
-    plt.imshow(result.reshape(1080 / 30, 1920 / 32)) # 32 for optimized pixel size
-    plt.show()
+    # result = spxl_out_gpu.get()
+    # plt.imshow(result.reshape(1080 / 30, 1920 / 32)) # 32 for optimized pixel size
+    # # plt.show()
     output = coordinates(result)
     
     t1 = time()
