@@ -1,2 +1,2 @@
 # cs205-surveillance
-This repository is for Fall '15 CS 205 Final Project where we try to parallelize robust methods of background subtraction to perform anomaly detection in surveillance video.
+This project, completed for the Fall 2015 CS205 course at Harvard University, attempts to provide a foundation to automate anomaly detection in surveilance video, utilizing contemporary methods of parallel computing. The processing, detection, and decision algorithms are written in C and Python (leveraging the PyCUDA module) and run on a designated NVIDIA Jetson TK1
