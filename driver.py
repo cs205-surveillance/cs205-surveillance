@@ -38,7 +38,7 @@ def draw_and_save(output, image_number):
             draw.line((pt[1]+r1, pt[0], pt[1]+r1, pt[0]+r0), fill=(255, 120, 0), width=4)
     
     del draw
-    im.save('cs205_images/parallel_output/tracker{}.jpg'.format(image_number))
+    im.save('cs205_images/new_stack{}.jpeg'.format(image_number))
 
 
 time_array = []
