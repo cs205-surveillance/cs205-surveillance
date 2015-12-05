@@ -94,8 +94,10 @@ for i in range(260, 644):
     
     ################################
     # CHOOSE A KERNEL TO RUN BELOW #
+    ################################
     #run_super_pixel(denoised_gpu, spxl_out_gpu, block=(32, 30, 1), grid=(1920 / 32, 1080 / 30))
     run_super_pixel_r(denoised_gpu, spxl_out_gpu, block=(32, 1, 1), grid=(1920 / 32, 1080 / 30))
+
     t3 = time()
     result = spxl_out_gpu.get()
     output = coordinates(result)
