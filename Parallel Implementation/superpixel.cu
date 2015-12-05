@@ -7,7 +7,7 @@ __global__ void superPixel(float *inputs, int *output)
 	/*
 	This kernel is used to determine if there is an anomaly in a superpixel.
 	This kernel takes in a 1080x1920 array (the output from minimum filter kernel) 
-	and calculates the sum for each 30x30 pixel block (i.e., superpixel). Once the 
+	and calculates the sum for each 32x30 pixel block (i.e., superpixel). Once the 
 	summation for every block is complete, the kernel determines if the sum is above our
 	tolerance. If so, the kernel returns a 1 for that superpixel. Else, it returns a 0. The 
 	final output is a 1D array, where each value in that array corresponds to one of the superpixels.
