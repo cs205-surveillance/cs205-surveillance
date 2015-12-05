@@ -16,7 +16,7 @@ __global__ void run_gaussian_average(float *I, float *mu, float *sig2, float *OU
 	// Get current idx
 	int idx = threadIdx.x + blockIdx.x * blockDim.x;
 
-	if (idx < SIZE) {
+	if (idx < SIZE) { //Check if within bounds
 
 		// Compare z-value with threshold. If below, update pixel mean and variance 
 		if ((abs(I[idx] - mu[idx]) / sig2[idx]) - threshold < 0) {

@@ -40,7 +40,6 @@ def draw_and_save(output, image_number):
     del draw
     im.save('cs205_images/new_stack{}.jpeg'.format(image_number))
 
-
 time_array_rga = []
 time_array_min = []
 time_array_sup = []
@@ -81,15 +80,12 @@ for i in range(260, 644):
     t1 = time()
     # Reshape RGA output from 1D to 2D
     rga_out_gpu = rga_out_gpu.reshape(1080, 1920)
-    # plt.imshow(rga_out_gpu.get()) #Just testing
-    # plt.show()
     
     # Run 3x3 Minimum filter to remove speckle noise
     denoised_gpu = gpuarray.empty_like(rga_out_gpu)
     run_minimum_filter(rga_out_gpu, denoised_gpu, block=(3, 3, 1), grid=(1920, 1080))
     t2 = time()
-    # plt.imshow(denoised_gpu.get()) #Just testing...
-    # plt.show()
+
     # Set parameters for super pixel kernel
     spxl_out = np.zeros((1920 / 32) * (1080 / 30), dtype=int)
     spxl_out_gpu = gpuarray.to_gpu(spxl_out)
@@ -102,10 +98,7 @@ for i in range(260, 644):
     run_super_pixel_r(denoised_gpu, spxl_out_gpu, block=(32, 1, 1), grid=(1920 / 32, 1080 / 30))
     t3 = time()
     result = spxl_out_gpu.get()
-    # plt.imshow(result.reshape(1080 / 30, 1920 / 32)) # 32 for optimized pixel size
-    # # plt.show()
     output = coordinates(result)
-    
     
     time_array.append(t3-t0)
     time_array_rga.append(t1-t0)
