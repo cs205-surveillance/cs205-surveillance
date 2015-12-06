@@ -7,8 +7,8 @@ from pycuda.compiler import SourceModule
 from coordinates import coordinates
 from PIL import Image, ImageDraw
 from time import time
-from os.path import expanduser
-home = expanduser("~")
+import os
+home = os.getenv("HOME")
 
 # Import and compile CUDA kernels
 rga_source = SourceModule(open('run_gaussian_average.cu').read())
