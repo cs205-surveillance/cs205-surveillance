@@ -54,7 +54,7 @@ for i in range(260, 644):
         image_number = "0" + image_number
 
     # Load current image
-    img = misc.imread('../thouis/miscreants/{}.png'.format(image_number), flatten=True)
+    img = misc.imread('../../thouis/miscreants/{}.png'.format(image_number), flatten=True)
     img = img.astype(np.float32).reshape((1, 1920 * 1080))
 
     # Prepare for timing
@@ -95,17 +95,17 @@ for i in range(260, 644):
     ################################
     # CHOOSE A KERNEL TO RUN BELOW #
     ################################
-    #run_super_pixel(denoised_gpu, spxl_out_gpu, block=(32, 30, 1), grid=(1920 / 32, 1080 / 30))
+    # run_super_pixel(denoised_gpu, spxl_out_gpu, block=(32, 30, 1), grid=(1920 / 32, 1080 / 30))
     run_super_pixel_r(denoised_gpu, spxl_out_gpu, block=(32, 1, 1), grid=(1920 / 32, 1080 / 30))
 
     t3 = time()
     result = spxl_out_gpu.get()
     output = coordinates(result)
     
-    time_array.append(t3-t0)
-    time_array_rga.append(t1-t0)
-    time_array_min.append(t2-t1)
-    time_array_sup.append(t3-t2)
+    time_array.append(t3 - t0)
+    time_array_rga.append(t1 - t0)
+    time_array_min.append(t2 - t1)
+    time_array_sup.append(t3 - t2)
 
     # Save image
     draw_and_save(output, image_number)
