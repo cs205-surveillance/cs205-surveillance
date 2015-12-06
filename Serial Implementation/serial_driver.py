@@ -22,7 +22,7 @@ for i in range(69, 300):
     while len(image_number) < 5:
         image_number = '0' + image_number
 
-    I = misc.imread('../../thouis/miscreants/{}.png'.format(image_number), flatten=True)
+    I = misc.imread('~/../thouis/miscreants/{}.png'.format(image_number), flatten=True)
     I = I.astype(np.float32)
 
     t0 = time()
@@ -63,7 +63,7 @@ for i in range(69, 300):
     # OVERLAY ANOMALOUS REGIONS #
     #############################
 
-    im = Image.open('../../thouis/miscreants/{}.png'.format(image_number))
+    im = Image.open('~/../thouis/miscreants/{}.png'.format(image_number))
     draw = ImageDraw.Draw(im)
     numAnom = len(output)
     

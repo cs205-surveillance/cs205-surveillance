@@ -23,7 +23,7 @@ run_minimum_filter = filter_source.get_function('minimum_3x3')
 
 
 def draw_and_save(output, image_number):
-    im = Image.open('../thouis/miscreants/{}.png'.format(image_number))
+    im = Image.open('~/../thouis/miscreants/{}.png'.format(image_number))
     draw = ImageDraw.Draw(im)
     numAnom = len(output)
     r0 = 32
@@ -38,7 +38,7 @@ def draw_and_save(output, image_number):
             draw.line((pt[1]+r1, pt[0], pt[1]+r1, pt[0]+r0), fill=(255, 120, 0), width=4)
     
     del draw
-    im.save('cs205_images/new_stack{}.jpeg'.format(image_number))
+    im.save('../cs205_images/new_stack{}.jpeg'.format(image_number))
 
 time_array_rga = []
 time_array_min = []
@@ -54,7 +54,7 @@ for i in range(260, 644):
         image_number = "0" + image_number
 
     # Load current image
-    img = misc.imread('../../thouis/miscreants/{}.png'.format(image_number), flatten=True)
+    img = misc.imread('~/../thouis/miscreants/{}.png'.format(image_number), flatten=True)
     img = img.astype(np.float32).reshape((1, 1920 * 1080))
 
     # Prepare for timing
