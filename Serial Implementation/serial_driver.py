@@ -10,8 +10,6 @@ from serial_min_filter import min_filter
 import os
 home = os.getenv("HOME")
 
-print "Made it through import statements"
-
 r = 30  # pixels, used to define superpixel dimension and outline
 time_array_rga = []
 time_array_min = []
