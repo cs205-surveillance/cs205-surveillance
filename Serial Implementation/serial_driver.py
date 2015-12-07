@@ -51,6 +51,7 @@ for i in range(260, 644):
     # Aggregate into superpixels and flag anomalous behavior
     superpixel_output = super_pixel(filt_out, 12.5 * 700, r, r)
     t3 = time()
+    print superpixel_output.shape, superpixel_output.size
     output = coordinates(superpixel_output)
 
     # Track how much time each module took.
