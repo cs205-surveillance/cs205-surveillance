@@ -1,9 +1,7 @@
 import numpy as np
-from scipy import misc
-import matplotlib.pyplot as plt
 
-def super_pixel(incoords,TOL,width=30,height=30):
-    
+
+def super_pixel(incoords, TOL, width=32, height=30):
     """
     #####################
     # Function Overview #
@@ -11,7 +9,7 @@ def super_pixel(incoords,TOL,width=30,height=30):
 
     This function is used to determine if there is an anomaly in a superpixel.
     This function takes in a 1080x1920 array (the output from minimum filter function) 
-    and calculates the sum for each 30x30 pixel block (i.e., superpixel). Once the 
+    and calculates the sum for each 32x30 pixel block (i.e., superpixel). Once the
     summation for every block is complete, the function determines if the sum is above our
     tolerance. If so, the function returns a 1 for that superpixel. Else, it returns a 0. The 
     final output is a 1D array that includes the 1's and 0's for all superpixels.
@@ -35,7 +33,7 @@ def super_pixel(incoords,TOL,width=30,height=30):
     grid_dim_r = img_height/block_dim_r
 
     # Number of super_pixel in image
-    N = grid_dim_c*grid_dim_r
+    N = grid_dim_c * grid_dim_r
     super_pixel = np.zeros(N)
     
     ###############
@@ -43,13 +41,13 @@ def super_pixel(incoords,TOL,width=30,height=30):
     ###############
 
     # Calculate sum of values in each superpixel
-    n=0
+    n = 0
     for r in range(grid_dim_r):
         for c in range(grid_dim_c):
             for i in range(block_dim_r):
                 for j in range(block_dim_c):
-                    super_pixel[n] += incoords[i+block_dim_r*r,j+block_dim_c*c]
-            n+=1
+                    super_pixel[n] += incoords[i+block_dim_r*r, j+block_dim_c*c]
+            n += 1
          
     # Assign 1 if sum > tolerance
     output = np.zeros(N)
