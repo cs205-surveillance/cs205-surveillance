@@ -10,7 +10,8 @@ from serial_min_filter import min_filter
 import os
 home = os.getenv("HOME")
 
-r = 30  # pixels, used to define superpixel dimension and outline
+r0 = 32  # pixels, used to define superpixel dimension and outline
+r1 = 30
 time_array_rga = []
 time_array_min = []
 time_array_sup = []
@@ -49,7 +50,7 @@ for i in range(260, 644):
     # misc.imsave("cs205_images/filtered_output/filt_{}.jpeg".format(image_number), filt_out)
 
     # Aggregate into superpixels and flag anomalous behavior
-    superpixel_output = super_pixel(filt_out, 12.5 * 700, r, r)
+    superpixel_output = super_pixel(filt_out, 12.5 * 700, r0, r1)
     t3 = time()
     print superpixel_output.shape, superpixel_output.size
     output = coordinates(superpixel_output)
@@ -71,10 +72,10 @@ for i in range(260, 644):
     if numAnom > 0:
         for pt in output:
             # Draw rectangles
-            draw.line((pt[1], pt[0], pt[1], pt[0] + r), fill=(255, 120, 0), width=4)
-            draw.line((pt[1], pt[0] + r, pt[1] + r, pt[0] + r), fill=(255, 120, 0), width=4)
-            draw.line((pt[1], pt[0], pt[1] + r, pt[0]), fill=(255, 120, 0), width=4)
-            draw.line((pt[1] + r, pt[0], pt[1] + r, pt[0] + r), fill=(255, 120, 0), width=4)
+            draw.line((pt[1], pt[0], pt[1], pt[0]+r0), fill=(255, 120, 0), width=4)
+            draw.line((pt[1], pt[0]+r0, pt[1]+r1, pt[0]+r0), fill=(255, 120, 0), width=4)
+            draw.line((pt[1], pt[0], pt[1]+r1, pt[0]), fill=(255, 120, 0), width=4)
+            draw.line((pt[1]+r1, pt[0], pt[1]+r1, pt[0]+r0), fill=(255, 120, 0), width=4)
 
     del draw
     im.save('../cs205_images/serial_output/tracker_{}.jpeg'.format(image_number))

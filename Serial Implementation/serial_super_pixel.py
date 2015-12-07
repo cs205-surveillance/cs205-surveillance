@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def super_pixel(incoords, TOL, width=30, height=32):
+def super_pixel(incoords, TOL, width=32, height=30):
     """
     #####################
     # Function Overview #
