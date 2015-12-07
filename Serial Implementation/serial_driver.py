@@ -17,7 +17,7 @@ time_array_sup = []
 time_array = []
 
 # Read in sequence of images, run them through RGA filter
-for i in range(69, 300):
+for i in range(260, 644):
     image_number = str(i)
     while len(image_number) < 5:
         image_number = '0' + image_number
@@ -28,7 +28,7 @@ for i in range(69, 300):
     t0 = time()
 
     # Initialize mu and variance based on initial frame.
-    if i == 69: 
+    if i == 260:
         mu = np.copy(I)
         sig2 = np.ones_like(I)
 
