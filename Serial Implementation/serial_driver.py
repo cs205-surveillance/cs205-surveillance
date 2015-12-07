@@ -7,6 +7,8 @@ from scipy import misc
 from serial_run_gaussian_average import rga
 from serial_super_pixel import super_pixel
 from serial_min_filter import min_filter
+import os
+home = os.getenv("HOME")
 
 print "Made it through import statements"
 
@@ -22,7 +24,7 @@ for i in range(69, 300):
     while len(image_number) < 5:
         image_number = '0' + image_number
 
-    I = misc.imread('~/../thouis/miscreants/{}.png'.format(image_number), flatten=True)
+    I = misc.imread(home + '/../thouis/miscreants/{}.png'.format(image_number), flatten=True)
     I = I.astype(np.float32)
 
     t0 = time()
@@ -63,7 +65,7 @@ for i in range(69, 300):
     # OVERLAY ANOMALOUS REGIONS #
     #############################
 
-    im = Image.open('~/../thouis/miscreants/{}.png'.format(image_number))
+    im = Image.open(home + '/../thouis/miscreants/{}.png'.format(image_number))
     draw = ImageDraw.Draw(im)
     numAnom = len(output)
     
