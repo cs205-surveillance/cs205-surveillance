@@ -78,7 +78,7 @@ for i in range(260, 644):
             draw.line((pt[1]+r1, pt[0], pt[1]+r1, pt[0]+r0), fill=(255, 120, 0), width=4)
 
     del draw
-    im.save('../cs205_images/serial_output/tracker_{}.jpeg'.format(image_number))
+    im.save('../cs205_images/serial_{}.jpeg'.format(image_number))
 
 print "Per frame processing time: ", np.mean(time_array)
 print "Per frame rga time: ", np.mean(time_array_rga)
